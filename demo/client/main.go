@@ -18,15 +18,17 @@ import (
 	"crypto/md5"
 )
 
+
 type CmdObj struct{
     Name   string
     Digest [16]byte
     Cmd    byte
+	Ext    []byte
 }
 
 type task map[string]CmdObj
 
-const ROOT string = "client"
+const ROOT string = "clienta"
 
 type FileObj struct{
     Name string
@@ -41,6 +43,8 @@ type FilePacket struct{
     Digest [16]byte
     Content []byte
 }
+
+var device byte = 0x41
 
 func init(){
 	FileList = make(map[string]FileObj)
@@ -69,6 +73,7 @@ func main(){
     fmt.Println("Task Finished!")
 }
 
+/****
 func enPacket(data []byte, typ byte) []byte{
     var cl uint16 = uint16(len(data) + 1)
     var tl int = int(cl) + 28
@@ -96,7 +101,37 @@ func enPacket(data []byte, typ byte) []byte{
     res[tl-1] = 0xee
     return res
 }
+****/
 
+func enPacket(data []byte, typ byte) []byte{
+    var cl uint16 = uint16(len(data) + 2)
+    var tl int = int(cl) + 28
+    var res []byte = make([]byte, tl)
+    res[0] = 0x11
+    res[1] = 0xff
+    res[2] = 0x6c
+    res[3] = 0x6f
+    res[4] = 0x6e
+    res[5] = 0x64
+    res[6] = 0x6f
+    res[7] = 0x6e
+    res[8] = byte(cl >> 8)
+    res[9] = byte(cl & 0xFF)
+    //packet type 
+    res[10] = typ
+	//device id
+	res[11] = device
+    copy(res[12:], data)
+    mac := hmac.New(md5.New, []byte("aaaa"))
+    mac.Write(res[10:(10+cl)])
+    checksum := mac.Sum(nil)
+    for i:=0;i<16;i++ {
+        res[tl-18+i] = checksum[i]
+    }
+    res[tl-2] = 0xff
+    res[tl-1] = 0xee
+    return res
+}
 
 func generateFileList() []byte{
     var root string = suffix(safe(ROOT))
@@ -244,11 +279,26 @@ func handleData(c net.Conn, buf []byte, f chan bool) {
         for k,v := range t{
             if v.Cmd == 1 {
                 //upload
-                uploadFile(c, k, v.Digest)                
+                uploadFile(c, k, v.Digest, 0x2)                
             }
             if v.Cmd == 2 {
                 notifyBackupDeleted(v.Name)
             }
+            if v.Cmd == 3 {
+                uploadFile(c, k, v.Digest, 0x3)
+            }
+            if v.Cmd == 4 {
+                notifyBackupRenamed(v.Name)
+            }
+			if v.Cmd == 5 {
+				download(v.Name, v.Ext)
+			}
+			if v.Cmd == 6 {
+				deleteFile(v.Name, v.Digest)
+			}
+			if v.Cmd == 7 {
+				replaceFile(v.Name, v.Digest, v.Ext)
+			}
         }
         case 0x20:
         //do nothing
@@ -257,17 +307,40 @@ func handleData(c net.Conn, buf []byte, f chan bool) {
     f <- true
 }
 
+func replaceFile(f string, d[16]byte, content []byte) {
+	log.Println(d,"Digest checking..")
+	os.Remove(ROOT + "/" + f)
+	ioutil.WriteFile(ROOT + "/" + f, content, 0644)
+	log.Println("[" + f + "] has been updated.")
+}
+
+func deleteFile(f string, d [16]byte){
+	log.Println(d,"Digest checking..")
+	os.Remove(ROOT + "/" + f)
+	log.Println("[" + f + "] has been deleted in local directory.")
+}
+
+func download(f string, content []byte) {
+    var err error = ioutil.WriteFile(ROOT + "/" + f, content, 0644)
+    if err != nil {
+        log.Fatal(err)
+    }
+	log.Println("[" + f + "] has been downloaded.")
+}
+
 func notifyBackupDeleted(name string) {
     log.Println("[" + name + "] has been deleted from remote server.")
 }
 
+func notifyBackupRenamed(name string) {
+    log.Println("[" + name + "] has been renamed on remote server")
+}
 
-
-func uploadFile(c net.Conn, name string, expected [16]byte) {
+func uploadFile(c net.Conn, name string, expected [16]byte, mode byte) {
     bufferWriter := bufio.NewWriter(c) 
     log.Println("Uploading [" + name + "] ...")
-    bytes, _ := ioutil.ReadFile("client/" + name)
-    fmt.Println("client/" + name + ":", bytes)
+    bytes, _ := ioutil.ReadFile(ROOT + "/" + name)
+    //fmt.Println("client/" + name + ":", bytes)
     var digest [16]byte = md5.Sum(bytes)
     if string(digest[:]) == string(expected[:]) {
         var fp FilePacket = FilePacket{}
@@ -275,7 +348,7 @@ func uploadFile(c net.Conn, name string, expected [16]byte) {
         fp.Content = bytes
         fp.Digest = digest
         res,_ := json.Marshal(fp)
-        bufferWriter.Write(enPacket(res, 0x2))
+        bufferWriter.Write(enPacket(res, mode))
         bufferWriter.Flush()
         log.Println("Succeed!")
     } else {

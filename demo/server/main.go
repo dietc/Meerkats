@@ -17,11 +17,11 @@ import (
     "io"
     "crypto/hmac"
 	"crypto/md5"
-    "os"
+    //"os"
     "time"
 )
 
-const ROOT string = "client"
+const ROOT string = "serverdb"
 type digest string
 
 type FileObj struct{
@@ -37,16 +37,17 @@ type FileInfo struct{
 }
 
 type Previous struct{
-    Device string
+    Device byte
     P map[string]int64
     Cmp map[digest][]string
     Checked map[string]bool
 }
 
 type CmdObj struct{
-    Name   string
-    Digest [16]byte
-    Cmd    byte
+    Name       string
+    Digest     [16]byte
+    Cmd        byte
+	Ext        []byte
 }
 
 type task map[string]CmdObj
@@ -57,12 +58,12 @@ type Uploaded struct{
     Digest  [16]byte
 }
 
-func NewPrevious(device string) *Previous {
+func NewPrevious(device byte) *Previous {
     var p *Previous = new(Previous)
     var bytes []byte
     p.Device = device
     if err := db.View(func(tx *bolt.Tx) error{
-        bytes = tx.Bucket([]byte("previous")).Get([]byte(device))
+		bytes = tx.Bucket([]byte("previous")).Get([]byte{device})
         return nil
 	}); err != nil {
         log.Fatal(err)
@@ -82,7 +83,7 @@ func NewPrevious(device string) *Previous {
 }
 func (pre Previous)checkIndex(name string, idx int64) (error, bool) {
     if val, ok := pre.P[name];!ok{
-        return errors.New("previous info not found"), false
+        return ERRNF, false
     } else {
         if val == idx {
             return nil, true
@@ -91,10 +92,37 @@ func (pre Previous)checkIndex(name string, idx int64) (error, bool) {
         }
     }
 }
-func (pre Previous)checkDigest(digest []byte) {
-    return
+func (pre Previous)checkDigest(name string, digest [16]byte) (error, bool) {
+    if val, ok := pre.P[name];!ok{
+        return ERRNF,false
+	} else {
+	    var fi *FileInfo = fetchFileInfo(val)
+		if string(fi.Digest[:]) == string(digest[:]) {
+		    return nil, true
+		} else {
+		    return nil, false
+		}
+	}
 }
-func (pre *Previous)checkRename(name string, d [16]byte) bool {
+
+
+// 1. new file
+// 2. deleted 
+// 3. conflict deleted
+func (pre *Previous)checkDeletedStatus(name string, d[16]byte) byte {
+	if idx, ok := pre.P[name];!ok {
+	    return 1
+	} else {
+		var fi *FileInfo = fetchFileInfo(idx)
+		if d == fi.Digest {
+		    return 2
+		} else {
+		    return 3
+		}	  
+	}
+}
+
+func (pre *Previous)checkRename(name string, d [16]byte) (bool, string) {
     arr, _ := pre.Cmp[digest(d[:])]
     if len(arr) < 1 {
         //no digest matched    
@@ -103,7 +131,7 @@ func (pre *Previous)checkRename(name string, d [16]byte) bool {
         if Space[arr[0]] == pre.P[arr[0]] {
             //rename identified
             //update
-            return true
+            return true, arr[0]
         }
     } else {
        // var sN int = strings.Count(name, "/")
@@ -114,7 +142,7 @@ func (pre *Previous)checkRename(name string, d [16]byte) bool {
        // }
     }
     //fmt.Println("cmp:", pre.Cmp)
-    return false
+    return false, ""
 }
 
 /** list received from client **/
@@ -128,9 +156,6 @@ var Space map[string]int64
 
 var db *bolt.DB
 
-/** device token **/
-var device string = "A"
-
 /** intersection of list and current space **/
 var InSpace []string
 
@@ -141,6 +166,8 @@ var matched *set.Set = set.New()
 var rF []string
 
 var rS []string
+
+var ERRNF error = errors.New("previous info not found")
 
 func init(){
     FileList = make(map[string]FileObj)
@@ -178,13 +205,13 @@ func init(){
 			return nil
 		})
         //////////////////////////////////////
-        c := b.Cursor()
-        k, v := c.First()
-        for k!=nil || v!=nil {
-            i, _ := strconv.ParseInt(string(v), 10, 64)
-            Space[string(k)] = i
-            k,v  = c.Next()            
-        }
+        //c := b.Cursor()
+        //k, v := c.First()
+        //for k!=nil || v!=nil {
+        //    i, _ := strconv.ParseInt(string(v), 10, 64)
+        //    Space[string(k)] = i
+        //    k,v  = c.Next()            
+        //}
         
         
         //*db:previous
@@ -226,11 +253,11 @@ func init(){
 
 }
 
-func main(){  
+func main(){ 
     establish()
 }
 
-func process(c net.Conn){
+func process(c net.Conn, device byte){
     //space initialization
     if err := db.View(func(tx *bolt.Tx) error{
         b := tx.Bucket([]byte("space"))
@@ -274,12 +301,21 @@ func process(c net.Conn){
                 if err != nil {
                     // lost previous infomation
                 } else if flag {
-                    // upload
-                    fmt.Println("you have to upload " + name)
+                    // no confilct upload
+                    cmdUploadModified(t, v.Digest, name)
                 } else {
-                    fmt.Println(name + "is conflicted with others change")
-                    // conflict download
-                }
+					_, flag = pre.checkDigest(name, v.Digest)
+					if flag {
+						bytes, err := ioutil.ReadFile(fi.Dir)
+	                    if err != nil {
+		                    log.Fatal(err)
+	                    }
+						cmdReplaceFile(t, name, v.Digest, bytes)
+						updatePreviousInfo(name, device, index)
+					} else {
+					    //conflict
+					}
+				}
             }
             //fmt.Println(name, "=>", index, v)
         }
@@ -293,25 +329,51 @@ func process(c net.Conn){
         }
     }
     
-    //fmt.Println("rf", rF)
-    var rflag bool
-    for k,v := range rF {
-        rflag = pre.checkRename(FileList[v].Name, FileList[v].Digest)
-        if rflag {
-            fmt.Println(k)
-            //rename?            
-        } else {
-            cmdUploadFull(t, FileList[v].Name, FileList[v].Digest)
-        }
+    //var rflag bool
+    //var oldname string
+    for _,v := range rF {
+        //rflag, oldname = pre.checkRename(FileList[v].Name, FileList[v].Digest)
+        //if rflag {
+        //    renameFile(oldname, FileList[v].Name, device)
+	    //    rS = eraseSliceStrEle(rS, oldname)
+        //    cmdRenameBackup(t, oldname)
+        //} else {
+        //    cmdUploadFull(t, FileList[v].Name, FileList[v].Digest)
+        //}
+		var res byte = pre.checkDeletedStatus(v, FileList[v].Digest)
+		//log.Println(v, res)
+		//os.Exit(1)
+		
+		switch res {
+			case 1:cmdUploadFull(t, v, FileList[v].Digest)
+			case 2:cmdDeleteFile(t, v, FileList[v].Digest)
+			       removePreviousInfo(v, device)
+			case 3: //conflict delete
+		}
     }   
+	
+	//fmt.Println("rF,rS", rF, rS)
     
     //rS
     for _,v := range rS {
+		// (err != nil) => no previous info => download
+		// (err == nil) && true  => idx matched
+		// (err == nil) && false => idx not matched
         err, flag := pre.checkIndex(v, Space[v])
         if err == nil && flag {
-            deleteFile(v)
+            deleteFile(v, device)
             cmdDeleteBackup(t, v)  
         } else {
+			if err == ERRNF {
+				//no previous file info found,upload
+				var fi *FileInfo = fetchFileInfo(Space[v])
+			    bytes, err := ioutil.ReadFile(fi.Dir)
+	            if err != nil {
+		            log.Fatal(err)
+	            }
+				cmdSaveFile(t, v, bytes)
+				completePreviousInfo(v, Space[v], device)
+			}
             //confilct delete
         }
     }
@@ -341,43 +403,124 @@ func process(c net.Conn){
     //show()
 }
 
-func save(files []byte) {
+func updatePreviousInfo(f string, device byte, idx int64) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b1 := bucket([]byte("previous"), tx)
+		var pre map[string]int64 = make(map[string]int64)
+		if tmp := b1.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }
+		pre[f] = idx
+		preb, _ := json.Marshal(pre)
+		b1.Put([]byte{device}, preb)
+		return nil
+	}); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func removePreviousInfo(f string, device byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b1 := bucket([]byte("previous"), tx)
+		var pre map[string]int64 = make(map[string]int64)
+		if tmp := b1.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }
+		delete(pre, f)
+		preb, _ := json.Marshal(pre)
+		b1.Put([]byte{device}, preb)  
+		return nil
+	}); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func completePreviousInfo(f string, i int64, device byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+		b1 := bucket([]byte("previous"), tx)
+        var pre map[string]int64 = make(map[string]int64)
+		if tmp := b1.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }     
+        pre[f] = i
+        preb, _ := json.Marshal(pre)
+		b1.Put([]byte{device}, preb)  
+		return nil
+    }); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func save(files []byte, device byte) {
     var up Uploaded = Uploaded{}
     json.Unmarshal(files, &up)
     log.Println("Received uploaded file [" + up.Name + "]")
-    indexFile(up)
+    indexFile(up, 0x1, device)
     log.Println("Successfully saved and indexed.")
     //ioutil.WriteFile("server/")
 }
 
-func deleteFile(name string) {
+func update(files []byte, device byte) {
+    var up Uploaded = Uploaded{}
+    json.Unmarshal(files, &up)
+    log.Println("Received uploaded file [" + up.Name + "]")
+    indexFile(up, 0x2, device)
+    log.Println("Successfully saved and reindexed.")
+}
+
+func renameFile(oldn string, newn string, device byte) {
     if err := db.Update(func(tx *bolt.Tx) error{
         b := bucket([]byte("space"), tx)
-        idx := b.Get([]byte(name))
-        b.Delete([]byte(name))
+        idx := b.Get([]byte(oldn))
+        b.Delete([]byte(oldn))
+        b.Put([]byte(newn), idx)
         
         b1 := bucket([]byte("previous"), tx)
         var pre map[string]int64 = make(map[string]int64)
-        if tmp := b1.Get([]byte(device)); len(tmp) != 0 {
+		if tmp := b1.Get([]byte{device}); len(tmp) != 0 {
              json.Unmarshal(tmp, &pre)
         }
-        delete(pre, name)
+        delete(pre, oldn)
+        i, _ := strconv.ParseInt(string(idx), 10, 64)
+        pre[newn] = i
         preb,_ := json.Marshal(pre)
-        b1.Put([]byte(device), preb)
+		b1.Put([]byte{device}, preb)
         
-        b2 := bucket([]byte("files"), tx)
-        info := b2.Get(idx)
-        var fi *FileInfo = new(FileInfo) 
-        json.Unmarshal(info, fi)
-        os.Remove(fi.Dir)
-        b2.Delete(idx)
         return nil
     }); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func indexFile(up Uploaded){
+func deleteFile(name string, device byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b := bucket([]byte("space"), tx)
+        //idx := b.Get([]byte(name))
+        b.Delete([]byte(name))
+        
+        b1 := bucket([]byte("previous"), tx)
+        var pre map[string]int64 = make(map[string]int64)
+		if tmp := b1.Get([]byte{device}); len(tmp) != 0 {
+             json.Unmarshal(tmp, &pre)
+        }
+        delete(pre, name)
+        preb,_ := json.Marshal(pre)
+		b1.Put([]byte{device}, preb)
+        
+        //b2 := bucket([]byte("files"), tx)
+        //info := b2.Get(idx)
+        //var fi *FileInfo = new(FileInfo) 
+        //json.Unmarshal(info, fi)
+        //os.Remove(fi.Dir)
+        //b2.Delete(idx)
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+	}
+}
+
+//mode==2 reindexed
+func indexFile(up Uploaded, mode byte, device byte){
     var index int64 = time.Now().UnixNano()
     var dir string = "server/" + strconv.FormatInt(index, 10)
     var err error = ioutil.WriteFile(dir, up.Content, 0644)
@@ -390,12 +533,12 @@ func indexFile(up Uploaded){
         
         b1 := bucket([]byte("previous"), tx)
         var pre map[string]int64 = make(map[string]int64)
-        if tmp := b1.Get([]byte(device)); len(tmp) != 0 {
+		if tmp := b1.Get([]byte{device}); len(tmp) != 0 {
             json.Unmarshal(tmp, &pre)            
         }     
         pre[up.Name] = index
         preb, _ := json.Marshal(pre)
-        b1.Put([]byte(device), preb)  
+		b1.Put([]byte{device}, preb)  
         
         b2 := bucket([]byte("files"), tx)
         var fi FileInfo= FileInfo{up.Name, up.Digest, dir}
@@ -454,10 +597,10 @@ func eraseSliceIntEle(arr []int, idx int) []int{
     return newarr
 }
 
-func eraseSliceStrEle(arr []string, idx int) []string{
+func eraseSliceStrEle(arr []string, val string) []string{
     var newarr []string
-    for k, v := range arr {
-        if k == idx {
+    for _, v := range arr {
+        if v == val {
             continue
         }
         newarr = append(newarr, v)
@@ -487,6 +630,8 @@ func checkExist(bn []byte, key []byte) bool{
     
 }
 
+
+
 //let client upload files in full 
 func cmdUploadFull(t task, f string, d [16]byte) {
     var co *CmdObj = new(CmdObj)
@@ -496,12 +641,57 @@ func cmdUploadFull(t task, f string, d [16]byte) {
     t[f] = *co
 }
 
+//let client upload files to modify existed ones
+func cmdUploadModified(t task, d [16]byte, f string) {
+    var co *CmdObj = new(CmdObj)
+    co.Name = f
+    co.Digest =d
+    co.Cmd = 3
+    t[f] = *co
+}
+
+
+func cmdRenameBackup(t task, f string) {
+    var co *CmdObj = new(CmdObj)
+    co.Name = f
+    co.Cmd = 4
+    t[f] = *co
+}
+
+
 //notify client a file backup has been deleted
 func cmdDeleteBackup(t task, f string) {
     var co *CmdObj = new(CmdObj)
     co.Name = f
     co.Cmd = 2
     t[f] = *co
+}
+
+//let client download
+func cmdSaveFile(t task, f string, ext []byte) {
+	var co *CmdObj = new(CmdObj)
+	co.Cmd = 5
+	co.Name = f
+	co.Ext = ext
+    t[f] = *co
+}
+
+func cmdDeleteFile(t task, f string, d [16]byte) {
+	var co *CmdObj = new(CmdObj)
+	co.Cmd = 6
+	co.Name = f
+	co.Digest = d
+	t[f] = *co
+}
+
+func cmdReplaceFile(t task, f string, d [16]byte, ext []byte) {
+	var co *CmdObj = new(CmdObj)
+	co.Cmd = 7 
+	co.Name = f
+	co.Digest = d
+	co.Ext = ext
+	t[f] = *co
+
 }
 
 func bucket(key []byte, tx *bolt.Tx) *bolt.Bucket {
@@ -635,20 +825,24 @@ func handleConnection(c net.Conn) {
 }
 
 func handleData(c net.Conn, buf []byte) {
+	var device byte = buf[1]
     switch buf[0]{
         //pull request
         case 0x1:
         log.Println("Received pull request")
-        json.Unmarshal(buf[1:], &FileList)
+        json.Unmarshal(buf[2:], &FileList)
         for k,v := range FileList {
             if v.Typ == 2 {
                 delete(FileList, k)
             }
         }
-        process(c)
+        process(c, device)
         //upload file request
         case 0x2:
-        save(buf[1:])
+        save(buf[2:], device)
+        case 0x3:
+        update(buf[2:], device)
+        
     }
 }
 
