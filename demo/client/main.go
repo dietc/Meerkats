@@ -16,6 +16,7 @@ import (
     "fmt"
     "crypto/hmac"
 	"crypto/md5"
+	"time"
 )
 
 
@@ -28,7 +29,7 @@ type CmdObj struct{
 
 type task map[string]CmdObj
 
-const ROOT string = "clienta"
+var ROOT string = ""
 
 type FileObj struct{
     Name string
@@ -46,16 +47,49 @@ type FilePacket struct{
 
 var device byte = 0x41
 
-func init(){
-	FileList = make(map[string]FileObj)
+type Conf struct{
+    ID   string
+    Dir  string
+    Ip   string
+    Port string
 }
 
-func main(){
+
+func main() {
+    var list []Conf
+    res,_ := ioutil.ReadFile("configure.json")
+    var err error = json.Unmarshal(res, &list)
+    if err != nil {
+        log.Println("File \"configure.json\" not found!")
+        return
+    }
+	var timer *time.Ticker = time.NewTicker(5 * time.Second)
+	var flag int = 0
+    for {
+        select{
+		    case <-timer.C:
+		    flag++
+            if flag % 2 == 0 {
+                pull(list[0])
+            } else {
+                pull(list[1])
+            }	
+	    }
+    }
+}
+
+func pull(c Conf){
+	if c.ID == "A" {
+	    device = 0x41
+	} else {
+	    device = 0x42
+	}
+	ROOT = c.Dir
     log.Println("Generating filesystem info...")
     var bytes []byte = generateFileList()
     log.Println("Succeed!")
     log.Println("Connecting to remote host...")
-	addr, _:= net.ResolveTCPAddr("tcp", strings.TrimSpace("localhost:4356"))
+	addr, _:= net.ResolveTCPAddr("tcp", strings.TrimSpace(c.Ip + ":" + c.Port))
     conn, err := net.DialTCP("tcp", nil, addr)
     if err != nil {
 		log.Fatal(err)
@@ -134,6 +168,7 @@ func enPacket(data []byte, typ byte) []byte{
 }
 
 func generateFileList() []byte{
+	FileList = make(map[string]FileObj)
     var root string = suffix(safe(ROOT))
 	var buffer []byte
 	filepath.Walk(root, func(path string, info os.FileInfo, err error) error{
@@ -158,6 +193,7 @@ func generateFileList() []byte{
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(FileList)
 	//ioutil.WriteFile(root + ".storage/.list", bytes, 0644)
     return bytes
 }
