@@ -9,7 +9,7 @@
         Title="Meerkats File Synchronizer V1.00" Height="614.4" Width="1000">
     <Grid Margin="0,0,-6.4,-0.2" HorizontalAlignment="Left" Width="800">
         <Grid x:Name="header" HorizontalAlignment="Left" Height="51" VerticalAlignment="Top" Width="998" Margin="0,0,-198,0">
-            <Button x:Name="conect_btn" Content="Sync" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="127" Height="31" Click="Conect_btn_Click"/>
+            <Button x:Name="conect_btn" Content="Sync" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="104" Height="31" Click="Conect_btn_Click"/>
             <Label Content="Notes: We will synchronize your files automatically every 20 mins " HorizontalAlignment="Left" Margin="604,12,0,0" VerticalAlignment="Top" Width="384" Height="32"/>
         </Grid>
         <Grid x:Name="File" Margin="400,51,-198,0">
