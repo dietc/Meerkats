@@ -1,0 +1,43 @@
+package main
+
+import (
+    "log"
+    "net"
+    "os"
+    "syscall"
+    "os/signal"
+    "p"
+)
+
+const PORT string = "4356"
+
+func main() {
+    start()
+}
+
+func start() {
+    var err error
+    var channel chan os.Signal = make(chan os.Signal)
+    
+    l,err :=  net.Listen("tcp4", ":" + PORT)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer l.Close()
+    log.Println("Server is listening at PORT:" + PORT + "...")
+    signal.Notify(channel, os.Interrupt, syscall.SIGTERM)
+    go func(){
+        <-channel
+        log.Println("Server closed.")
+        os.Exit(1)
+    }()
+    
+    for {
+        c, err := l.Accept()
+        if err != nil {
+            log.Fatal(err)
+        }
+        go p.Handle(c)
+    }
+}
+
