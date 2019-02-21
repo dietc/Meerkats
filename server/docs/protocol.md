@@ -18,9 +18,15 @@ uint8
 uint8 buf[len(data)]
 
 - Md5 Checksum [16 bytes]
+
   buffer[0]  packet type
-  buffer[1] ~ buffer[n]  packet content
+  
+  buffer[1]  device id
+  
+  buffer[2] ~ buffer[n]  packet content
+  
   buffer[n+1] ~ buffer[n+5] private key ("aaaaa" for testing)
+  
   checksum = md5(buffer)
 
 - Packet Terminator [ 2 bytes ]
