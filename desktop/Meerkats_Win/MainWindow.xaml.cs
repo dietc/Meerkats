@@ -128,9 +128,36 @@ namespace Meerkats_Win
         // connect to the server or refresh
         private void Conect_btn_Click(object sender, RoutedEventArgs e)
         {
+            //Tcp_connect t1 = new Tcp_connect();
+            //string status = t1.tcp_send("178.128.45.7", 4356, "hello");
+            //fortest.Text = status;
+
+            //while (true)
+            //{
+            //    string msg= t1.tcp_listen("178.128.45.7", 4356);
+            //    if (msg != null)
+            //    {
+            //        fortest.Text = msg;
+            //        break;
+            //    }
+            //    else
+            //        continue;
+            //}
+            //
             Tcp_connect t1 = new Tcp_connect();
-            string status = t1.tcp_send("178.128.45.7", 4356, "hello");
-            fortest.Text = status;
+
+            t1.BuildDataPackage(System.Text.Encoding.Default.GetBytes("hellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohellohello"));
+
+            //byte[] byBuffer = { 0x90, 0x90, 0x90, 0x90 };
+            ////加入定制的协议该条数据位：
+            //byte[] b = new byte[4 + byBuffer.Length];
+            //b[0] = 0x91;
+            //b[1] = 0x92;
+            //b[2] = 0x93;
+
+            //Buffer.BlockCopy(byBuffer, 0, b, 3, byBuffer.Length);
+            //b[3 + byBuffer.Length] = 0x0;
+            //int a = 1;
         }
     }
 }
