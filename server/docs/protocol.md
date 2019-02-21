@@ -70,12 +70,13 @@ A packet that comes from server is similar in structure except that there is no 
         memcpy(buffer + 12, data, len(data))
         /** calculate checksum and put it inside packet **/
         checksum_source[0] = p_type
-        memcpy(checksum_source +1, data, len(data))
-        checksum_source[len(data)+1] = 'a'  // "aaaaa" private key
-        checksum_source[len(data)+2] = 'a'
+        checksum_source[1] = device_id
+        memcpy(checksum_source + 2, data, len(data))
+        checksum_source[len(data)+2] = 'a'  // "aaaaa" private key
         checksum_source[len(data)+3] = 'a'
         checksum_source[len(data)+4] = 'a'
         checksum_source[len(data)+5] = 'a'
+        checksum_source[len(data)+6] = 'a'
         checksum = md5(checksum_source)
         memcpy(buffer + 12 + len(data), checksum, len(checksum))
         buffer[total_length-2] = 0xff
