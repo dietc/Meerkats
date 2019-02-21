@@ -71,7 +71,7 @@
     <Compile Include="Class\FileInfo_cs.cs" />
     <Compile Include="Class\ImagedTreeViewItem.cs" />
     <Compile Include="Class\JsonHeaderLogic.cs" />
-    <Compile Include="Class\Tcp_connect.cs" />
+    <Compile Include="Class\SocketTCPClient.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
