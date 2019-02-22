@@ -7,18 +7,38 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:id="@+id/connect"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
-        android:text="Test"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="3dp" />
+        android:layout_marginTop="24dp"
+        android:text="connect"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:text="send"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/result"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
-        android:text="SERVER"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="174dp" />
+        android:layout_marginStart="8dp"
+        android:text="result"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="261dp" />
+
+    <Button
+        android:id="@+id/receive"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:text="receive"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="173dp" />
+
 </android.support.constraint.ConstraintLayout>
