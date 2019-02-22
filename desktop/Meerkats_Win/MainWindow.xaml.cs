@@ -129,15 +129,27 @@ namespace Meerkats_Win
         private void Conect_btn_Click(object sender, RoutedEventArgs e)
         {
             SocketTCPClient t1 = new SocketTCPClient();
-            t1.CreateInstance();
-
+            
+            
             string testdata = "hello";
 
             byte[] MessageBodyByte = new byte[testdata.Length + 30];
             MessageBodyByte = t1.BuildDataPackage(System.Text.Encoding.Default.GetBytes(testdata),0x1,0x1);
-            t1.SendMessage(MessageBodyByte);
-            // t1.ReceiveMessage();
+
+            t1.CreateInstance();
+
+
 
         }
+
+        /**
+         * // string => byte[]：
+
+              byte[] byteArray = System.Text.Encoding.Default.GetBytes ( str );
+
+           //byte[] => string：
+              string str = System.Text.Encoding.Default.GetString ( byteArray );
+         *
+         */
     }
 }
