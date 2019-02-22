@@ -25,6 +25,9 @@ namespace Meerkats_Win
 
         public void init_status()
         {
+            fortest.IsReadOnly = true;
+            fortest.Text = string.Empty;
+
 
             file_tree.Items.Clear();
             file_tree.ItemsSource = List;
@@ -129,14 +132,15 @@ namespace Meerkats_Win
         private void Conect_btn_Click(object sender, RoutedEventArgs e)
         {
             SocketTCPClient t1 = new SocketTCPClient();
-            
-            
+            t1.CreateInstance();
+
             string testdata = "hello";
 
             byte[] MessageBodyByte = new byte[testdata.Length + 30];
             MessageBodyByte = t1.BuildDataPackage(System.Text.Encoding.Default.GetBytes(testdata),0x1,0x1);
 
-            t1.CreateInstance();
+            t1.SendMessage(MessageBodyByte);
+            fortest.Text = System.Text.Encoding.Default.GetString(t1.UnpackData(t1.ReceiveMessage()));
 
 
 

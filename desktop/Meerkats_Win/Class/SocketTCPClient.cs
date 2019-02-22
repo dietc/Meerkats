@@ -138,9 +138,12 @@ namespace Meerkats_Win.Class
 
         public byte[] UnpackData(byte[] recvMsg)
         {
-            int MessageBody_len = (int)recvMsg[9] - 1;
-            byte[] Msg = new byte[MessageBody_len];
-            Buffer.BlockCopy(recvMsg, 10, Msg, 0, MessageBody_len);
+            // 2 + 8 + 1
+            int Context_Length = 11;
+            // [9] = Context_Length = MessageBody_Length + [1 byte]
+            int MessageBody_Length = (int)recvMsg[9] - 1;
+            byte[] Msg = new byte[MessageBody_Length];
+            Buffer.BlockCopy(recvMsg, Context_Length, Msg, 0, MessageBody_Length);
             return (Msg);
 
         }
