@@ -25,6 +25,9 @@ namespace Meerkats_Win
 
         public void init_status()
         {
+            fortest.IsReadOnly = true;
+            fortest.Text = string.Empty;
+
 
             file_tree.Items.Clear();
             file_tree.ItemsSource = List;
@@ -135,9 +138,22 @@ namespace Meerkats_Win
 
             byte[] MessageBodyByte = new byte[testdata.Length + 30];
             MessageBodyByte = t1.BuildDataPackage(System.Text.Encoding.Default.GetBytes(testdata),0x1,0x1);
+
             t1.SendMessage(MessageBodyByte);
-            // t1.ReceiveMessage();
+            fortest.Text = System.Text.Encoding.Default.GetString(t1.UnpackData(t1.ReceiveMessage()));
+
+
 
         }
+
+        /**
+         * // string => byte[]：
+
+              byte[] byteArray = System.Text.Encoding.Default.GetBytes ( str );
+
+           //byte[] => string：
+              string str = System.Text.Encoding.Default.GetString ( byteArray );
+         *
+         */
     }
 }
