@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.example.meerkats.TCPMeerkats;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,17 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Socket socket;
 
-    InputStream is;
 
-    InputStreamReader isr;
 
-    BufferedReader br;
-
-    String response;
-
-    OutputStream os;
-
-    Byte sendByte;
 
     private Button connect, send, receive;
 
@@ -78,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
                             socket = new Socket("178.128.45.7", 4356);
                             System.out.println(socket.isConnected());
-                            System.out.println("Connected!!!!!!!!!!!!");
 
                         } catch (IOException e){
                             e.printStackTrace();
@@ -124,8 +115,27 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             os = socket.getOutputStream();
+                            Byte [] messageBody = {};
+                            int messageBodyLength = 0;
+                            messageBodyLength = messageBody.length;
 
-                            os.write(sendByte);
+                            Byte [] messageBodyByte = new Byte[messageBodyLength + 30];
+
+                            int a = 0xff;
+
+                            byte b = (byte) a;
+
+
+                            Byte [] indicator  = { 0x11, b, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
+                            System.out.println(b);
+                            System.out.println(a);
+
+
+
+                            System.arraycopy(indicator, 0, messageBodyByte, 0, indicator.length);
+
+
+
 
                             os.flush();
                         } catch (IOException e) {
