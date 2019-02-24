@@ -24,14 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler handler;
 
-    private Socket socket;
-
-
-
+    private TCPMeerkats tcpMeerkats = new TCPMeerkats();
 
     private Button connect, send, receive;
 
     private TextView result;
+
+    private byte[] messageBody = {0x68, 0x65, 0x6c, 0x6c, 0x6f};
 
 
     @Override
@@ -47,16 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         threadPool = Executors.newCachedThreadPool();
 
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 0:
-                        result.setText(response);
-                        break;
-                }
-            }
-        };
 
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,46 +55,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        try{
 
-                            socket = new Socket("178.128.45.7", 4356);
-                            System.out.println(socket.isConnected());
+                        tcpMeerkats.createInstance();
+                        tcpMeerkats.connectSocket();
 
-                        } catch (IOException e){
-                            e.printStackTrace();
-
-                        }
                     }
                 });
             }
         });
 
-
-        receive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    threadPool.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                is = socket.getInputStream();
-                                isr = new InputStreamReader(is);
-                                br = new BufferedReader(isr);
-
-                                response = br.readLine();
-
-                                Message msg = Message.obtain();
-                                msg.what = 0;
-                                handler.sendMessage(msg);
-
-                            }
-                            catch (IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-            }
-        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,42 +71,18 @@ public class MainActivity extends AppCompatActivity {
                 threadPool.execute(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            os = socket.getOutputStream();
-                            Byte [] messageBody = {};
-                            int messageBodyLength = 0;
-                            messageBodyLength = messageBody.length;
 
-                            Byte [] messageBodyByte = new Byte[messageBodyLength + 30];
-
-                            int a = 0xff;
-
-                            byte b = (byte) a;
+                        byte[] sendMessage = tcpMeerkats.buildDataPackage(messageBody, (byte) 0x01, (byte) 0x01);
+                        tcpMeerkats.sendMessage(sendMessage);
+                        System.out.println(sendMessage);
 
 
-                            Byte [] indicator  = { 0x11, b, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
-                            System.out.println(b);
-                            System.out.println(a);
-
-
-
-                            System.arraycopy(indicator, 0, messageBodyByte, 0, indicator.length);
-
-
-
-
-                            os.flush();
-                        } catch (IOException e) {
-
-                            e.printStackTrace();
-
-                        }
                     }
                 });
             }
         });
 
+
     };
 
-};
-
+}

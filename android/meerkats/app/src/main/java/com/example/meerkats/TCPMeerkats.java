@@ -22,7 +22,6 @@ public class TCPMeerkats extends Thread{
 
     static String ip = "178.128.45.7";
 
-
     private static int port = 4356;
 
     private static Socket socketClient;
@@ -74,6 +73,7 @@ public class TCPMeerkats extends Thread{
                 }
 
             }
+
             socketClient.close();
 
         }catch (IOException e){
@@ -89,12 +89,14 @@ public class TCPMeerkats extends Thread{
         ///Check if connected
         if (socketClient.isConnected()){
 
-            SocketAddress remoteAddr = new InetSocketAddress(ip,port);
-
             try{
-                is = socketClient.getInputStream();
+                os = socketClient.getOutputStream();
+                os.write(sendBytes);
+                os.flush();
             }catch (IOException e){
                 System.out.println("ERROR! TRY AGAIN!");
+
+
 
             }
 
