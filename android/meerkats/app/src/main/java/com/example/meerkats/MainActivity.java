@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.example.meerkats.TCPMeerkats;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ExecutorService threadPool;
 
-    private Handler handler;
+    ///private Handler handler;
 
     private TCPMeerkats tcpMeerkats = new TCPMeerkats();
 
@@ -31,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView result;
 
     private byte[] messageBody = {0x68, 0x65, 0x6c, 0x6c, 0x6f};
+
+    private byte deviceID = (byte)0x11;
+
+    private byte packageType = (byte)0x11;
 
 
     @Override
@@ -72,9 +77,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        byte[] sendMessage = tcpMeerkats.buildDataPackage(messageBody, (byte) 0x01, (byte) 0x01);
+                        byte[] sendMessage = tcpMeerkats.buildDataPackage(messageBody, packageType, deviceID);
                         tcpMeerkats.sendMessage(sendMessage);
-                        System.out.println(sendMessage);
+                        StringBuilder sb = new StringBuilder();
+                        for (byte b : sendMessage) {
+                            sb.append(String.format("%02X ", b));
+                        }
+                        System.out.println(sb.toString());
 
 
                     }
@@ -82,7 +91,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        receive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                byte [] receiveMessage = tcpMeerkats.receiveMessage();
+                tcpMeerkats.sendMessage(receiveMessage);
+                StringBuilder sb = new StringBuilder();
+                for (byte b : receiveMessage) {
+                    sb.append(String.format("%02X ", b));
+                }
+                System.out.println(sb.toString());
 
+            }
+        });
     };
 
 }

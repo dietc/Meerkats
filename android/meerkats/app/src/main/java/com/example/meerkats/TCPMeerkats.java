@@ -2,8 +2,10 @@ package com.example.meerkats;
 
 import android.os.Message;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.InetSocketAddress;
@@ -28,6 +30,10 @@ public class TCPMeerkats extends Thread{
 
     private static InputStream is;
 
+    private static InputStreamReader isr;
+
+    private static BufferedReader br;
+
     private static OutputStream os;
     
     public  static List<String> listMessage = new ArrayList<String>();
@@ -48,6 +54,7 @@ public class TCPMeerkats extends Thread{
 
             SocketAddress remoteAddr = new InetSocketAddress(ip, port);
             socketClient.connect(remoteAddr);
+            System.out.println(socketClient.isConnected());
 
         } catch (IOException e){
             System.out.println("ERROR!TRY AGAIN!");
@@ -57,10 +64,12 @@ public class TCPMeerkats extends Thread{
     }
 
     ///Receive Message
-    public byte[] receiveMessage(){
+    /*public byte[] receiveMessage(){
+
         int blockSize = 1024;
         byte [] recvBytes = new byte[blockSize];
         int tranSize = 0;
+
         try {
 
             while (true) {
@@ -74,13 +83,16 @@ public class TCPMeerkats extends Thread{
 
             }
 
+
             socketClient.close();
 
         }catch (IOException e){
             System.out.println("ERROR!TRY AGAIN!");
         }
         return recvBytes;
-    }
+    }*/
+
+
 
     ///Send Message
 
