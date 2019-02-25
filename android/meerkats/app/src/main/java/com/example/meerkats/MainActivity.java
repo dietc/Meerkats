@@ -13,33 +13,29 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.example.meerkats.TCPMeerkats;
 
 public class MainActivity extends AppCompatActivity {
 
 
     private ExecutorService threadPool;
 
-    private Handler handler;
+    ///private Handler handler;
 
-    private Socket socket;
-
-    InputStream is;
-
-    InputStreamReader isr;
-
-    BufferedReader br;
-
-    String response;
-
-    OutputStream os;
-
-    Byte sendByte;
+    private TCPMeerkats tcpMeerkats = new TCPMeerkats();
 
     private Button connect, send, receive;
 
     private TextView result;
+
+    private byte[] messageBody = {0x68, 0x65, 0x6c, 0x6c, 0x6f};
+
+    private byte deviceID = (byte)0x01;
+
+    private byte packageType = (byte)0x01;
 
 
     @Override
@@ -55,16 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         threadPool = Executors.newCachedThreadPool();
 
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 0:
-                        result.setText(response);
-                        break;
-                }
-            }
-        };
 
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,47 +60,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        try{
 
-                            socket = new Socket("178.128.45.7", 4356);
-                            System.out.println(socket.isConnected());
-                            System.out.println("Connected!!!!!!!!!!!!");
+                        tcpMeerkats.createInstance();
+                        tcpMeerkats.connectSocket();
 
-                        } catch (IOException e){
-                            e.printStackTrace();
-
-                        }
                     }
                 });
             }
         });
 
-
-        receive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    threadPool.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                is = socket.getInputStream();
-                                isr = new InputStreamReader(is);
-                                br = new BufferedReader(isr);
-
-                                response = br.readLine();
-
-                                Message msg = Message.obtain();
-                                msg.what = 0;
-                                handler.sendMessage(msg);
-
-                            }
-                            catch (IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-            }
-        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,23 +76,40 @@ public class MainActivity extends AppCompatActivity {
                 threadPool.execute(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            os = socket.getOutputStream();
 
-                            os.write(sendByte);
+                        byte[] sendMessage = tcpMeerkats.buildDataPackage(messageBody, packageType, deviceID);
+                        tcpMeerkats.sendMessage(sendMessage);
 
-                            os.flush();
-                        } catch (IOException e) {
 
-                            e.printStackTrace();
-
+                        for (byte b : sendMessage) {
+                          System.out.printf("%x\n",b);
                         }
+
+
+
                     }
                 });
             }
         });
 
+        receive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    threadPool.execute(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            byte [] message = tcpMeerkats.receiveMessage();
+                            for (byte b : message) {
+                                System.out.printf("%x\n",b);
+                            }
+
+                        }
+                    });
+
+            }
+        });
     };
 
-};
-
+}
