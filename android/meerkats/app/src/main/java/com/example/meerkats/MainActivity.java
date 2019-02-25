@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] messageBody = {0x68, 0x65, 0x6c, 0x6c, 0x6f};
 
-    private byte deviceID = (byte)0x11;
+    private byte deviceID = (byte)0x01;
 
-    private byte packageType = (byte)0x11;
+    private byte packageType = (byte)0x01;
 
 
     @Override
@@ -79,11 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
                         byte[] sendMessage = tcpMeerkats.buildDataPackage(messageBody, packageType, deviceID);
                         tcpMeerkats.sendMessage(sendMessage);
-                        StringBuilder sb = new StringBuilder();
+
+
                         for (byte b : sendMessage) {
-                            sb.append(String.format("%02X ", b));
+                          System.out.printf("%x\n",b);
                         }
-                        System.out.println(sb.toString());
+
 
 
                     }
@@ -94,13 +95,18 @@ public class MainActivity extends AppCompatActivity {
         receive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                byte [] receiveMessage = tcpMeerkats.receiveMessage();
-                tcpMeerkats.sendMessage(receiveMessage);
-                StringBuilder sb = new StringBuilder();
-                for (byte b : receiveMessage) {
-                    sb.append(String.format("%02X ", b));
-                }
-                System.out.println(sb.toString());
+
+                    threadPool.execute(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            byte [] message = tcpMeerkats.receiveMessage();
+                            for (byte b : message) {
+                                System.out.printf("%x\n",b);
+                            }
+
+                        }
+                    });
 
             }
         });

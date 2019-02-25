@@ -3,6 +3,8 @@ package com.example.meerkats;
 import android.os.Message;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,6 +37,8 @@ public class TCPMeerkats extends Thread{
     private static BufferedReader br;
 
     private static OutputStream os;
+
+
     
     public  static List<String> listMessage = new ArrayList<String>();
 
@@ -64,39 +68,28 @@ public class TCPMeerkats extends Thread{
     }
 
     ///Receive Message
-    /*public byte[] receiveMessage(){
-
-        int blockSize = 1024;
-        byte [] recvBytes = new byte[blockSize];
-        int tranSize = 0;
-
+    public byte[] receiveMessage() {
+        byte[] message = new byte[2014];
         try {
-
-            while (true) {
-
-                tranSize = socketClient.getReceiveBufferSize();
-                if (tranSize < blockSize) {
-                    break;
-                } else {
-                    continue;
-                }
-
-            }
-
-
-            socketClient.close();
-
-        }catch (IOException e){
-            System.out.println("ERROR!TRY AGAIN!");
+            OutputStream socketOutputStream = socketClient.getOutputStream();
+            socketOutputStream.write(message);
+        } catch (IOException e) {
+            System.out.println("ERROR! TRY AGAIN!");
         }
-        return recvBytes;
-    }*/
+        return message;
+    }
+
+    ///Receive Message
+    ///public void receiveMessage() {
+
+
+    ///}
 
 
 
     ///Send Message
 
-    public void sendMessage(byte[] sendBytes){
+    public void sendMessage (byte[] sendBytes){
 
         ///Check if connected
         if (socketClient.isConnected()){
