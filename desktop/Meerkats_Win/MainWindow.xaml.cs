@@ -140,11 +140,13 @@ namespace Meerkats_Win
             MessageBodyByte = t1.BuildDataPackage(System.Text.Encoding.Default.GetBytes(testdata),0x1,0x1);
 
             t1.SendMessage(MessageBodyByte);
-            fortest.Text = System.Text.Encoding.Default.GetString(t1.UnpackData(t1.ReceiveMessage()));
 
-
+            fortest.Text = System.Text.Encoding.Default.GetString(t1.ReceiveMessage());
 
         }
+
+
+
 
         /**
          * // string => byte[]：
