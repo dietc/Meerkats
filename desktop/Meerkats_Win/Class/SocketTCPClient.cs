@@ -38,32 +38,44 @@ namespace Meerkats_Win.Class
         {
             
             socketClient.Connect(IPAddress.Parse(ip), port);
+
             //Thread threadConnect = new Thread(new ThreadStart(ReceiveMessage));
             //threadConnect.Start();
-            
+
         }
             /// <summary>
             /// receive Msg
             /// </summary>
         public byte[] ReceiveMessage()
         {
-            int block_size = 1024;
-            byte[] recvBytes = new byte[block_size];
-            int tran_size = 0;
 
-            while(true)
+            int Tcp_header_length = 10;
+            int Tcp_body_length = 0;
+
+            byte[] Tcp_header = new byte[Tcp_header_length];
+
+            socketClient.Receive(Tcp_header, 0, Tcp_header_length, 0);
+            Tcp_body_length = (Tcp_header[8] * 0xff) + (Tcp_header[9]);
+
+            byte[] recvBytes = new byte[Tcp_body_length];
+
+            socketClient.Receive(recvBytes, 0, Tcp_body_length, 0);
+
+            byte[] md5 = new byte[16];
+            socketClient.Receive(md5, 0, 16, 0);
+
+            byte[] End_flag = new byte[2];
+            socketClient.Receive(End_flag, 0, 2, 0);
+            // check End_flag
+            if (End_flag[0] == 0xff && End_flag[1] == 0xee)
             {
-                tran_size = socketClient.Receive(recvBytes, block_size, 0);
-                if (tran_size < block_size)
-                    break;
-                else
-                    continue;      
+                socketClient.Close();
+                // UnpackData
+                return (UnpackData(recvBytes));
             }
-            
-            socketClient.Close();
-            return (recvBytes);
 
-
+            else
+                return null;
 
         }
             ///<summary>
@@ -115,19 +127,8 @@ namespace Meerkats_Win.Class
             // Packet Content [ len(data) bytes ]
             Buffer.BlockCopy(MessageBody, 0, MessageBodyByte, 12, MessageBody.Length);
 
-            // Md5 Checksum [16 bytes]
-            // private_key = 'aaaaa'
-            byte[] private_key = {0x61, 0x61, 0x61, 0x61, 0x61 };
-            byte[] Check_sum = new byte[MessageBody_Length + private_key.Length + 2 ];
-
-            // Check_sum = {type + id + MessageBody + private_key}
-            Check_sum[0] = Packet_type;
-            Check_sum[1] = Device_id;
-            Buffer.BlockCopy(MessageBody, 0, Check_sum, 2, MessageBody.Length);
-            Buffer.BlockCopy(private_key, 0, Check_sum, MessageBody.Length+2, private_key.Length);
-
-            // MD5
-            byte[] md5 = HexStrTobyte(GetMD5Hash(Check_sum));
+            // Check_sum
+            byte[] md5 = GetCheck_sum(Packet_type, Device_id, MessageBody, true);
 
             Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + MessageBody.Length, md5.Length);
             // end with 0xff 0xee
@@ -138,14 +139,55 @@ namespace Meerkats_Win.Class
 
         public byte[] UnpackData(byte[] recvMsg)
         {
-            // 2 + 8 + 1
-            int Context_Length = 11;
-            // [9] = Context_Length = MessageBody_Length + [1 byte]
-            int MessageBody_Length = (int)recvMsg[9] - 1;
-            byte[] Msg = new byte[MessageBody_Length];
-            Buffer.BlockCopy(recvMsg, Context_Length, Msg, 0, MessageBody_Length);
-            return (Msg);
+            if (recvMsg.Length != 0)
+            {
+                int Tcp_body_length = recvMsg.Length;
+                int Context_Length = Tcp_body_length - 1;
+                int Packet_type = recvMsg[0];
 
+                byte[] Msg = new byte[Tcp_body_length];
+                Buffer.BlockCopy(recvMsg, 1, Msg, 0, Context_Length);
+                return (Msg);
+            }
+            else
+                return null;
+        }
+
+        private static byte[] GetCheck_sum(byte Packet_type,byte Device_id,byte[] Msg, bool Send_Or_Recv)
+        {
+            // Md5 Checksum [16 bytes]
+            // private_key = 'aaaaa'
+            // send is true
+            // recv is false
+            int index = 1;
+            if (Send_Or_Recv)
+            {
+                index++;
+            }
+            
+            byte[] private_key = { 0x61, 0x61, 0x61, 0x61, 0x61 };
+
+            // for Send part
+            // Check_sum = { type + id + Msg + private_key}
+
+            // for Recv part
+            // Check_sum = { type + Msg + private_key}
+            byte[] Check_sum = new byte[index + Msg.Length + private_key.Length];
+
+            Check_sum[0] = Packet_type;
+
+            if(Send_Or_Recv)
+            {
+                Check_sum[1] = Device_id;
+            }
+            
+            Buffer.BlockCopy(Msg, 0, Check_sum, index, Msg.Length);
+            Buffer.BlockCopy(private_key, 0, Check_sum, Msg.Length + index, private_key.Length);
+
+            byte[] md5 = new byte[16];
+            md5 = HexStrTobyte(GetMD5Hash(Check_sum));
+
+            return (md5);
         }
 
         private static string GetMD5Hash(byte[] bytedata)
@@ -154,8 +196,6 @@ namespace Meerkats_Win.Class
             {
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 byte[] retVal = md5.ComputeHash(bytedata);
-
-
 
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < retVal.Length; i++)
