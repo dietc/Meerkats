@@ -39,7 +39,7 @@ public class TCPMeerkats extends Thread{
     private static OutputStream os;
 
 
-    
+
     public  static List<String> listMessage = new ArrayList<String>();
 
     ///Create a socket client instance
@@ -70,20 +70,25 @@ public class TCPMeerkats extends Thread{
     ///Receive Message
     public byte[] receiveMessage() {
         byte[] message = new byte[2014];
+        int len = 0;
+
         try {
-            OutputStream socketOutputStream = socketClient.getOutputStream();
-            socketOutputStream.write(message);
+
+
+            is = socketClient.getInputStream();
+
+            len = is.read(message);
+
+
         } catch (IOException e) {
             System.out.println("ERROR! TRY AGAIN!");
         }
+
         return message;
     }
 
-    ///Receive Message
-    ///public void receiveMessage() {
 
 
-    ///}
 
 
 
@@ -105,9 +110,9 @@ public class TCPMeerkats extends Thread{
 
             }
 
-            }
-
         }
+
+    }
 
     ///Build data package
     public byte[] buildDataPackage(byte[] messageBody, byte packageType, byte deviceID ) {
