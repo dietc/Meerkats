@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                         for (byte b : sendMessage) {
-                          System.out.printf("%x\n",b);
+                            System.out.printf("%x\n",b);
                         }
 
 
@@ -96,17 +96,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    threadPool.execute(new Runnable() {
-                        @Override
-                        public void run() {
+                threadPool.execute(new Runnable() {
+                    @Override
+                    public void run() {
 
-                            byte [] message = tcpMeerkats.receiveMessage();
-                            for (byte b : message) {
-                                System.out.printf("%x\n",b);
-                            }
+                        byte [] message = tcpMeerkats.unpackData(tcpMeerkats.receiveMessage());
 
+
+                        for (byte b : message) {
+                            System.out.printf("%x\n",b);
                         }
-                    });
+
+
+                    }
+                });
 
             }
         });
