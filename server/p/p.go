@@ -9,6 +9,8 @@ import (
     "s"
 )
 
+var num int = 0
+
 func Handle(c net.Conn){
 	var state byte =  0x00
 	var length uint16 = 0
@@ -17,7 +19,8 @@ func Handle(c net.Conn){
 	var rbuffer []byte
 	var cbuffer []byte = make([]byte, 16)
     var flag bool
-	reader := bufio.NewReader(c)
+    //256*256*256
+	reader := bufio.NewReaderSize(c, 16777216)
     log.Printf("Serving %s\n", c.RemoteAddr().String())
     _ = rbuffer
     _ = cbuffer
@@ -56,11 +59,11 @@ func Handle(c net.Conn){
                 state++
             case 0x09:
                 length += uint16(rbyte)
-                //fmt.Println(length)
                 rbuffer = make([]byte, length)
                 state++
             case 0x0a:
                 rbuffer, err = reader.Peek(int(length))
+                //buffer full?
                 if err != nil {
                     state, length, rbuffer = restoreState()
                     continue
@@ -106,6 +109,17 @@ func handlePacket(c net.Conn, packet []byte) {
         case 0x01:
         //testing packet
         send(c, enPacket(s.ProcessTestingPacket(c, packet[2:], packet[1]), 0x01))
+        case 0x02:
+        //pull packet
+        send(c, enPacket(s.ProcessLocalListPacket(packet[2:], packet[1]), 0x02))
+        case 0x20:
+        var flag bool 
+        flag = s.ProcessFileAssembly(packet[2:], packet[1])
+        if flag {
+            send(c, enPacket([]byte("ok"), 0x20))
+        }
+        //upload packet
+        
     }
 }
 

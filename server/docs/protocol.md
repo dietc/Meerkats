@@ -18,9 +18,15 @@ uint8
 uint8 buf[len(data)]
 
 - Md5 Checksum [16 bytes]
+
   buffer[0]  packet type
-  buffer[1] ~ buffer[n]  packet content
+  
+  buffer[1]  device id
+  
+  buffer[2] ~ buffer[n]  packet content
+  
   buffer[n+1] ~ buffer[n+5] private key ("aaaaa" for testing)
+  
   checksum = md5(buffer)
 
 - Packet Terminator [ 2 bytes ]
@@ -28,6 +34,9 @@ uint8 buf[len(data)]
 
 ### A Structured Packet(sending from client)
 | initiator(8) |  length(2) | packet type(1) | device id(1) | packet content(n) | checksum(16) | terminator(2)|
+
+example:
+| 11ff6c6f6e646f6e | 0007 | 01 | 01 | 68656c6c6f | e623934ab23681c042e3ee5eae36b518 | ffee |
 
 A packet that comes from server is similar in structure except that there is no device id (1 byte)  
 
@@ -61,12 +70,13 @@ A packet that comes from server is similar in structure except that there is no 
         memcpy(buffer + 12, data, len(data))
         /** calculate checksum and put it inside packet **/
         checksum_source[0] = p_type
-        memcpy(checksum_source +1, data, len(data))
-        checksum_source[len(data)+1] = 'a'  // "aaaaa" private key
-        checksum_source[len(data)+2] = 'a'
+        checksum_source[1] = device_id
+        memcpy(checksum_source + 2, data, len(data))
+        checksum_source[len(data)+2] = 'a'  // "aaaaa" private key
         checksum_source[len(data)+3] = 'a'
         checksum_source[len(data)+4] = 'a'
         checksum_source[len(data)+5] = 'a'
+        checksum_source[len(data)+6] = 'a'
         checksum = md5(checksum_source)
         memcpy(buffer + 12 + len(data), checksum, len(checksum))
         buffer[total_length-2] = 0xff
