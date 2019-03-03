@@ -122,6 +122,7 @@ func cmdUpload(task Task, name string, digest [16]byte) {
     co.Name = name
     co.Digest = digest
     co.Cmd = 1
+    co.Ext = []byte{}
     task[name] = *co
 }
 
