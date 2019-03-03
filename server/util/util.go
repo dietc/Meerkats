@@ -2,10 +2,19 @@ package util
 
 import (
     "crypto/md5"
+    "strings"
+    //"safe"
+    "regexp"
+    "os"
+    //"log"
 )
 
 func Md5(data []byte, key []byte) [16]byte{
     return md5.Sum(append(data, key...))
+}
+
+func Digest(data []byte) [16]byte{
+    return md5.Sum(data)
 }
 
 func CheckMd5(rmd5 []byte, data []byte, key []byte) (ret bool) {
@@ -29,4 +38,27 @@ func compare(d1 []byte, d2 []byte) (ret bool) {
     }
     return
 }
+
+func Suffix(path string) string {
+	if strings.HasSuffix(path, "/") {
+		return path
+	} else {
+		return path + "/"
+	}
+}
+
+func Safe(path string) string {
+    path = regexp.MustCompile("\\\\+").ReplaceAllString(path, "/")
+    return path
+}
+
+func CreateDirIfNotExisted(path string) error {
+    var err error
+    if _, err = os.Stat(path); os.IsNotExist(err) {
+        err = os.MkdirAll(path, os.ModeDir)
+    }
+    return err
+}
+
+
 

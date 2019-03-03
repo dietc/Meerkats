@@ -7,12 +7,24 @@ import (
     "syscall"
     "os/signal"
     "p"
+    "s"
+    "util"
+    
 )
 
 const PORT string = "4356"
 
 func main() {
+    initialize()
     start()
+}
+
+func initialize() {
+    s.StartDB()
+    err := util.CreateDirIfNotExisted(s.STO)
+    if err != nil {
+		log.Fatal(err)
+    }
 }
 
 func start() {
