@@ -34,6 +34,7 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
     var fileNames []string
     var matched *set.Set = set.New()
     var fileListRemain []string
+    var bytes []byte
     
     json.Unmarshal(data, &fileList)
         //delete type folder
@@ -58,6 +59,7 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
             fileListRemain = append(fileListRemain, k)
         }
     }
+    
     if len(fileListRemain) > 0 {
         var dstatus byte
         for _,name := range fileListRemain {
@@ -67,17 +69,14 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
             case 1:cmdUpload(task, name, fileList[name].Digest)
             }
         }    
-    }
+    } 
     
     //spaceRemain
     
-    if len(task) > 0 {
-        var bytes []byte
-        bytes,_ = json.Marshal(task)
-        return bytes    
-    }
     
-    return nil
+    bytes,_ = json.Marshal(task)
+    //log.Printf("%s", bytes)
+    return bytes  
 }
 
 func ProcessFileAssembly(data []byte, device byte) bool {
