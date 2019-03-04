@@ -118,7 +118,14 @@ namespace Meerkats_Win.Class
 
         public void Upload_File(List<string> file_name)
         {
+            // file_list part 
+            // need to add
+
             // Packet_type = 0x20
+            byte Packet_type = 0x20;
+            byte Device_id = 0x02;
+
+            //read file 
             byte[] file_data = { };
 
             // 0xffff - 300 - 2 
@@ -146,12 +153,27 @@ namespace Meerkats_Win.Class
                 Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
 
                 // Packet Type [ 1 byte ]
-                MessageBodyByte[10] = 0x20;
+                MessageBodyByte[10] = Packet_type;
 
                 // Packet ID [ 1 byte ]
-                MessageBodyByte[11] = 0x02;
+                MessageBodyByte[11] = Device_id;
 
                 byte[] file_json = new byte[300];
+
+                /** for 1.txt file (cmd = 1)
+                 * demo
+                 * {
+	                    "Name": "1.txt",
+	                    "Num": 2,       
+	                    "Index": 0
+                   }
+                   {
+	                    "Name": "1.txt",
+	                    "Num": 2,
+	                    "Index": 1
+                   }
+                 * 
+                 */
 
                 //copy json data
                 Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
@@ -159,9 +181,14 @@ namespace Meerkats_Win.Class
                 //copy file data
                 Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300 , MessageBody_Length);
 
+                // Check_sum
+                byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+
+                Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
+
                 // end with 0xff 0xee
-                MessageBodyByte[MessageBody_Length + 28] = 0xff;
-                MessageBodyByte[MessageBody_Length + 29] = 0xee;
+                MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
+                MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
 
                 SendMessage(MessageBodyByte);
 
@@ -175,7 +202,7 @@ namespace Meerkats_Win.Class
 
                 byte[][] MessageBodyByte = new byte[(int)Packet_num][];
                 int index = 0;
-                while (Packet_num >= 0)
+                while (Packet_num > 0)
                 {
                     if (Packet_num != 0)
                         MessageBody_Length = MessageBody_Length_Max;
@@ -193,10 +220,10 @@ namespace Meerkats_Win.Class
                     Buffer.BlockCopy(length, 0, MessageBodyByte[index], 8, length.Length);
 
                     // Packet Type [ 1 byte ]
-                    MessageBodyByte[index][10] = 0x20;
+                    MessageBodyByte[index][10] = Packet_type;
 
                     // Packet ID [ 1 byte ]
-                    MessageBodyByte[index][11] = 0x02;
+                    MessageBodyByte[index][11] = Device_id;
 
                     byte[] file_json = new byte[300];
 
@@ -206,25 +233,30 @@ namespace Meerkats_Win.Class
                     //copy file data
                     Buffer.BlockCopy(file_data, MessageBody_Length_Max * index, MessageBodyByte[index], 12 + 300, MessageBody_Length);
 
+                    // Check_sum
+                    /*
+                     * ** FILE data
+                     */
+                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data.Skip( index * MessageBody_Length_Max).Take( MessageBody_Length ).ToArray(), true);
+
+                    Buffer.BlockCopy(md5, 0, MessageBodyByte[index], 12 + 300 + MessageBody_Length, md5.Length);
+
                     // end with 0xff 0xee
-                    MessageBodyByte[index][MessageBody_Length + 28] = 0xff;
-                    MessageBodyByte[index][MessageBody_Length + 29] = 0xee;
+                    MessageBodyByte[index][MessageBody_Length + 28 + 300] = 0xff;
+                    MessageBodyByte[index][MessageBody_Length + 29 + 300] = 0xee;
 
                     Packet_num--;
                     index++;
 
                 }
 
-
+                for(int i = 0; i < index; i++)
+                {
+                    SendMessage(MessageBodyByte[i]);
+                }
 
             }
             
-
-
-
-
-
-
         }
 
         /// <summary>

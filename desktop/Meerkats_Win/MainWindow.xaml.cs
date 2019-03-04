@@ -177,14 +177,10 @@ namespace Meerkats_Win
             MessageBodyByte = t1.BuildDataPackage_For_Pull(test, 0x2, Device_id);
             t1.SendMessage(MessageBodyByte);
             byte[] result = t1.ReceiveMessage();
-            string result_str = System.Text.Encoding.Default.GetString(result);
+            // string result_str = System.Text.Encoding.Default.GetString(result);
+            // fortest.Text = result_str;
+            fortest.Text = "success";
 
-
-
-            fortest.Text = result_str;
-
-
-            //fortest.Text = result_str;
 
 
 
