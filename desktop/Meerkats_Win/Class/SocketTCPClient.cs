@@ -9,6 +9,9 @@ using System.Security.Cryptography;
 using System.IO;
 using System.Threading;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Windows.Documents;
 
 namespace Meerkats_Win.Class
 {
@@ -69,13 +72,34 @@ namespace Meerkats_Win.Class
             // check End_flag
             if (End_flag[0] == 0xff && End_flag[1] == 0xee)
             {
-                socketClient.Close();
-                // UnpackData
-                return (UnpackData(recvBytes));
+
+                List<string> file_name = Check_Upload(UnpackData_For_Pull(recvBytes));
+                if (file_name.Count == 0)
+                {
+                    socketClient.Close();
+                    return null;
+                }
+                else
+                {
+                    // Upload_file part
+
+                    Upload_File(file_name);
+
+
+                    socketClient.Close();
+                    return null;
+                }
+                //socketClient.Close();
+                //return (UnpackData(recvBytes));
+
+
             }
 
             else
+            {
+                socketClient.Close();
                 return null;
+            }
 
         }
             ///<summary>
@@ -92,6 +116,117 @@ namespace Meerkats_Win.Class
             }
         }
 
+        public void Upload_File(List<string> file_name)
+        {
+            // Packet_type = 0x20
+            byte[] file_data = { };
+
+            // 0xffff - 300 - 2 
+            int MessageBody_Length_Max = 65233;
+
+            // MessageBody Length
+            int MessageBody_Length = 0;
+
+            if (file_data.Length <= MessageBody_Length_Max)
+            {
+
+                MessageBody_Length = file_data.Length;
+
+                // 8 + 2 + 1 + 1 + 300 + len(MessageBody) + 16 +2
+                byte[] MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
+
+                // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
+                byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
+                Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
+
+                // Packet Content Length [ 2 bytes ]
+                // Context_Length = len(MessageBody) + 2
+                byte Context_Length = (byte)(MessageBody_Length + 2);
+                byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
+                Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
+
+                // Packet Type [ 1 byte ]
+                MessageBodyByte[10] = 0x20;
+
+                // Packet ID [ 1 byte ]
+                MessageBodyByte[11] = 0x02;
+
+                byte[] file_json = new byte[300];
+
+                //copy json data
+                Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
+
+                //copy file data
+                Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300 , MessageBody_Length);
+
+                // end with 0xff 0xee
+                MessageBodyByte[MessageBody_Length + 28] = 0xff;
+                MessageBodyByte[MessageBody_Length + 29] = 0xee;
+
+                SendMessage(MessageBodyByte);
+
+
+            }
+
+            else
+            {
+
+                double Packet_num = Math.Ceiling((float)(file_data.Length / MessageBody_Length_Max));
+
+                byte[][] MessageBodyByte = new byte[(int)Packet_num][];
+                int index = 0;
+                while (Packet_num >= 0)
+                {
+                    if (Packet_num != 0)
+                        MessageBody_Length = MessageBody_Length_Max;
+                    else
+                        MessageBody_Length = (int)(MessageBody_Length - MessageBody_Length_Max * (Packet_num - 1));
+
+                    // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
+                    byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
+                    Buffer.BlockCopy(Initiator, 0, MessageBodyByte[index], 0, Initiator.Length);
+
+                    // Packet Content Length [ 2 bytes ]
+                    // Context_Length = len(MessageBody) + 2
+                    byte Context_Length = (byte)(MessageBody_Length + 2);
+                    byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
+                    Buffer.BlockCopy(length, 0, MessageBodyByte[index], 8, length.Length);
+
+                    // Packet Type [ 1 byte ]
+                    MessageBodyByte[index][10] = 0x20;
+
+                    // Packet ID [ 1 byte ]
+                    MessageBodyByte[index][11] = 0x02;
+
+                    byte[] file_json = new byte[300];
+
+                    //copy json data
+                    Buffer.BlockCopy(file_json, 0, MessageBodyByte[index], 12, file_json.Length);
+
+                    //copy file data
+                    Buffer.BlockCopy(file_data, MessageBody_Length_Max * index, MessageBodyByte[index], 12 + 300, MessageBody_Length);
+
+                    // end with 0xff 0xee
+                    MessageBodyByte[index][MessageBody_Length + 28] = 0xff;
+                    MessageBodyByte[index][MessageBody_Length + 29] = 0xee;
+
+                    Packet_num--;
+                    index++;
+
+                }
+
+
+
+            }
+            
+
+
+
+
+
+
+        }
+
         /// <summary>
         /// BuildDataPackage
         /// </summary>
@@ -99,7 +234,7 @@ namespace Meerkats_Win.Class
         /// <param name="Packet_type">packet type</param>
         /// <param name="Device_id">device id</param>
         /// <returns></returns>
-        public byte[] BuildDataPackage(byte[] MessageBody, byte Packet_type, byte Device_id)
+        public byte[] BuildDataPackage_For_Pull(byte[] MessageBody, byte Packet_type, byte Device_id)
         {
             // MessageBody Length
             int MessageBody_Length = 0;
@@ -125,7 +260,7 @@ namespace Meerkats_Win.Class
             MessageBodyByte[11] = Device_id;
 
             // Packet Content [ len(data) bytes ]
-            Buffer.BlockCopy(MessageBody, 0, MessageBodyByte, 12, MessageBody.Length);
+            Buffer.BlockCopy(MessageBody, 0, MessageBodyByte, 12, MessageBody_Length);
 
             // Check_sum
             byte[] md5 = GetCheck_sum(Packet_type, Device_id, MessageBody, true);
@@ -137,7 +272,7 @@ namespace Meerkats_Win.Class
             return (MessageBodyByte);
         }
 
-        public byte[] UnpackData(byte[] recvMsg)
+        public byte[] UnpackData_For_Pull(byte[] recvMsg)
         {
             if (recvMsg.Length != 0)
             {
@@ -145,7 +280,7 @@ namespace Meerkats_Win.Class
                 int Context_Length = Tcp_body_length - 1;
                 int Packet_type = recvMsg[0];
 
-                byte[] Msg = new byte[Tcp_body_length];
+                byte[] Msg = new byte[Context_Length];
                 Buffer.BlockCopy(recvMsg, 1, Msg, 0, Context_Length);
                 return (Msg);
             }
@@ -153,7 +288,47 @@ namespace Meerkats_Win.Class
                 return null;
         }
 
-        private static byte[] GetCheck_sum(byte Packet_type,byte Device_id,byte[] Msg, bool Send_Or_Recv)
+        public List<string> Check_Upload(byte[] recvMsg)
+        {
+            string result_str = System.Text.Encoding.Default.GetString(recvMsg);
+            string cmd_flag = null;
+            List<string> file_name = new List<string>();
+            // convert json to JArray
+            JArray jArray = (JArray)JsonConvert.DeserializeObject(result_str);
+            /*
+             * Response-json
+                     [
+	                    {
+		                    "Name":"1.txt",
+		                    "Digest":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+		                    "Cmd":1,
+		                    "Ext":""
+	                    },
+	                    {
+		                    "Name":"2.txt",
+		                    "Digest":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+		                    "Cmd":1,
+		                    "Ext":""
+	                    }
+
+                      ]
+
+             */
+            foreach (JObject ja in jArray)
+            {
+                cmd_flag = ja["Cmd"].ToString();
+                if (cmd_flag == "1")
+                {
+                    file_name.Add(ja["Name"].ToString());
+                }
+                else
+                    continue;
+            }
+
+            return file_name;
+        }
+
+        private byte[] GetCheck_sum(byte Packet_type,byte Device_id,byte[] Msg, bool Send_Or_Recv)
         {
             // Md5 Checksum [16 bytes]
             // private_key = 'aaaaa'
@@ -211,7 +386,7 @@ namespace Meerkats_Win.Class
         }
 
         // stringhex(md5) => byte[]
-        private static byte[] HexStrTobyte(string hexString)
+        public byte[] HexStrTobyte(string hexString)
         {
             hexString = hexString.Replace(" ", "");
             if ((hexString.Length % 2) != 0)
