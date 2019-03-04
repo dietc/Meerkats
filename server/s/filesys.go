@@ -21,7 +21,7 @@ type CmdObj struct{
 	Ext        []byte
 }
 
-type Task map[string]CmdObj
+type Task []*CmdObj
 
 type Pre struct{
     Device byte

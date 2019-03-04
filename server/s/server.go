@@ -34,10 +34,12 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
     var fileNames []string
     var matched *set.Set = set.New()
     var fileListRemain []string
+    var spaceRemain []string
     var bytes []byte
     
-    json.Unmarshal(data, &fileList)
-        //delete type folder
+    fetchFileList(fileList, data)
+    
+    //delete type folder
     for k,v := range fileList {
         if v.Typ == 2 {
             delete(fileList, k)
@@ -49,24 +51,31 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
     //log.Println(space) 
     
     pre = fetchPreInfo(device)
-   // for name, index := range Space{
     
-   // }
-    log.Println(space)
+    for name, _ := range space{
+        if _, ok := fileList[name];!ok {
+            //either renamed or deleted by others
+            spaceRemain = append(spaceRemain, name)
+        } else {
+            matched.Add(name)
+        
+        }
+    }
+    
     for k := range fileList {
         fileNames = append(fileNames, k)
         if !matched.Has(k) {
             fileListRemain = append(fileListRemain, k)
         }
     }
-    
+
     if len(fileListRemain) > 0 {
         var dstatus byte
         for _,name := range fileListRemain {
             dstatus = pre.CheckDelStatus(name, fileList[name].Digest)
             //log.Println(name, dstatus)
             switch dstatus{
-            case 1:cmdUpload(task, name, fileList[name].Digest)
+            case 1:cmdUpload(&task, name, fileList[name].Digest)
             }
         }    
     } 
@@ -76,6 +85,7 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
     
     bytes,_ = json.Marshal(task)
     //log.Printf("%s", bytes)
+    //log.Printf("%x", bytes)
     return bytes  
 }
 
@@ -116,14 +126,22 @@ func ProcessFileAssembly(data []byte, device byte) bool {
     return response
 }
 
-func cmdUpload(task Task, name string, digest [16]byte) {
+func cmdUpload(task *Task, name string, digest [16]byte) {
     var co *CmdObj = new(CmdObj)
     co.Name = name
     co.Digest = digest
     co.Cmd = 1
     co.Ext = []byte{}
-    task[name] = *co
+    *task = append(*task, co)
 }
+
+func fetchFileList(fileList map[string]FileObj, data []byte) {
+    var objList []FileObj
+    json.Unmarshal(data, &objList)
+    for _,obj := range objList{
+        fileList[obj.Name] = obj
+    }
+} 
 
 func fetchPreInfo(device byte) *Pre{
     var p *Pre = new(Pre)
