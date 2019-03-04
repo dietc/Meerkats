@@ -1,11 +1,16 @@
 ﻿using Meerkats_Win.Class;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,6 +22,12 @@ namespace Meerkats_Win
     public partial class MainWindow : Window
     {
         public ObservableCollection<FileInfo_cs> List = new ObservableCollection<FileInfo_cs>();
+
+        /// <summary>
+        /// desktop client id = 0x2
+        /// </summary>
+        private byte Device_id = 0x2;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -131,17 +142,48 @@ namespace Meerkats_Win
         // connect to the server or refresh
         private void Conect_btn_Click(object sender, RoutedEventArgs e)
         {
+            send_data_rev_data();
+            
+        }
+
+        private void send_data_rev_data()
+        {
+            
+            string testdata = null;
+            /**
+             * json file_info
+             *
+             *  [
+             *      {
+             *          "Name":"1.txt",
+             *          "Typ":1,
+             *          "Digest":[1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+             *      },
+             *      {
+             *          "Name":"2.txt",
+             *          "Typ":1,
+             *          "Digest":[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]
+             *      }
+             *  ]
+             *  
+            **/
+
+            testdata = "5b7b224e616d65223a22312e747874222c22547970223a312c22446967657374223a5b312c312c302c302c302c302c302c302c302c302c302c302c302c302c302c305d7d2c7b224e616d65223a22322e747874222c22547970223a312c22446967657374223a5b312c312c312c302c302c302c302c302c302c302c302c302c302c302c302c305d7d5d";
             SocketTCPClient t1 = new SocketTCPClient();
             t1.CreateInstance();
-
-            string testdata = "hello";
-
+            byte[] test = t1.HexStrTobyte(testdata);
             byte[] MessageBodyByte = new byte[testdata.Length + 30];
-            MessageBodyByte = t1.BuildDataPackage(System.Text.Encoding.Default.GetBytes(testdata),0x1,0x1);
 
+            MessageBodyByte = t1.BuildDataPackage_For_Pull(test, 0x2, Device_id);
             t1.SendMessage(MessageBodyByte);
+            byte[] result = t1.ReceiveMessage();
+            // string result_str = System.Text.Encoding.Default.GetString(result);
+            // fortest.Text = result_str;
+            fortest.Text = "success";
 
-            fortest.Text = System.Text.Encoding.Default.GetString(t1.ReceiveMessage());
+
+
+
 
         }
 
