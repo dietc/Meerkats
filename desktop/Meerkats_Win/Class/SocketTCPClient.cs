@@ -12,7 +12,6 @@ using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Windows.Documents;
-using static Meerkats_Win.File_json_info;
 
 namespace Meerkats_Win.Class
 {
@@ -23,8 +22,6 @@ namespace Meerkats_Win.Class
         private static int port = 4356;
         private static Socket socketClient;
 
-        // the path for stored data 
-        private static string PATH = "E:\\fortest\\";
 
         // public static List<string> listMessage = new List<string>();
 
@@ -42,16 +39,16 @@ namespace Meerkats_Win.Class
         /// </summary>
         public void ConnectServer()
         {
-
+            
             socketClient.Connect(IPAddress.Parse(ip), port);
 
             //Thread threadConnect = new Thread(new ThreadStart(ReceiveMessage));
             //threadConnect.Start();
 
         }
-        /// <summary>
-        /// receive Msg
-        /// </summary>
+            /// <summary>
+            /// receive Msg
+            /// </summary>
         public byte[] ReceiveMessage()
         {
 
@@ -105,9 +102,9 @@ namespace Meerkats_Win.Class
             }
 
         }
-        ///<summary>
-        ///Send Msg
-        ///</summary>
+            ///<summary>
+            ///Send Msg
+            ///</summary>
         public void SendMessage(byte[] sendBytes)
         {
             //check if connected
@@ -127,167 +124,139 @@ namespace Meerkats_Win.Class
             // Packet_type = 0x20
             byte Packet_type = 0x20;
             byte Device_id = 0x02;
-            byte[] file_data;
+
+            //read file 
+            byte[] file_data = { };
 
             // 0xffff - 300 - 2 
-            int MessageBody_Length_Max = 3;
+            int MessageBody_Length_Max = 65233;
 
-            for (int i = 0; i < file_name.Count; i++)
+            // MessageBody Length
+            int MessageBody_Length = 0;
+
+            if (file_data.Length <= MessageBody_Length_Max)
             {
-                //read file 
-                //for test
-                FileStream file = new FileStream(PATH + file_name[i], FileMode.Open);
-                file.Seek(0, SeekOrigin.Begin);
-                long file_length = file.Length;
 
-                file_data = null;
+                MessageBody_Length = file_data.Length;
 
-                // MessageBody Length
-                int MessageBody_Length = 0;
+                // 8 + 2 + 1 + 1 + 300 + len(MessageBody) + 16 +2
+                byte[] MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
 
-                if (file_length <= MessageBody_Length_Max)
+                // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
+                byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
+                Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
+
+                // Packet Content Length [ 2 bytes ]
+                // Context_Length = len(MessageBody) + 2
+                byte Context_Length = (byte)(MessageBody_Length + 2);
+                byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
+                Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
+
+                // Packet Type [ 1 byte ]
+                MessageBodyByte[10] = Packet_type;
+
+                // Packet ID [ 1 byte ]
+                MessageBodyByte[11] = Device_id;
+
+                byte[] file_json = new byte[300];
+
+                /** for 1.txt file (cmd = 1)
+                 * demo
+                 * {
+	                    "Name": "1.txt",
+	                    "Num": 2,       
+	                    "Index": 0
+                   }
+                   {
+	                    "Name": "1.txt",
+	                    "Num": 2,
+	                    "Index": 1
+                   }
+                 * 
+                 */
+
+                //copy json data
+                Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
+
+                //copy file data
+                Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300 , MessageBody_Length);
+
+                // Check_sum
+                byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+
+                Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
+
+                // end with 0xff 0xee
+                MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
+                MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
+
+                SendMessage(MessageBodyByte);
+
+
+            }
+
+            else
+            {
+
+                double Packet_num = Math.Ceiling((float)(file_data.Length / MessageBody_Length_Max));
+
+                byte[][] MessageBodyByte = new byte[(int)Packet_num][];
+                int index = 0;
+                while (Packet_num > 0)
                 {
-                   
-                    MessageBody_Length = (int)file_length;
-
-                    // 8 + 2 + 1 + 1 + 300 + len(MessageBody) + 16 +2
-                    byte[] MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
+                    if (Packet_num != 0)
+                        MessageBody_Length = MessageBody_Length_Max;
+                    else
+                        MessageBody_Length = (int)(MessageBody_Length - MessageBody_Length_Max * (Packet_num - 1));
 
                     // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
                     byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
-                    Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
+                    Buffer.BlockCopy(Initiator, 0, MessageBodyByte[index], 0, Initiator.Length);
 
                     // Packet Content Length [ 2 bytes ]
                     // Context_Length = len(MessageBody) + 2
                     byte Context_Length = (byte)(MessageBody_Length + 2);
                     byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
-                    Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
+                    Buffer.BlockCopy(length, 0, MessageBodyByte[index], 8, length.Length);
 
                     // Packet Type [ 1 byte ]
-                    MessageBodyByte[10] = Packet_type;
+                    MessageBodyByte[index][10] = Packet_type;
 
                     // Packet ID [ 1 byte ]
-                    MessageBodyByte[11] = Device_id;
+                    MessageBodyByte[index][11] = Device_id;
 
                     byte[] file_json = new byte[300];
 
-                    file_index_json f_js = new file_index_json() { Name = file_name[i], Num = 0x1, Index = 0 };
-                    string f_js_str = JsonConvert.SerializeObject(f_js);
-                    byte[] f_js_bytes = System.Text.Encoding.Default.GetBytes(f_js_str);
-                    Buffer.BlockCopy(f_js_bytes, 0, file_json, 0, f_js_str.Length);
-
-                    /** for 1.txt file (cmd = 1)
-                     * demo
-                     * {
-                            "Name": "1.txt",
-                            "Num": 2,       
-                            "Index": 0
-                       }
-                       {
-                            "Name": "1.txt",
-                            "Num": 2,
-                            "Index": 1
-                       }
-                     * 
-                     */
-
-                    
                     //copy json data
-                    Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
+                    Buffer.BlockCopy(file_json, 0, MessageBodyByte[index], 12, file_json.Length);
 
-                    //read file data
-                    file_data = new byte[MessageBody_Length];
-                    file.Read(file_data, 0, (int)MessageBody_Length);
-                    //copy file data  from index = 312
-                    Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
+                    //copy file data
+                    Buffer.BlockCopy(file_data, MessageBody_Length_Max * index, MessageBodyByte[index], 12 + 300, MessageBody_Length);
 
                     // Check_sum
-                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+                    /*
+                     * ** FILE data
+                     */
+                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data.Skip( index * MessageBody_Length_Max).Take( MessageBody_Length ).ToArray(), true);
 
-                    Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
+                    Buffer.BlockCopy(md5, 0, MessageBodyByte[index], 12 + 300 + MessageBody_Length, md5.Length);
 
                     // end with 0xff 0xee
-                    MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
-                    MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
+                    MessageBodyByte[index][MessageBody_Length + 28 + 300] = 0xff;
+                    MessageBodyByte[index][MessageBody_Length + 29 + 300] = 0xee;
 
-                    // SendMessage(MessageBodyByte);
+                    Packet_num--;
+                    index++;
 
                 }
 
-                else
+                for(int i = 0; i < index; i++)
                 {
-
-                    double Packet_num = Math.Ceiling((double)file_length / (double)MessageBody_Length_Max);
-                    byte Packet_Num = (byte)Packet_num;
-                    byte index = 0;
-                    file_data = null;
-                    byte[] MessageBodyByte;
-                    while (Packet_num > 0)
-                    {
-                        if (Packet_num != 1)
-                            MessageBody_Length = MessageBody_Length_Max;
-                        else
-                            MessageBody_Length = (int)(file_length - MessageBody_Length_Max * index);
-
-                        MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
-                        // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
-                        byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
-                        Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
-
-                        // Packet Content Length [ 2 bytes ]
-                        // Context_Length = len(MessageBody) + 2
-                        byte Context_Length = (byte)(MessageBody_Length + 2);
-                        byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
-                        Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
-
-                        // Packet Type [ 1 byte ]
-                        MessageBodyByte[10] = Packet_type;
-
-                        // Packet ID [ 1 byte ]
-                        MessageBodyByte[11] = Device_id;
-
-                        byte[] file_json = new byte[300];
-                        file_index_json f_js = new file_index_json() { Name = file_name[i], Num = Packet_Num, Index = index };
-                        string f_js_str = JsonConvert.SerializeObject(f_js);
-                        byte[] f_js_bytes = System.Text.Encoding.Default.GetBytes(f_js_str);
-                        Buffer.BlockCopy(f_js_bytes, 0, file_json, 0, f_js_str.Length);
-
-                        //copy json data
-                        Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
-
-
-                        //read file
-                        file_data = new byte[MessageBody_Length];
-                        file.Read(file_data, 0, MessageBody_Length);
-                        //copy file data
-                        Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
-
-                        // Check_sum
-                        /*
-                         * ** FILE data
-                         */
-                        byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data.Skip(index * MessageBody_Length_Max).Take(MessageBody_Length).ToArray(), true);
-
-                        Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
-
-                        // end with 0xff 0xee
-                        MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
-                        MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
-
-
-                        Packet_num--;
-                        index++;
-
-                        // SendMessage(MessageBodyByte);
-
-                    }
-
+                    SendMessage(MessageBodyByte[i]);
                 }
-
-                file.Close();
 
             }
-
+            
         }
 
         /// <summary>
@@ -313,7 +282,7 @@ namespace Meerkats_Win.Class
             // Packet Content Length [ 2 bytes ]
             // Context_Length = len(MessageBody) + 2
             byte Context_Length = (byte)(MessageBody_Length + 2);
-            byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
+            byte[] length = { (byte)( Context_Length >> 8), (byte)(Context_Length & 0xff) };
             Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
 
             // Packet Type [ 1 byte ]
@@ -391,7 +360,7 @@ namespace Meerkats_Win.Class
             return file_name;
         }
 
-        private byte[] GetCheck_sum(byte Packet_type, byte Device_id, byte[] Msg, bool Send_Or_Recv)
+        private byte[] GetCheck_sum(byte Packet_type,byte Device_id,byte[] Msg, bool Send_Or_Recv)
         {
             // Md5 Checksum [16 bytes]
             // private_key = 'aaaaa'
@@ -402,7 +371,7 @@ namespace Meerkats_Win.Class
             {
                 index++;
             }
-
+            
             byte[] private_key = { 0x61, 0x61, 0x61, 0x61, 0x61 };
 
             // for Send part
@@ -414,11 +383,11 @@ namespace Meerkats_Win.Class
 
             Check_sum[0] = Packet_type;
 
-            if (Send_Or_Recv)
+            if(Send_Or_Recv)
             {
                 Check_sum[1] = Device_id;
             }
-
+            
             Buffer.BlockCopy(Msg, 0, Check_sum, index, Msg.Length);
             Buffer.BlockCopy(private_key, 0, Check_sum, Msg.Length + index, private_key.Length);
 
