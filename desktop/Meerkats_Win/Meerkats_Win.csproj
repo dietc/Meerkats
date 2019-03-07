@@ -69,6 +69,7 @@
     <Compile Include="Class\DirectoryTreeView.cs" />
     <Compile Include="Class\DirectoryTreeViewItem.cs" />
     <Compile Include="Class\FileInfo_cs.cs" />
+    <Compile Include="Class\File_json_info.cs" />
     <Compile Include="Class\ImagedTreeViewItem.cs" />
     <Compile Include="Class\JsonHeaderLogic.cs" />
     <Compile Include="Class\SocketTCPClient.cs" />
