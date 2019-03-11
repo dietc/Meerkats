@@ -149,6 +149,7 @@ namespace Meerkats_Win
 
         private void send_data_rev_data()
         {
+            SocketTCPClient t1 = new SocketTCPClient();
 
             string testdata = null;
             /**
@@ -169,28 +170,38 @@ namespace Meerkats_Win
              *  
             **/
             // for text md5 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            List<byte> file_md5 = new List<byte>();
-            for (int i = 0; i < 16; i++)
-                file_md5.Add(1);
+            
 
             // convert to json list
             // Typ = 0x1 => file
             // Typ = 0x2 => Directory
 
-            List<file_info_json> testdemo = new List<file_info_json>()
+            byte[] md11 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\1.txt"));
+            byte[] md22 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\2.txt"));
+
+            List<byte> file_1_md5 = new List<byte>();
+            for (int i = 0; i < 16; i++)
+                file_1_md5.Add(md11[i]);
+
+            List<byte> file_2_md5 = new List<byte>();
+            for (int i = 0; i < 16; i++)
+                file_1_md5.Add(md22[i]);
+
+
+            List <file_info_json> testdemo = new List<file_info_json>()
             {
                 new file_info_json()
                 {
                     Name = "1.txt",
                     Typ = 0x1,
-                    Digest = file_md5
+                    Digest = file_1_md5
                 },
 
                 new file_info_json()
                 {
                     Name = "2.txt",
                     Typ = 0x1,
-                    Digest = file_md5
+                    Digest = file_2_md5
                 }
 
             };
@@ -198,7 +209,6 @@ namespace Meerkats_Win
             // Json serialize
             testdata = JsonConvert.SerializeObject(testdemo);
 
-            SocketTCPClient t1 = new SocketTCPClient();
             t1.CreateInstance();
 
             //byte[] test = t1.HexStrTobyte(testdata);
@@ -207,13 +217,24 @@ namespace Meerkats_Win
             byte[] MessageBodyByte = new byte[test.Length + 30];
 
             MessageBodyByte = t1.BuildDataPackage_For_Pull(test, 0x2, Device_id);
+
+            
             t1.SendMessage(MessageBodyByte);
             byte[] result = t1.ReceiveMessage();
+
+            List<string> file_name = t1.Check_If_Upload(result);
+
+            
+
+            if (file_name.Count != 0)
+            {
+                fortest.Text = t1.Upload_File(file_name);
+            }
 
             // string result_str = System.Text.Encoding.Default.GetString(result);
             // fortest.Text = result_str;
 
-            fortest.Text = "success";
+            
 
 
 
