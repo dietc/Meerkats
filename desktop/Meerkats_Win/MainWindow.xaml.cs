@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static Meerkats_Win.File_json_info;
 
 namespace Meerkats_Win
 {
@@ -148,38 +149,92 @@ namespace Meerkats_Win
 
         private void send_data_rev_data()
         {
-            
+            SocketTCPClient t1 = new SocketTCPClient();
+
             string testdata = null;
             /**
-             * json file_info
+             * json file_info demo
              *
              *  [
              *      {
              *          "Name":"1.txt",
              *          "Typ":1,
-             *          "Digest":[1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+             *          "Digest":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
              *      },
              *      {
              *          "Name":"2.txt",
              *          "Typ":1,
-             *          "Digest":[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]
+             *          "Digest":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
              *      }
              *  ]
              *  
             **/
+            // for text md5 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            
 
-            testdata = "5b7b224e616d65223a22312e747874222c22547970223a312c22446967657374223a5b312c312c302c302c302c302c302c302c302c302c302c302c302c302c302c305d7d2c7b224e616d65223a22322e747874222c22547970223a312c22446967657374223a5b312c312c312c302c302c302c302c302c302c302c302c302c302c302c302c305d7d5d";
-            SocketTCPClient t1 = new SocketTCPClient();
+            // convert to json list
+            // Typ = 0x1 => file
+            // Typ = 0x2 => Directory
+
+            byte[] md11 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\1.txt"));
+            byte[] md22 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\2.txt"));
+
+            List<byte> file_1_md5 = new List<byte>();
+            for (int i = 0; i < 16; i++)
+                file_1_md5.Add(md11[i]);
+
+            List<byte> file_2_md5 = new List<byte>();
+            for (int i = 0; i < 16; i++)
+                file_1_md5.Add(md22[i]);
+
+
+            List <file_info_json> testdemo = new List<file_info_json>()
+            {
+                new file_info_json()
+                {
+                    Name = "1.txt",
+                    Typ = 0x1,
+                    Digest = file_1_md5
+                },
+
+                new file_info_json()
+                {
+                    Name = "2.txt",
+                    Typ = 0x1,
+                    Digest = file_2_md5
+                }
+
+            };
+
+            // Json serialize
+            testdata = JsonConvert.SerializeObject(testdemo);
+
             t1.CreateInstance();
-            byte[] test = t1.HexStrTobyte(testdata);
-            byte[] MessageBodyByte = new byte[testdata.Length + 30];
+
+            //byte[] test = t1.HexStrTobyte(testdata);
+
+            byte[] test = System.Text.Encoding.Default.GetBytes(testdata);
+            byte[] MessageBodyByte = new byte[test.Length + 30];
 
             MessageBodyByte = t1.BuildDataPackage_For_Pull(test, 0x2, Device_id);
+
+            
             t1.SendMessage(MessageBodyByte);
             byte[] result = t1.ReceiveMessage();
+
+            List<string> file_name = t1.Check_If_Upload(result);
+
+            
+
+            if (file_name.Count != 0)
+            {
+                fortest.Text = t1.Upload_File(file_name);
+            }
+
             // string result_str = System.Text.Encoding.Default.GetString(result);
             // fortest.Text = result_str;
-            fortest.Text = "success";
+
+            
 
 
 
