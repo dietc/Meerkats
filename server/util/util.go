@@ -20,11 +20,11 @@ func Digest(data []byte) [16]byte{
 func CheckMd5(rmd5 []byte, data []byte, key []byte) (ret bool) {
 	var cmd5 [16]byte
 	cmd5 = md5.Sum(append(data, key...))
-    ret = compare(rmd5, cmd5[:])
+    ret = Compare(rmd5, cmd5[:])
 	return
 }
 
-func compare(d1 []byte, d2 []byte) (ret bool) {
+func Compare(d1 []byte, d2 []byte) (ret bool) {
     ret = true
     if len(d1) != len(d2) {
         ret = false
