@@ -113,13 +113,19 @@ func handlePacket(c net.Conn, packet []byte) {
         //pull packet
         send(c, enPacket(s.ProcessLocalListPacket(packet[2:], packet[1]), 0x02))
         case 0x20:
+        //client upload file
         var flag bool 
         flag = s.ProcessFileAssembly(packet[2:], packet[1])
         if flag {
             send(c, enPacket([]byte("ok"), 0x20))
         }
-        //upload packet
-        
+        case 0x21:        
+        //client download
+        var files [][]byte = s.ProcessFileDownload(packet[1])
+        for _,part := range files{
+            log.Println(len(part))
+            send(c, enPacket(part, 0x21))
+        }
     }
 }
 
@@ -140,7 +146,7 @@ func enPacket(data []byte, typ byte) []byte{
      //packet type 
      res[10] = typ
      copy(res[11:], data)
-     var checksum [16]byte = util.Md5(res[10:(10+cl)], []byte("aaaaa"))
+     var checksum [16]byte = util.Md5(res[10:10+uint32(cl)], []byte("aaaaa"))
      for i:=0;i<16;i++ {
          res[tl-18+i] = checksum[i]
      }

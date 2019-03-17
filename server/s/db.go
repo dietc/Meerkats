@@ -11,7 +11,7 @@ import(
 
 const ROOT string = "serverdb"
 
-const ENV string = "testing"
+const ENV string = "notesting"
 
 var db *bolt.DB
 
@@ -37,6 +37,8 @@ func StartDB(){
         bucket([]byte("pre"), tx)
 		//bucket:files
 		bucket([]byte("files"), tx)
+        //bucket:mapping
+        bucket([]byte("mapping"), tx)
 		return nil
 	}); err != nil {
 		log.Fatal(err)
@@ -52,9 +54,8 @@ func bucket(key []byte, tx *bolt.Tx) *bolt.Bucket {
 	return b
 }
 	
-func InitializeSpace() Space{
-    var space Space
-    space = make(Space)
+func GetSpace() map[string]int64{
+    var space map[string]int64 = make(map[string]int64)
     if err := db.View(func(tx *bolt.Tx) error{
         b := tx.Bucket([]byte("space"))
         c := b.Cursor()
@@ -116,6 +117,11 @@ func IndexFile(name string, dir string, digest [16]byte, index int64, device byt
         var fi FileInfo= FileInfo{name, digest, dir}
         fib, _ := json.Marshal(fi)
         b3.Put([]byte(strconv.FormatInt(index,10)), fib)
+        
+        if !util.Compare(digest[:], []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}) {
+            b4 := bucket([]byte("mapping"), tx)
+            b4.Put(digest[:], []byte(strconv.FormatInt(index,10)))
+        }        
         return nil
     }); err != nil {
 		log.Fatal(err)
@@ -128,6 +134,7 @@ func SupplementDigest(index int64, dir string) {
     }
     if err := db.Update(func(tx *bolt.Tx) error{
         b3 := bucket([]byte("files"), tx)
+        b4 := bucket([]byte("mapping"), tx)
         var fi FileInfo= FileInfo{}
         if tmp := b3.Get([]byte(strconv.FormatInt(index,10))); len(tmp) != 0 {
             json.Unmarshal(tmp, &fi)            
@@ -139,6 +146,7 @@ func SupplementDigest(index int64, dir string) {
         fi.Digest = util.Digest(buffer)
         fib, _ := json.Marshal(fi)
         b3.Put([]byte(strconv.FormatInt(index,10)), fib)
+        b4.Put(fi.Digest[:], []byte(strconv.FormatInt(index,10)))
         return nil
     }); err != nil {
 		log.Fatal(err)
