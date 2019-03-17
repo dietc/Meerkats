@@ -123,8 +123,8 @@ func handlePacket(c net.Conn, packet []byte) {
         //client download
         var files [][]byte = s.ProcessFileDownload(packet[1])
         for _,part := range files{
-            log.Println(len(part))
-            send(c, enPacket(part, 0x21))
+           //log.Println(len(part))
+           send(c, enPacket(part, 0x21))
         }
     }
 }
