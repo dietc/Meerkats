@@ -60,3 +60,14 @@ func (s *Set) List() []string {
   }
   return list
 }
+
+func (s *Set) GetFirst() string{
+    s.RLock()
+    defer s.RUnlock()
+    if len(s.m) > 0 {
+        for item := range s.m{
+            return item
+        } 
+    }
+    return ""
+}
