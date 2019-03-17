@@ -347,7 +347,7 @@ func divideFile(data []byte, name string) [][]byte{
         res = append(res, tmp)
     } else {
     //multiple packets
-        var src []byte = data[:65234]
+        var src []byte
         length = len(data[65234:])
         var num int = length/65534
         var re  int = length%65534
@@ -361,6 +361,7 @@ func divideFile(data []byte, name string) [][]byte{
         var stuff []byte = make([]byte, 300-len(tmp))
         src = append(src, tmp...)
         src = append(src, stuff...)
+        src = append(src, data[:65234]...)
         res = append(res, src)
         for i:=0;i<num;i++ {
             if i == num -1 {
