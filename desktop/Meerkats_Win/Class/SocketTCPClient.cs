@@ -66,7 +66,32 @@ namespace Meerkats_Win.Class
 
             byte[] recvBytes = new byte[Tcp_body_length];
 
-            socketClient.Receive(recvBytes, 0, Tcp_body_length, 0);
+            // receive file data
+            int index = 0;
+            // set Buffer size = 1024
+            int Buffer_Length_Max = 1024;
+
+            while (true)
+            {
+                if (Tcp_body_length > Buffer_Length_Max)
+                {
+                    socketClient.Receive(recvBytes, index * Buffer_Length_Max, Buffer_Length_Max, 0);
+                    Tcp_body_length -= Buffer_Length_Max;
+                }
+
+                else
+                {
+                    socketClient.Receive(recvBytes, index * Buffer_Length_Max, Tcp_body_length, 0);
+                    break;
+                }
+
+                index++;
+
+                // wair for 1ms 
+                // .Net have the speed limit
+                // control received speed in order not to loss packet
+                System.Threading.Thread.Sleep(1);
+            }
 
             byte[] md5 = new byte[16];
             socketClient.Receive(md5, 0, 16, 0);
@@ -89,9 +114,12 @@ namespace Meerkats_Win.Class
         }
 
 
-        public byte[] ReceiveMessage_For_download(int Round_num, out int Packet_Num,out string File_Name)
+        public string ReceiveMessage_For_download()
         {
             byte[] recvBytes;
+
+            byte Packet_Num;
+            string File_Name;
 
             // 8 + 2
             int Tcp_header_length = 10;
@@ -105,33 +133,27 @@ namespace Meerkats_Win.Class
             // Context Length
             byte[] Packet_type = new byte[1];
             int File_data_Length;
-            if (Round_num == 0)
-            {
-                byte[] file_json = new byte[300];
-                // 65234
-                File_data_Length = Tcp_body_length - 300 - 1;
-                recvBytes = new byte[File_data_Length];
-                socketClient.Receive(Packet_type, 0, 1, 0);
-                socketClient.Receive(file_json, 0, 300, 0);
+            
+            byte[] file_json = new byte[300];
+            // 65234
+            File_data_Length = Tcp_body_length - 300 - 1;
+            recvBytes = new byte[File_data_Length];
+            socketClient.Receive(Packet_type, 0, 1, 0);
+            socketClient.Receive(file_json, 0, 300, 0);
 
-                // get Packet Num
-                int End_file_json_flag = Array.IndexOf(file_json, (byte)0x00);
-                byte[] File_json = new byte[End_file_json_flag];
-                Buffer.BlockCopy(file_json, 0, File_json, 0, End_file_json_flag);
-                file_index_json F_json = JsonConvert.DeserializeObject<file_index_json>(System.Text.Encoding.Default.GetString(File_json));
-                // return File_Name + Packet_Num
-                File_Name = F_json.Name;
-                Packet_Num = F_json.Num;
-            }
-            else
-            {
-                socketClient.Receive(Packet_type, 0, 1, 0);
-                File_data_Length = Tcp_body_length - 1;
-                recvBytes = new byte[File_data_Length];
-                // if Round_num !=0 , ignore it
-                File_Name = null;
-                Packet_Num = 0 ;
-            }
+            // get Packet Num
+            int End_file_json_flag = Array.IndexOf(file_json, (byte)0x00);
+            byte[] File_json = new byte[End_file_json_flag];
+            Buffer.BlockCopy(file_json, 0, File_json, 0, End_file_json_flag);
+            file_index_json F_json = JsonConvert.DeserializeObject<file_index_json>(System.Text.Encoding.Default.GetString(File_json));
+            // return File_Name + Packet_Num
+            File_Name = F_json.Name;
+            Packet_Num = F_json.Num;
+
+            //create file or find file
+            string filePath = PATH + File_Name;
+            FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            
 
             // receive file data
             int index = 0;
@@ -170,7 +192,33 @@ namespace Meerkats_Win.Class
             if (End_flag[0] == 0xff && End_flag[1] == 0xee)
             {
                 // socketClient.Close();
-                return (recvBytes);
+
+                fs.Write(recvBytes, 0, recvBytes.Length);
+                fs.Position = fs.Length;
+                if (Packet_Num == 1)
+                {
+                    fs.Flush();
+                    fs.Close();
+                    return File_Name + ": download successfully";
+                }
+
+                else
+                {
+                    while(Packet_Num > 1)
+                    {
+                        byte[] file_data = UnpackData(ReceiveMessage());
+                        fs.Write(file_data, 0, file_data.Length);
+                        fs.Position = fs.Length;
+
+                        Packet_Num--;
+                    }
+
+                    fs.Flush();
+                    fs.Close();
+                    return File_Name + ": download successfully";
+
+                }
+             
             }
 
             else
@@ -390,10 +438,8 @@ namespace Meerkats_Win.Class
                         return "failed upload" + file_name[i];
                     }
 
-
                 }
-
-                
+       
             }
             // socketClient.Close();
             return "success upload";
@@ -453,12 +499,15 @@ namespace Meerkats_Win.Class
 
         public byte[] UnpackData(byte[] recvMsg)
         {
-            if (recvMsg.Length != 0)
+            if (recvMsg != null)
             {
+                // get type
+                byte Packet_type = recvMsg[0];
                 int Tcp_body_length = recvMsg.Length;
-                int Context_Length = Tcp_body_length - 1;
-                int Packet_type = recvMsg[0];
+                int Context_Length;
 
+                Context_Length = Tcp_body_length - 1;
+                
                 byte[] Msg = new byte[Context_Length];
                 Buffer.BlockCopy(recvMsg, 1, Msg, 0, Context_Length);
                 return (Msg);

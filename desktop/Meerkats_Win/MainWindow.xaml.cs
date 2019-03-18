@@ -241,54 +241,8 @@ namespace Meerkats_Win
             MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
             t1.SendMessage(MessageBodyByte_for_download);
 
-            int[] Packet_Num = new int[2];
-            int temp_Num = 0;
-            string[] File_Name = new string[2];
-            string Temp_Name = null;
-            
-            byte[] result_download_01 = t1.ReceiveMessage_For_download(0, out Packet_Num[0], out File_Name[0]);
-            byte[] result_download_02 = t1.ReceiveMessage_For_download(1, out temp_Num,out Temp_Name);
-            byte[] result_download_03 = t1.ReceiveMessage_For_download(2, out temp_Num, out Temp_Name);
-            byte[] result_download_04 = t1.ReceiveMessage_For_download(3, out temp_Num, out Temp_Name);
-            byte[] result_download_05 = t1.ReceiveMessage_For_download(4, out temp_Num, out Temp_Name);
-            byte[] result_download_06 = t1.ReceiveMessage_For_download(5, out temp_Num, out Temp_Name);
-            byte[] result_download_07 = t1.ReceiveMessage_For_download(6, out temp_Num, out Temp_Name);
-            byte[] result_download_08 = t1.ReceiveMessage_For_download(7, out temp_Num, out Temp_Name);
-            byte[] result_download_09 = t1.ReceiveMessage_For_download(8, out temp_Num, out Temp_Name);
-            byte[] result_download_10 = t1.ReceiveMessage_For_download(9, out temp_Num, out Temp_Name);
-
-            string filePath = "F:\\fortest" + "\\" + File_Name[0];
-            FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-            fs.Write(result_download_01, 0, result_download_01.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_02, 0, result_download_02.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_03, 0, result_download_03.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_04, 0, result_download_04.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_05, 0, result_download_05.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_06, 0, result_download_06.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_07, 0, result_download_07.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_08, 0, result_download_08.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_09, 0, result_download_09.Length);
-            fs.Position = fs.Length;
-            fs.Write(result_download_10, 0, result_download_10.Length);
-            fs.Position = fs.Length;
-
-            //清空缓冲区、关闭流
-            fs.Flush();
-            fs.Close();
-
-
-            byte[] result_download_11 = t1.ReceiveMessage_For_download(0, out Packet_Num[1], out File_Name[1]);
-
-            string result_str = System.Text.Encoding.Default.GetString(result_download_11);
-            int a = 0;
+            string str_status_1 = t1.ReceiveMessage_For_download();
+            string str_status_2 = t1.ReceiveMessage_For_download();
 
         }
 
