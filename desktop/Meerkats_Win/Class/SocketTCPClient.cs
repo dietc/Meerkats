@@ -62,7 +62,7 @@ namespace Meerkats_Win.Class
             byte[] Tcp_header = new byte[Tcp_header_length];
 
             socketClient.Receive(Tcp_header, 0, Tcp_header_length, 0);
-            Tcp_body_length = (Tcp_header[8] * 0xff) + (Tcp_header[9]);
+            Tcp_body_length = (Tcp_header[8] << 8) + (Tcp_header[9]);
 
             byte[] recvBytes = new byte[Tcp_body_length];
 
@@ -87,6 +87,99 @@ namespace Meerkats_Win.Class
             }
 
         }
+
+
+        public byte[] ReceiveMessage_For_download(int Round_num, out int Packet_Num,out string File_Name)
+        {
+            byte[] recvBytes;
+
+            // 8 + 2
+            int Tcp_header_length = 10;
+            int Tcp_body_length = 0;
+
+            byte[] Tcp_header = new byte[Tcp_header_length];
+
+            socketClient.Receive(Tcp_header, 0, Tcp_header_length, 0);
+            Tcp_body_length = (Tcp_header[8] << 8) + (Tcp_header[9]);
+
+            // Context Length
+            byte[] Packet_type = new byte[1];
+            int File_data_Length;
+            if (Round_num == 0)
+            {
+                byte[] file_json = new byte[300];
+                // 65234
+                File_data_Length = Tcp_body_length - 300 - 1;
+                recvBytes = new byte[File_data_Length];
+                socketClient.Receive(Packet_type, 0, 1, 0);
+                socketClient.Receive(file_json, 0, 300, 0);
+
+                // get Packet Num
+                int End_file_json_flag = Array.IndexOf(file_json, (byte)0x00);
+                byte[] File_json = new byte[End_file_json_flag];
+                Buffer.BlockCopy(file_json, 0, File_json, 0, End_file_json_flag);
+                file_index_json F_json = JsonConvert.DeserializeObject<file_index_json>(System.Text.Encoding.Default.GetString(File_json));
+                // return File_Name + Packet_Num
+                File_Name = F_json.Name;
+                Packet_Num = F_json.Num;
+            }
+            else
+            {
+                socketClient.Receive(Packet_type, 0, 1, 0);
+                File_data_Length = Tcp_body_length - 1;
+                recvBytes = new byte[File_data_Length];
+                // if Round_num !=0 , ignore it
+                File_Name = null;
+                Packet_Num = 0 ;
+            }
+
+            // receive file data
+            int index = 0;
+            // set Buffer size = 1024
+            int Buffer_Length_Max = 1024;
+            
+            while (true)
+            {
+                if (File_data_Length > Buffer_Length_Max)
+                {
+                    socketClient.Receive(recvBytes, index * Buffer_Length_Max, Buffer_Length_Max, 0);
+                    File_data_Length -= Buffer_Length_Max;
+                }
+
+                else
+                {
+                    socketClient.Receive(recvBytes, index * Buffer_Length_Max, File_data_Length, 0);
+                    break;
+                }
+
+                index++;
+
+                // wair for 1ms 
+                // .Net have the speed limit
+                // control received speed in order not to loss packet
+                System.Threading.Thread.Sleep(1);  
+            }
+                
+
+            byte[] md5 = new byte[16];
+            socketClient.Receive(md5, 0, 16, 0);
+
+            byte[] End_flag = new byte[2];
+            socketClient.Receive(End_flag, 0, 2, 0);
+            // check End_flag
+            if (End_flag[0] == 0xff && End_flag[1] == 0xee)
+            {
+                // socketClient.Close();
+                return (recvBytes);
+            }
+
+            else
+            {
+                // socketClient.Close();
+                return null;
+            }
+        }
+
         ///<summary>
         ///Send Msg
         ///</summary>
@@ -199,15 +292,15 @@ namespace Meerkats_Win.Class
                     // result == "ok"
                     if(res_flag[0] == 0x6f && res_flag[1] == 0x6b)
                     {
+                        file.Close();
                         continue;
                     }
 
                     else
                     {
+                        file.Close();
                         return "failed upload" + file_name[i];
                     }
-                    
-
 
                 }
 
@@ -284,7 +377,7 @@ namespace Meerkats_Win.Class
 
                     }
 
-                    
+                    file.Close();
 
                     byte[] res_flag = ReceiveMessage();
                     if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
@@ -297,15 +390,16 @@ namespace Meerkats_Win.Class
                         return "failed upload" + file_name[i];
                     }
 
+
                 }
 
-                file.Close();
                 
             }
-
+            // socketClient.Close();
             return "success upload";
 
         }
+
 
         /// <summary>
         /// BuildDataPackage
@@ -318,6 +412,10 @@ namespace Meerkats_Win.Class
         {
             // MessageBody Length
             int MessageBody_Length = 0;
+
+            if (MessageBody == null)
+                MessageBody_Length = 0;
+            else
             MessageBody_Length = MessageBody.Length;
 
             // 8 + 2 + 1 + 1 + len(MessageBody) + 16 +2
@@ -340,12 +438,13 @@ namespace Meerkats_Win.Class
             MessageBodyByte[11] = Device_id;
 
             // Packet Content [ len(data) bytes ]
-            Buffer.BlockCopy(MessageBody, 0, MessageBodyByte, 12, MessageBody_Length);
+            if(MessageBody_Length != 0)
+                Buffer.BlockCopy(MessageBody, 0, MessageBodyByte, 12, MessageBody_Length);
 
             // Check_sum
             byte[] md5 = GetCheck_sum(Packet_type, Device_id, MessageBody, true);
 
-            Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + MessageBody.Length, md5.Length);
+            Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + MessageBody_Length, md5.Length);
             // end with 0xff 0xee
             MessageBodyByte[MessageBody_Length + 28] = 0xff;
             MessageBodyByte[MessageBody_Length + 29] = 0xee;
@@ -417,15 +516,18 @@ namespace Meerkats_Win.Class
             {
                 index++;
             }
-
+            int Msg_length;
             byte[] private_key = { 0x61, 0x61, 0x61, 0x61, 0x61 };
-
+            if (Msg == null)
+                Msg_length = 0;
+            else
+                Msg_length = Msg.Length;
             // for Send part
             // Check_sum = { type + id + Msg + private_key}
 
             // for Recv part
             // Check_sum = { type + Msg + private_key}
-            byte[] Check_sum = new byte[index + Msg.Length + private_key.Length];
+            byte[] Check_sum = new byte[index + Msg_length + private_key.Length];
 
             Check_sum[0] = Packet_type;
 
@@ -433,9 +535,10 @@ namespace Meerkats_Win.Class
             {
                 Check_sum[1] = Device_id;
             }
+            if(Msg != null)
+                Buffer.BlockCopy(Msg, 0, Check_sum, index, Msg_length);
 
-            Buffer.BlockCopy(Msg, 0, Check_sum, index, Msg.Length);
-            Buffer.BlockCopy(private_key, 0, Check_sum, Msg.Length + index, private_key.Length);
+            Buffer.BlockCopy(private_key, 0, Check_sum, Msg_length + index, private_key.Length);
 
             byte[] md5 = new byte[16];
             md5 = HexStrTobyte(GetMD5Hash(Check_sum));
