@@ -1,6 +1,9 @@
 \documentclass{article}
 
 \usepackage{array}
+\usepackage[rightcaption]{sidecap}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
 
 \title{Meerkats File Synchronizer - Final Report}
 \author{Made in GB}
@@ -18,51 +21,56 @@ Digital age and user mobility have made data availability crucial not only for i
 
 \newline
 \hfill \break
-In this project, we are embarked on a new journey where we develop file synchronization software to provide secure and seamless synchronization solution to enable data management processes such as file creation, deletion, modification, distribution,redundancy and availability.
+In this project, we are embarked on a new journey where we develop file synchronization software to provide secure and seamless synchronization solution to enable data management processes such as file creation, deletion, modification, distribution, redundancy and availability.
 
-Our solution targets different kind of users and can be used in different sectors of business world such as health organizations, educational entities, financial companies and much more. Company’s employees for instance, who work at separate locations can use it to access and distribute files. Individuals can utilize it to upload their holiday photos for example and to view them from their different devices (windows desktop and mobile).
+Our solution targets different kind of users and can be used in different sectors of the business world such as health organizations, educational entities, financial companies and much more. Company’s employees for instance, who work at separate locations can use it to access and distribute files. Individuals can utilize it to upload their holiday photos, for example, and to view them from their different devices (windows desktop and mobile).
 
-It also, can be run on Windows desktops and Android mobile devices at the same time. We have chosen to name our software Meerkats, because the meerkats are one of the most collaborative animals in the world, and one of the main features for our software is collaboration. ADD PICTURE OF LOGO HERE MAYBE?
+It also, can be run on Windows desktops and Android mobile devices at the same time. We have chosen to name our software Meerkats, because the meerkats are one of the most collaborative animals in the world, and one of the main features for our software is collaboration.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\textwidth]{logo}
+    \caption{Meerkats Logo}
+    \label{fig:logo1}
+\end{figure}
 
 In this report, we provide complete information about the file synchronization software project. Detailing information about how we worked together as a team to develop our product, the strategies we used to ensure the delivery of reliable and efficient solution as well as information about the features and the configuration of the software itself I addition to our future plan.
 
 
 \section{Review}
-Describe and cite related work.
-
-File synchronization softwares are popular and the most famous ones are GoogleDrive, Box, One Drive, Sync and DropBox. We have reviewed those solutions and found them to provide the same basic features as all allow users to access and share data in addition to file synchronization service. Choosing the right synchronization software really depends on the user’s needs, as each solution has its pros and cons. We have focused on the file synchronization feature in each solution to understand how it works and its limitations.
+File synchronization softwares are popular and the most famous ones are Dropbox, GoogleDrive, One Drive and Box. We have reviewed these popular solutions. We found them all to provide the same basic features, as they allow users to access, share and synchronie data. Choosing the right synchronization software really depends on the user’s needs and expectations, as each solution has its advantages and disadvantages. We have focused on the file synchronization feature in each solution to understand how it works.
 
 \subsection{GoogleDrive}
-
-\textbf{Storage and Cost}
-Signing up for GoogleDrive provide users with 15 GB for free and it can be increased up to 1TB for only 10 dollars a month. Google Drive lets users automatically copy files onto their different devices.
+\textbf{Storage and Cost:}
+Signing up for GoogleDrive provide users with 15GB of storage space for free. It can be increased up to 1TB for 10 USD a month. Google Drive lets users automatically copy files onto their different devices.
 
 \newline
-\hfill \break
-\textbf{File Synchronization}
-The solution is compatible with Windows, Mac, Android, iOS and it implements a sync folder mechanism, adding a “Google Drive” folder to the user’s file-system when they install the desktop client (the client is called “Backup & Sync”). Any folder users drop in it gets sent off to the cloud, then onto other devices. The disadvantage of this process that it requires that files be stored both on the users’ hard drive and in the cloud to work, which is not useful if users want to free up their disk space. To address this concern, Google has introduced a new feature to allow users select specific folders to help in free up hard drive space. Users need to click on “preferences” button to open a window that will let them turn sync off for specific folders,(see figure1)
+\hfill \break %keep this break
+\textbf{File Synchronization:}
+The solution is compatible with Windows, Mac, Android, iOS and it implements a sync folder mechanism, adding a “Google Drive” folder to the user's file-system when they install the desktop client (the client is called “Backup & Sync”). Any folder users drop in it gets sent off to the cloud, then onto other devices. The disadvantage of this process that it requires that files be stored both on the users’ hard drive and in the cloud to work, which is not useful if users want to free up their disk space. To address this concern, Google has introduced a new feature to allow users select specific folders to help in free up hard drive space. Users need to click on “preferences” button to open a window that will let them turn sync off for specific folders,(see figure1)
 One point to mention about GoogleDrive is that it uploads and downloads the entire file all over again when a change is made, which takes time, but it is worth mentioning that google has multiple data centers around the world, which decreases both users computer’s distance to the cloud and server congestion at the same time. (See https://www.cloudwards.net/dropbox-vs-google-drive/#two)
 
 figure1
 
 \subsection{DropBox}
-\textbf{Storage and Cost}
-Users who sign up to DropBox get 2GB of storage for free. This limited space is considered as a disadvantage of using DropBox, as users who want to get extra disk space such, as 100GB, need to join paid subscription for 10 dollars a month.
+\textbf{Storage and Cost:}
+Users who sign up to DropBox get 2GB of storage for free. This limited space is considered as a disadvantage of using DropBox, as users who want to get extra disk space, such as 100GB, need to get a paid subscription for 10 USD a month.
 
 \newline
 \hfill \break
-\textbf{File Synchronization}
+\textbf{File Synchronization:}
 DropBox can be installed on Windows, Mac, Linux, Android, iOS, Windows Phone, BlackBerry, Kindle Fire.As with GoogleDrive, DropBox uses a sync folder with a new feature called block-level sync.This feature allows users to manage selective files stored in the sync folder from the “preferences” tool accessible via the DropBox taskbar icon (on PC), (see figure2). This is very important functionality as it helps users to save their disk space and to better utilize it to store important documents that they want to access it and share it from anywhere.(See https://www.cloudwards.net/dropbox-vs-google-drive/#two)
 
 \newline
 \hfill \break
 
-figure2
+INSERT figure2 HERE?
 
 \newline
-\hfill \break
-\textbf{Box Cost and Storage}
-Box for individual offers free storage up to 10GB. Users can opt for more flexibility and storage space up to 100GB, which requires 10 dollars per month.
+
+\subsection{Box}
+\textbf{Cost and Storage}
+Box for personal use offers free storage up to 10GB. Users can opt for more flexibility and storage space up to 100GB, which requires 10 USD per month.
 
 \newline
 \hfill \break
@@ -73,9 +81,6 @@ Box applies the same file synchronization method invented by DropBox. Adding fil
 \newline
 \hfill \break
 \subsection{OneDrive}
-
-\newline
-\hfill \break
 \textbf{Cost and Storage}
 OneDrive is a Microsoft product and it offers up to 5GB free storage space. Users can pay 2 dollars a month to increase the storage size to 50GB. The solution is a great productivity tool since it is integrated with many other Microsoft products, such as Office Online, Skype, Outlook and the Office 365 suite for desktop.
 
@@ -94,7 +99,20 @@ The solution is compatible with Google docs and with some of office tools, which
 
 Project’s requirements have been supplied by the project’s supervisor (Dr. Laurance) for which the team has precisely aligned the software design, project timeline and allocated resources to meet the expectations.
 
+\subsection{Project Deliverables}
+By completing this project, the following deliverables are achieved.
+\begin{enumerate}
+  \item \textbf{File Storage Server} This component is used to store files and deal with requests received from users.
+  \item \textbf{Mobile Client} It is an Android solution. Users can use the app on the go and will enjoy features such as Sign Up, Log In, View Files, Upload Files, Rename Files, Delete Files, etc.
+  \item \textbf{Desktop GUI Client} The desktop GUI client is based on the Windows OS and it includes the same features as the mobile client.
+  \item \textbf{Meerkats File Synchronizer Report} This report provides detailed information about the project in terms of team members, project plan, deliverables, timeline, technologies used, challenges and much more. It acts as a central reference for users who are interested in the software.
+  \item \textbf{Meerkats File Synchronizer Presentation} The team will put together slides to present the work done. The team will demonstrate the solution and its layout, features and will walk the audience through the function- alities supplied by the software.
+\end{enumerate}
+
+
 \subsection{Business Requirements}
+POSSIBLY MERGE THIS WITH DELIVERABLES
+ADD SOME SORT OF INTRO HERE
 \begin{enumerate}
   \item Develop File Synchronization Software
   Description:  File synchronization software is used to store copies of files to another device or to the cloud. The files are typically available to be accessed via a Web-based portal. Some examples of file sync software include Box and Dropbox.
@@ -105,21 +123,27 @@ Project’s requirements have been supplied by the project’s supervisor (Dr. L
 \end{enumerate}
 
 
-\textbf{Project plan}
+\subsection{Project plan}
 
-ADD TIMELINE HERE and talk about it. Also talk about the WATERFALL model.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{timeline}
+    \caption{Timeline}
+    \label{fig:timeline1}
+\end{figure}
 
-\textbf{Design Model}
+TALK ABOUT TIMELINE. Also talk about the WATERFALL model.
+
+\subsection{Design Model}
 The team has decided to follow the strategy of capitalizing on existing experiences and skills to save time and to deliver efficient solution.Some of the team members had the opportunity to develop android applications and others had the chance to build windows applications. Therefore, it was wise to go with those platforms since the expertise exists in the group in addition; those systems are reliable and widely used by users.
 
 The following flow charts show the general design of the solution as well as detailed design for the Android and Windows clients.
 
-Design Flow Chart
-To be Added
+Design Flow Chart TO BE ADDED
 
 \textbf{Security Design}
 
-To be added
+TO BE ADDED
 
 \section{Implementation}
 Describe the most significant implementation details, focussing on those where unusual or detailed solutions were required. Quote code fragments where necessary, but remember that the examiners have full access to your source code. Explain how you tested your software (e.g. unit testing) and the extent to which you tested it. If relevant to your project, explain performance issues and how you tackled them.
@@ -129,7 +153,7 @@ The team has spent great deal of time searching and deciding on the best approac
 \subsection{Development Guiding Principles}
 
 \begin{itemize}
-  \item Simplicity
+  \item Simplicity (Say something about each item maybe??)
   \item Previous experience
   \item Efficiency
   \item Speed of execution
@@ -139,24 +163,22 @@ The team has spent great deal of time searching and deciding on the best approac
 \newline
 \hfill \break
 \textbf{Programming languages}
-The group decided for building the server to use Golang knows also as Go. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software.
-Java was used to build the android mobile application while C# was selected to build windows desktop application. CAN PROBABLY ADD MORE WORDS HERE LATER.
+The group decided to use Golang, also known as Go, for building the server. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software.
+Java was used to build the android mobile application while C# was selected to build the Windows desktop application. CAN PROBABLY ADD MORE WORDS HERE LATER.
 
 \newline
 \hfill \break
 \textbf{Data Storage and Transmissions Method}
-Serialization was used to enable data transmission between the devices. In computer science, in the context of data storage and transmission, serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be "resurrected" later in the same or another computer environment. (wikibedia)
+Serialization was used to enable data transmission between the devices. In computer science, in the context of data storage and transmission, serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be "resurrected" later in the same or another computer environment. (wikibedia) MAYBE CHANGE THE WORDING
 
 \newline
 \hfill \break
 \textbf{Communication Protocol}
-The software is running over TCP protocol through xxxx(???) port. The team originally have thought of two protocols that are TCP and HTTP. The decision was made to use TCP, due to its simple structure and easy to follow and implement rules
+The software is running over the TCP protocol through the xxxx(???) port. The team originally have thought of two protocols that are TCP and HTTP. We decided to use TCP due to its simple structure and easy to follow and implement rules
 
 
 \section{Team work}
-Describe how you worked together, including the tools and processes you used to facilitate group work.
-
-Our team strongly believes on the principle "The whole is greater than the sum of its parts". The team consists of six students, and throughout the project lifecycle, we tried to tap into each individuals strength, and challenge each other to gain new knowledge. We aimed to make this expedience as enjoyable yet beneficial as possible.
+Our team strongly believes on the principle "The whole is greater than the sum of its parts". The team consists of six students, and throughout the project lifecycle, we tried to tap into each individuals strength, and challenge each other to gain new knowledge. We aimed to make this expedience as enjoyable, yet beneficial, as possible.
 
 \subsection{Effective Communication}
 When we first got together, we discussed the importance of setting communication ground rules. We all come from different backgrounds and are used to different cultures. For that purpose, we developed "Communication Ground Rules", of which the team agreed to fully abide by those rules. The rules aimed to reduce the possibility of misunderstanding, conflicts and to ensure commitment and respect among the team.
@@ -180,43 +202,31 @@ Here are the group’s communication ground rules:
 Furthermore, the team depended on Google Docs to share links and important updates, and GIT to store project documentations. We also utilized technology such as Slack to facilitate instant conversation and to share information about the project, which has significantly saved everyone’s time.
 
 \newline
-\hfill \break
 \subsection{Conflict Management}
-The team members were inspired to provide friendly project environment that enabled everyone to put the best efforts as they can, as well as to build resilient team that responded to challenges, unforeseen events and different circumstances in timely manner and with the ability to continue meeting the planned dates and delivering quality outcomes.
+The team members were inspired to provide a friendly project environment that enabled everyone to put in their best efforts. We aimed to build a resilient team that responded to challenges, unforeseen events and different circumstances in a timely manner.
 
-One way to avoid conflict was to use consensus for important decisions and issues. For less important issues, we relied on the subject matter expert with input from others.
+One way to avoid conflict was to use consensus for important decisions and issues. For less important issues, we relied on the subject matter expert with input from others. This approach worked well throughout the entire project.
+
 \newline
-\hfill \break
-
+\hfill \break %dont remove this line for some reason
 The team also considered this group project as an opprotuenty to build the following types of skills:
 
-\newline
-\hfill \break
-\textbf{Communication Skills:}
-Good communication skills are the most basic skills that one can possess as an employee or student. We aim to improve the team members ability to communicate effectively with each others and to convey information in a simple and unambiguous way.
 
-\newline
-\hfill \break
-\textbf{Practice Diversity:}
-The team consists of 6 members who come from different countries, speak different languages and have different backgrounds. We aim to learn how to recognize individual differences and understand how cultural differences can impact how people work, and interact.
-
-\newline
-\hfill \break
-\textbf{Project Management Skills:}
-Take this project as an opportunity to build project management skills that are essential to successfully complete a project that includes but not limited to planning, leadership, communication, and risk management.
-
-\newline
-\hfill \break
-\textbf{Teamwork Skills:}
-Teamwork is important for the success of this project. We aim to build teamwork skills, which are essentials at work after graduation. Each member will learn how to be a good team player by demonstrating skills such as negotiation, communication, problem solving and prioritization.
-
+\begin{itemize}
+\item \textbf{Communication Skills:} Good communication skills are the most basic skills that one can possess as an employee or student. We aim to improve the team members ability to communicate effectively with each others and to convey information in a simple and unambiguous way.
+\item \textbf{Practice Diversity:} The team consists of 6 members who come from different countries, speak different languages and have different backgrounds. We aim to learn how to recognize individual differences and understand how cultural differences can impact how people work, and interact.
+\item \textbf{Project Management Skills:} Take this project as an opportunity to build project management skills that are essential to successfully complete a project that includes but not limited to planning, leadership, communication, and risk management.
+\item \textbf{Teamwork Skills:} Teamwork is important for the success of this project. We aim to build teamwork skills, which are essentials at work after graduation. Each member will learn how to be a good team player by demonstrating skills such as negotiation, communication, problem solving and prioritization.
+\end{itemize}
 
 \section{Evaluation}
-Critically evaluate your project: what worked well, and what didn’t? how did you do relative to your plan? what changes were the result of improved thinking and what changes were forced upon you? how did your team work together? etc. Note that you need to show that you understand the weaknesses in your work as well as its strengths. You may wish to identify relevant future work that could be done on your project.
+Critically evaluate your project: what worked well, and what didn’t?
 
-\section{Peer assessmen}
-In a simple table, allocate the 100 ‘points’ you are given to each team member. Valid values range from 0 to 100 inclusive. You may assign decimal values, but the entire points must add up to precisely 100. An exception will be made if the 100 points are evenly divided between team members, where recurring decimals presented to 2 decimal places will be interpreted as if they added up to 100 (e.g. for 6 members it is acceptable for all students to be allocated precisely 16.66 points).
+How did you do relative to your plan? what changes were the result of improved thinking and what changes were forced upon you?
 
+How did your team work together? etc. Note that you need to show that you understand the weaknesses in your work as well as its strengths. You may wish to identify relevant future work that could be done on your project.
+
+\section{Peer assessment}
 The team agreed to distribute the 100 score by each one equally as showing in the following table. The rational behind this decision is due to great efforts been put by everyone and as a reward for the continues commitment and hard work.
 
 
@@ -242,11 +252,12 @@ Samah Alghamdi & 16.66 \\
 
 
 \section{Challenges}
-
+After two meetings with the group, it was discovered that the language could be a barrier toward successful implementation of the project. A solution to tackle this challenge was to make sure that we speak clearly and use simple communication and ask confirming questions such as is that clear to everyone? as this is important to avoid misunderstanding and make sure that every on the same page for the every aspect of the project.
 
 \section{Things I am adding later/working on}
+DONT MIND THE FORMAT??
 
-Please collect some background information about topics below.Then you can put it as materials in our final report.Be careful not to use their original description for avoiding plagiarism.
+Please collect some background information about the  topics below. Then you can put it as materials in our final report. Be careful not to use their original description to avoiding plagiarism.
 
 Finite-State Matchine(FSM)
 What is a FSM?
@@ -254,15 +265,18 @@ Our server implements a FSM model to process incoming TCP stream of bytes.
 You can find out what my implementation is in the part of “Pseudocode For Depacking”. (http://t.cn/EIi6Kxs)
 
 Serialization Method Comparison (JSON vs Protobuf)
-What are the two method?What are their features?
-Protobuf is a more advanced method, but we use JSON as our encoding method for simplicity and convenience.We can still mention in the “lessons we got” or “our future work” part of our final report that we will involve Protobuf in our next version.
+What are the two method?
+What are their features?
+Protobuf is a more advanced method, but we use JSON as our encoding method for simplicity and convenience. We can still mention in the “lessons we got” or “our future work” part of our final report that we will involve Protobuf in our next version.
 
 Hash Functions (Comparison)
-We adopt md5 also for simplicity. algorithm?What is its mechanism?
-Make a comparison between common algorithms.Specially, a newly developed algorithm called MurmurHash should be considered.Also, you can put it to “our future work” part.
+We adopt md5 also for simplicity. algorithm?
+What is its mechanism?
+Make a comparison between common algorithms. Specially, a newly developed algorithm called MurmurHash should be considered. Also, you can put it to “our future work” part.
 
 Compression Method(gzip)
-What is gizp?What is its mechanism?
+What is gizp?
+What is its mechanism?
 
 Rsync
 There is a link given in professor’s slide.
