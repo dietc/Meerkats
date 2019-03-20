@@ -92,6 +92,9 @@ OneDrive can run on Windows, Mac, Android, iOS, Windows Phone and it follows the
 figure 4
 
 The solution is compatible with Google docs and with some of office tools, which provides convenience for users who have google accounts as they can save their attachments directly into their googleDrive.(to be added if we needed more words later)
+\newline
+\hfill \break
+We also looked at some resources such as Open Web Application Security Project (OWASP) to learn more about risks associated with web applications, secure software development, cloud and file security ''
 
 
 \section{Requirements and design}
@@ -141,9 +144,68 @@ The following flow charts show the general design of the solution as well as det
 
 Design Flow Chart TO BE ADDED
 
-\textbf{Security Design}
+\subsection{Mobile Application Interface Design Principles}
+We understand that designing mobile application is very different than designing desktop application.
+Therefore, we have got into mobile design mindset before starting designing the mobile app.
+We designed the mobile client interface with great intent to impress users within the few seconds after they start using it and to retain them in the long run. We tried our best to create an excellent User Experience (UX). For that, we have searched the Internet and learned about UX and how it contributes to the success of any new application. We also spent much time in searching and looking for a variety of design examples for inspirations. We have come up with intuitive and creative mobile interface design where we have followed collection of interface design principles that include but not limited to:
 
-TO BE ADDED
+\begin{enumerate}
+\item \textbf{Consistency of the design layout:} We made sure to design the sections of the application to be coherent, and we provided a consistent flow of the layout throughout the app.
+\item \textbf{Unambiguous Interactive Elements:} Elements that are intended for interaction with users are clearly depicted. Key options such as Create, Delete and Rename are visible and easy to access by users when required by them without the need to search for hidden options in menus.
+\item \textbf{Single Trial Learning Experience:}  Since we aim to create user friendly application, we designed the app and placed the options tin a way that allow users to anticipate the next step and the flow of the process in general without the need to remember the steps.
+\item \textbf{Layered User Experience:} We understand that UX should be layered. Meaning that not all the features and options of the app are visible at once. We kept some buttons hidden as we wanted to keep the interest of users for longer time and as they go deeper into the app. However, we balanced between keeping the excitement of users and the simplicity of navigating the app.
+\item \textbf{Navigation Models:} We know that there are many navigation models out there but we chose tab bar or Drill down because it makes the most sense of our application.
+\item \textbf{Orientation:} Is how the keyboard looks like when users attempt to type in their data. We have selected Portrait as our application doesn’t require lots of data to be inputted.
+\item \textbf{Launching:} When users launch the application, they will see an image that represent the logo of the software and the application name only. We aimed at not to confuse users at the beginning by adding buttons and text when they firs load the application. When users leave the app and comeback to it, they will resume operation right where they left the application.
+\item \textbf{First impressions:} We believe on the say “ first launch make or break situation” therefore, we though of the following things:
+•	\item \textbf{Icons:} We have kept text to minimum, and selected polished and eye attraction icons to attract users attention and create excellent and lasting first impression.
+•	\item \textbf{First launch:} We ensured that users are not lost when they first launch the application and can easily deal with it without the need to seek assistance.
+\end{enumerate}
+
+\subsection{Desktop Application Interface Design Principles}
+As with mobile app interface design interface, our goal was to create a perfect user experience. We thoroughly thought of how to design desktop application interface that is simple to use, fun to interact with and intuitive. Some rules that we considered include the following:
+
+
+\subsection{Security Design}
+
+The team worked hard to ensure not only delivering functional solution but also a secured product. For that, the team followed the security principles that were cited in OWASP Development Guide. They include:
+
+\begin{enumerate}
+\item \textbf{Minimise attack surface area??}
+We tried to minimize the attack surface area by producing file synchronization software that is capable to perform essential functions that users are interested in  such as create, delete, rename and modify files to reduce potential threats and the possibility of exploiting vulnerabilities in the application.
+For example, we coded file search feature into the application. That search feature is potentially vulnerable to SQL injection attacks. But we have developed data sanitization control to prevent users from sending sql injection directly to the file server and by doing so, we are reducing the attack surface and success attempts to manipulate data.
+\item \textbf{Establish secure defaults}
+The solution was designed to be secure by default. On another word, we have disabled some privileges for non-admin users and activated other security features by default to enhance the security status of the application and reduce the likelihood of attacking the application. For example, when creating new file, users are not allowed to use special characters in the file name, absolute file path is not allowed as well as file names that could be misinterpreted by the server is prohibited.
+\item \textbf{The principle of least privilege}
+The Principle of Least Privilege (POLP) has been applied to all aspects of the application. The team has designed the solution in away that allows users to execute tasks with minimum privileges required to perform that task.
+For example,
+\item \textbf{The principle of Defense in depth}
+The principle of defense in depth is considered in the design. The team used different security controls to approach different risks such as data leakage, data unavailability, code injection…etc.
+
+Security Controls- Detailed Information
+•	Process Title: Shake-hands
+•	Risk:
+•	Security Control Title: RSA
+
+•	Process Title: Key Exchange Stage (Diffe-Hellman)
+•	Risk:
+•	Security Control:
+•	Process Title: Data Stream Encryption
+•	Risk:
+•	Security Control: industrial-level algorithms: AES
+•	ProcessTitle: File Upload
+•	Risk:
+•	Security Controls:
+
+\item \textbf{Fail securely}
+The application was designed to fail securely. That means, even if a failure occurs, it won’t expose sensitive data like logs or grant users additional privileges.
+\item \textbf{Avoid security by obscurity}
+Security controls are in place to protect the application core functionalities and codes without necessary the need to rely on security by obscurity.
+\item \textbf{Keep security simple}
+We have avoided the use of complex design when developing security controls for the software. Instead, we made sure to use simple yet efficient security controls to reduce security errors.
+\item \textbf{Fix security issues correctly}
+The team address security issues that have been identified during the testing phase by determining the root causes of the problems. They are then repair it and test the repairs thoroughly.
+\end{enumerate}
 
 \section{Implementation}
 Describe the most significant implementation details, focussing on those where unusual or detailed solutions were required. Quote code fragments where necessary, but remember that the examiners have full access to your source code. Explain how you tested your software (e.g. unit testing) and the extent to which you tested it. If relevant to your project, explain performance issues and how you tackled them.
@@ -252,7 +314,46 @@ Samah Alghamdi & 16.66 \\
 
 
 \section{Challenges}
+\begin{itemize}
+\item \textbf{Communication:}
 After two meetings with the group, it was discovered that the language could be a barrier toward successful implementation of the project. A solution to tackle this challenge was to make sure that we speak clearly and use simple communication and ask confirming questions such as is that clear to everyone? as this is important to avoid misunderstanding and make sure that every on the same page for the every aspect of the project.
+
+\item \textbf{Project timeframe:}
+Description
+
+\item \textbf{Resources:}
+Description
+\item \textbf{Creating simple and user friendly interface:}
+Description
+\end{itemize}
+
+\section{Future Work}
+\begin{itemize}
+
+\item \textbf{Design iPhone client}
+
+\textbf{Description:} In addition for the software to be compatible with Windows and Android, we are planning to further enhance its usability by developing MAC client.
+
+\textbf{Added Value:} More users especially those who have iphones and mac desktops are expected to use the software and benefit from its services.
+\item \textbf{Introduce file versioning feature}
+
+\textbf{Description:} File versioning feature enables archiving the old version of a file when users attempt to delete it or replace it with a newer version and still want to keep the old versions of the original file. This feature will be configured per file and on per-device fashion and it is usually defaulted to no file versioning are used.
+We will decide on the file versioning strategies and will be using one of the available options such as automatically delete files if they are older than the maximum age or exceed the number of files allowed in an interval (one hour, one day, 30 days). Another strategy is to delegate file versioning method to an external program after specifying the versioning strategies.
+
+\textbf{Added Value:} Since dealing with electronic documents involved rapid changes, there is a need to keep old versions to restore deleted files or undo certain changes. It will also, increase collaboration among team members who might be working on the same project as each person will have the chance to work on the same file at the same time and all versions will be kept in one repository.
+
+\item \textbf{Offer paid subscription with premium features}
+
+\textbf{Description:} We are thinking to offer specific features on paid basis since they will require special development and allocation of resources. We are planning to offer greater storage capacity, longer file versioning duration to premium users
+
+\textbf{Added Value:} To increase the customer satisfaction by introducing new features that help to increase their productivity and make the software more responsive to customers’ needs such as the desire to have larger storage space.
+
+\item \textbf{Anticipate and Answer Users’ Queries:}
+
+\textbf{Description:} When users tap a button, they want to know whether the process has started and how long will it take. As technology abstracts these actions, the users are usually kept in the dark while the process is going on. Use Toast in Android and notifications in iOS so users will be notified when a process has completed. The Gmail app is a good example of such a design, as it displays messages like “saved in draft, message sent, etc.” to inform the users about the completion of the task.
+
+\textbf{Added Value:} better user experience as users can anticipate how long it will take to complete their request and better manage their times.
+\end{itemize}
 
 \section{Things I am adding later/working on}
 DONT MIND THE FORMAT??
