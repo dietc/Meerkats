@@ -24,6 +24,10 @@ namespace Meerkats_Win
     {
         public ObservableCollection<FileInfo_cs> List = new ObservableCollection<FileInfo_cs>();
 
+        // delegate
+        public delegate string FuncHandle();
+        FuncHandle fh;
+
         /// <summary>
         /// desktop client id = 0x2
         /// </summary>
@@ -143,12 +147,15 @@ namespace Meerkats_Win
         // connect to the server or refresh
         private void Conect_btn_Click(object sender, RoutedEventArgs e)
         {
-            send_data_rev_data();
-            
+
+            fh = new FuncHandle(this.send_data_rev_data);
+            AsyncCallback callback = new AsyncCallback(this.AsyncCallbackImpl);
+            fh.BeginInvoke(callback, null);
         }
 
-        private void send_data_rev_data()
+        private string send_data_rev_data()
         {
+
             SocketTCPClient t1 = new SocketTCPClient();
 
             string testdata = null;
@@ -224,11 +231,11 @@ namespace Meerkats_Win
 
             List<string> file_name = t1.Check_If_Upload(result);
 
-            
+            string status_file = null;
 
             if (file_name.Count != 0)
             {
-                fortest.Text = t1.Upload_File(file_name);
+                status_file = t1.Upload_File(file_name);
             }
 
             // string result_str = System.Text.Encoding.Default.GetString(result);
@@ -244,6 +251,14 @@ namespace Meerkats_Win
             string str_status_1 = t1.ReceiveMessage_For_download();
             string str_status_2 = t1.ReceiveMessage_For_download();
 
+            return status_file + " + " + str_status_1 + " + " + str_status_2;
+
+        }
+
+        public void AsyncCallbackImpl(IAsyncResult ar)
+        {
+            string re = fh.EndInvoke(ar);
+            MessageBox.Show(re + ar.AsyncState);
         }
 
 
