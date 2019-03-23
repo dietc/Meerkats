@@ -23,6 +23,10 @@ namespace Meerkats_Win.Class
         private static int port = 4356;
         private static Socket socketClient;
 
+
+        // Socket_Buffer_Size
+        int Buffer_Length_Max = 1024 * 6;
+
         // the path for stored data 
         private static string PATH = "F:\\fortest\\";
 
@@ -46,6 +50,7 @@ namespace Meerkats_Win.Class
             try
             {
                 socketClient.Connect(IPAddress.Parse(ip), port);
+
             }
             catch (Exception e)
             {
@@ -73,8 +78,6 @@ namespace Meerkats_Win.Class
 
                 // receive file data
                 int index = 0;
-                // set Buffer size = 1024
-                int Buffer_Length_Max = 1024;
 
                 while (true)
                 {
@@ -128,8 +131,7 @@ namespace Meerkats_Win.Class
 
         public string ReceiveMessage_For_download()
         {
-            try
-            {
+            
 
                 // timer
                 System.Diagnostics.Stopwatch stopwatch = new Stopwatch();
@@ -178,7 +180,6 @@ namespace Meerkats_Win.Class
                 // receive file data
                 int index = 0;
                 // set Buffer size = 1024
-                int Buffer_Length_Max = 1024;
 
                 while (true)
                 {
@@ -263,16 +264,15 @@ namespace Meerkats_Win.Class
 
                 else
                 {
-                    stopwatch.Stop(); //  停止监视
+                    stopwatch.Stop(); //  stop watch
                     // socketClient.Close();
                     return null;
                 }
-            }
-            catch (Exception ex)
-            {
-                listMessage.Add(ex.ToString());
-                throw new Exception(ex.Message);
-            }
+            
+            
+                //listMessage.Add(ex.ToString());
+                //throw new Exception(ex.Message);
+            
         }
 
         ///<summary>
