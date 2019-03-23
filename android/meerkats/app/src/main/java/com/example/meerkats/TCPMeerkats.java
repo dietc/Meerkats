@@ -101,42 +101,14 @@ public class TCPMeerkats extends Thread{
 
         tcpBodyLength = ((int)tcpHeader[8] << 8) + (int)(tcpHeader[9]);
         byte[] recvBytes = new byte[tcpBodyLength];
-
-        int index = 0;
-        int bufferLengthMax = 1024;
-
-        while (true){
-            if (tcpBodyLength > bufferLengthMax) {
-                try {
-
-                    InputStream is = socketClient.getInputStream();
-                    DataInputStream dis = new DataInputStream(is);
-                    dis.readFully(recvBytes,index * bufferLengthMax ,bufferLengthMax);
-
-                } catch (IOException e) {
-
-                    System.out.println("ERROR! TRY AGAIN!");
-                }
-                tcpBodyLength -= bufferLengthMax;
-            }
-
-            else {
-
-                try {
-
-                    InputStream is = socketClient.getInputStream();
-                    DataInputStream dis = new DataInputStream(is);
-                    dis.readFully(recvBytes, 0, recvBytes.length);
-
-                } catch (IOException e) {
-
-                    System.out.println("ERROR! TRY AGAIN!");
-                }
-                break;
-            }
-            index ++;
-
+        try {
+            InputStream is = socketClient.getInputStream();
+            DataInputStream dis = new DataInputStream(is);
+            dis.readFully(recvBytes, 0, tcpBodyLength);
+        }catch(IOException e){
+            System.out.println("ERROR! TRY AGAIN!");
         }
+
 
         byte[] md5 = new byte[16];
 
@@ -199,11 +171,9 @@ public class TCPMeerkats extends Thread{
             System.out.println("ERROR! TRY AGAIN!");
         }
 
-        int a = 256 + tcpHeader[8];
-        int b = 256 + tcpHeader[9];
 
-        tcpBodyLength = (a << 8) + b;
-        System.out.println(tcpBodyLength);
+
+        tcpBodyLength = ((tcpHeader[8] & 0xff) << 8) + (tcpHeader[9] & 0xff);
 
 
         byte[] packetType = new byte[1];
@@ -217,10 +187,7 @@ public class TCPMeerkats extends Thread{
             InputStream is = socketClient.getInputStream();
             DataInputStream dis = new DataInputStream(is);
             dis.readFully(packetType, 0, 1);
-            //System.out.println("3");
-            //for (byte c :packetType) {
-            //  System.out.printf("%x\n",c);
-            // }
+
 
         } catch (IOException e) {
 
@@ -232,13 +199,7 @@ public class TCPMeerkats extends Thread{
             InputStream is = socketClient.getInputStream();
             DataInputStream dis = new DataInputStream(is);
             dis.readFully(fileJson, 0, 300);
-            // System.out.println("4");
-            //int i = 0;
-            //for (byte d :fileJson) {
-            //  i++;
-            //System.out.printf("%x\n",d);
-            //System.out.println(i);
-            //}
+
 
         } catch (IOException e) {
 
@@ -255,7 +216,7 @@ public class TCPMeerkats extends Thread{
             }
             i++;
         }
-        System.out.println(endFileJsonFlag);
+
 
         byte[] fileJsonn = new byte[endFileJsonFlag];
 
@@ -263,37 +224,16 @@ public class TCPMeerkats extends Thread{
 
 
         String fileJsonString = new String(fileJsonn);
-        System.out.println(fileJsonString);
         FileIndexJson fJson = new Gson().fromJson(fileJsonString, FileIndexJson.class);
         String fileName = fJson.getName();
         packetNum = fJson.getNum();
-        System.out.println(fileName);
 
 
-        int index = 0;
 
         try {
-            int bufferLengthMax = socketClient.getReceiveBufferSize();
-            System.out.print(bufferLengthMax);
             DataInputStream dis = new DataInputStream(socketClient.getInputStream());
-            while (true) {
-                if (fileDataLength > bufferLengthMax) {
+            dis.readFully(recvBytes,0,fileDataLength);
 
-                    dis.readFully(recvBytes, index * bufferLengthMax, bufferLengthMax);
-                    System.out.println("4");
-                    fileDataLength -= bufferLengthMax;
-
-
-                } else {
-
-
-                    dis.readFully(recvBytes, index * bufferLengthMax, fileDataLength);
-                    System.out.println("5");
-                    break;
-                }
-                index++;
-
-            }
         } catch (IOException e) {
             System.out.println("ERROR! TRY AGAIN!");
         }
@@ -306,7 +246,6 @@ public class TCPMeerkats extends Thread{
             InputStream is = socketClient.getInputStream();
             DataInputStream dis = new DataInputStream(is);
             dis.readFully(md5, 0, 16);
-            System.out.println("6");
         } catch (IOException e) {
 
             System.out.println("ERROR! TRY AGAIN!");
@@ -323,8 +262,6 @@ public class TCPMeerkats extends Thread{
             for (byte edn : endFlag) {
                 System.out.printf("%x\n", edn);
             }
-
-            System.out.println("7");
         } catch (IOException e) {
 
             System.out.println("ERROR! TRY AGAIN!");
@@ -348,7 +285,7 @@ public class TCPMeerkats extends Thread{
             } else {
                 while (packetNum > 1) {
 
-                    byte[] fileData = unpackData(receiveMessage());
+                    byte[] fileData = receiveMessage();
                     fos.write(fileData, 0, fileDataLength);
                     System.out.println("1");
 
