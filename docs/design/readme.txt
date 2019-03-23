@@ -1,4 +1,4 @@
-logo and other design
+logo and other design 
 <for Meerkats>
 
 logo version 1.0 - basic logo
@@ -10,5 +10,3 @@ updated on 2019.2.27
 android interface version 1.0 - basic android app interface
 updated on 2019.2.28
 
-logo version 1.2 - add icon for different file types (AVI, CSV, EML, EPS, MOV, MP3, PDF, PNG, PPT, RAW, TTF, TXT, WAV, XLS)
-updated on 2019.3.23
