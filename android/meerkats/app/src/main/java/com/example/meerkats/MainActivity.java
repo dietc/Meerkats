@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     ///private Handler handler;
 
+    private static Context context;
     private TCPMeerkats tcpMeerkats = new TCPMeerkats();
 
     private Button connect, send, receive;

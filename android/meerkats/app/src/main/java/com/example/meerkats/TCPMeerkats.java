@@ -4,9 +4,11 @@ package com.example.meerkats;
 
 import android.content.Context;
 import android.icu.text.SymbolTable;
+import android.support.v7.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import java.io.*;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -30,7 +32,7 @@ import java.util.List;
 
 
 
-public class TCPMeerkats extends Thread{
+public class TCPMeerkats extends Thread {
 
     static String ip = "178.128.45.7";
 
@@ -38,17 +40,13 @@ public class TCPMeerkats extends Thread{
 
     private static Socket socketClient;
 
-    private static InputStream is;
 
-    private static InputStreamReader isr;
-
-    private static BufferedReader br;
-
-    private static OutputStream os;
 
     private static String PATH = "/data/data/com.example.meerkats/files";
 
-    Context context;
+    private Context context;
+
+
 
     //Create a socket client instance
 
@@ -99,15 +97,21 @@ public class TCPMeerkats extends Thread{
 
 
 
-        tcpBodyLength = ((int)tcpHeader[8] << 8) + (int)(tcpHeader[9]);
+        tcpBodyLength = ((tcpHeader[8] & 0xff) << 8) + (tcpHeader[9] & 0xff);
         byte[] recvBytes = new byte[tcpBodyLength];
-        try {
-            InputStream is = socketClient.getInputStream();
-            DataInputStream dis = new DataInputStream(is);
-            dis.readFully(recvBytes, 0, tcpBodyLength);
-        }catch(IOException e){
-            System.out.println("ERROR! TRY AGAIN!");
-        }
+
+
+                try {
+                    InputStream is = socketClient.getInputStream();
+                    DataInputStream dis = new DataInputStream(is);
+                    dis.readFully(recvBytes);
+                }catch(IOException e){
+                    System.out.println("ERROR! TRY AGAIN!");
+                }
+
+
+
+
 
 
         byte[] md5 = new byte[16];
@@ -272,28 +276,28 @@ public class TCPMeerkats extends Thread{
         if (endFlag[0] == (byte) 0xff && endFlag[1] == (byte) 0xee) {
 
             System.out.println("8");
-            FileOutputStream fos = context.getApplicationContext().openFileOutput(fileName, Context.MODE_PRIVATE);
-            fos.write(recvBytes, 0, recvBytes.length);
-
-            System.out.println("8");
-
+            File file = new File(PATH, fileName);
+            FileOutputStream fos = new FileOutputStream(file,false);
+            fos.write(recvBytes);
+            System.out.println("9");
 
             if (packetNum == 1) {
                 fos.flush();
                 fos.close();
                 System.out.println("9");
+                return fileName + "DOWNLOADED!";
             } else {
+
+                FileOutputStream fos1 = new FileOutputStream(file,true);
                 while (packetNum > 1) {
 
-                    byte[] fileData = receiveMessage();
-                    fos.write(fileData, 0, fileDataLength);
+                    byte[] fileData = unpackData(receiveMessage());
+                    fos1.write(fileData);
                     System.out.println("1");
-
                     packetNum--;
-
                 }
-                fos.flush();
-                fos.close();
+                fos1.flush();
+                fos1.close();
                 System.out.println("10");
 
             }
@@ -316,7 +320,7 @@ public class TCPMeerkats extends Thread{
         ///Check if connected
         if (socketClient.isConnected()) {
             try {
-                os = socketClient.getOutputStream();
+                OutputStream os = socketClient.getOutputStream();
                 os.write(sendBytes);
                 os.flush();
             } catch (IOException e) {
@@ -326,7 +330,6 @@ public class TCPMeerkats extends Thread{
         }
 
     }
-
 
    /* public void uploadFile (String[] fileName) {
 
@@ -502,15 +505,14 @@ public class TCPMeerkats extends Thread{
 
 
 
-    public byte[] unpackData(byte[] recvMsg) {
+    public byte[] unpackData(byte[] recvMsg)
+    {
 
-        if (recvMsg.length != 0) {
+        if (recvMsg != null) {
 
+            byte packetType = recvMsg[0];
             int tcpBodyLength = recvMsg.length;
             int contextLength = tcpBodyLength - 1;
-
-            int packetType = recvMsg[0];
-
 
             byte[] msg = new byte[contextLength];
 
