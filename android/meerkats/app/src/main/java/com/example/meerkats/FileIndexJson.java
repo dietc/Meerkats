@@ -3,7 +3,13 @@ package com.example.meerkats;
 
     public class FileIndexJson {
 
-         String Name;
+        public FileIndexJson(String name, Byte num, Byte index) {
+            Name = name;
+            Num = num;
+            Index = index;
+        }
+
+        String Name;
          Byte Num;
          Byte Index;
          String getName() {

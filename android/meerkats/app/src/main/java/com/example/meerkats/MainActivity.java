@@ -85,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        byte[] sendMessage = tcpMeerkats.buildDataPackageForPull(messageBody, packetType, deviceID);
-                        tcpMeerkats.sendMessage(sendMessage);
+                        String[] fileName = {"large.jpeg"};
+
+                      tcpMeerkats.uploadFile(fileName);
 
 
                        // for (byte b : sendMessage) {
@@ -108,8 +109,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        String result = tcpMeerkats.receiveMessageForDownload();
-                        System.out.println(result);
+                       byte[] message = tcpMeerkats.receiveMessage();
+                       for (byte b: message){
+                           System.out.printf("%x\n",b);
+                       }
 
                         }
 

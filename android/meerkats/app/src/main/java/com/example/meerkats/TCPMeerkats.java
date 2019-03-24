@@ -44,7 +44,7 @@ public class TCPMeerkats extends Thread {
 
     private static String PATH = "/data/data/com.example.meerkats/files";
 
-    private Context context;
+
 
 
 
@@ -79,7 +79,6 @@ public class TCPMeerkats extends Thread {
 
 
         int tcpHeaderLength = 10;
-        int tcpBodyLength = 0;
 
         byte[] tcpHeader = new byte[tcpHeaderLength];
 
@@ -96,8 +95,7 @@ public class TCPMeerkats extends Thread {
         }
 
 
-
-        tcpBodyLength = ((tcpHeader[8] & 0xff) << 8) + (tcpHeader[9] & 0xff);
+        int tcpBodyLength = ((tcpHeader[8] & 0xff) << 8) + (tcpHeader[9] & 0xff);
         byte[] recvBytes = new byte[tcpBodyLength];
 
 
@@ -331,7 +329,7 @@ public class TCPMeerkats extends Thread {
 
     }
 
-   /* public void uploadFile (String[] fileName) {
+    public void uploadFile (String[] fileName) {
 
         byte packetType = 0x20;
         byte deviceID = 0x03;
@@ -341,7 +339,8 @@ public class TCPMeerkats extends Thread {
 
         for (int i = 0; i < fileName.length; i++){
 
-            File f = new File(PATH + fileName[i]);
+
+            File f = new File(PATH + "/" + fileName[i]);
 
             long fileLength = f.length();
 
@@ -383,7 +382,16 @@ public class TCPMeerkats extends Thread {
 
                 fileData = new byte[messageBodyLength];
 
-                System.arraycopy(fileData,0,messageBodyByte,12+300,fileData.length);
+                try {
+                    FileInputStream fis = new FileInputStream(f);
+                    fis.read(fileData,0,(int)messageBodyLength);
+
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+
+                System.arraycopy(fileData,0,messageBodyByte,12+300, messageBodyLength);
 
                 byte[] md5 = getCheckSum(packetType, deviceID, fileData,true);
 
@@ -398,7 +406,6 @@ public class TCPMeerkats extends Thread {
 
                 double packetNum =  Math.ceil((double)fileLength / (double)messageBodyLengthMax);
                 byte index = 0;
-                fileData = null;
                 byte[] messageBodyByte;
                 while (packetNum > 0) {
                     if (packetNum != 1) {
@@ -428,7 +435,15 @@ public class TCPMeerkats extends Thread {
 
                     fileData = new byte[messageBodyLength];
 
-                    System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, fileData.length);
+                    try {
+                        FileInputStream fis = new FileInputStream(f);
+                        fis.read(fileData,0,(int)messageBodyLength);
+
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+
+                    System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
 
                     byte[] md5 = getCheckSum(packetType, deviceID, fileData, true);
 
@@ -458,7 +473,7 @@ public class TCPMeerkats extends Thread {
 
 
 
-*/
+
 
 
 
