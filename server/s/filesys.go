@@ -22,7 +22,7 @@ type CmdObj struct{
     Name       string
     Digest     [16]byte
     Cmd        byte
-	Ext        []byte
+	Ext        string
 }
 
 type Task []*CmdObj
@@ -113,10 +113,11 @@ type Status struct{
 }
 
 type StatusTable map[string]Status
-func (st *StatusTable)String() (str string){
-    for _, s:= range *st{
-        str = str + fmt.Sprintf("%d, %s => %s, %s => %s\n\n", s.Typ, s.FromName, s.ToName, s.FromDigest, s.ToDigest )
+func (st StatusTable)String() (str string){
+    for _, s:= range st{
+        str = str + fmt.Sprintf("%d, %s => %s, %x => %x\n\n", s.Typ, s.FromName, s.ToName, s.FromDigest, s.ToDigest )
     }
     return str
 }
+
 type NewTable map[string][16]byte

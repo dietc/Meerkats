@@ -83,6 +83,15 @@ func GetPre(device byte) []byte{
     return bytes
 }
 
+func SavePre(device byte, data []byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        tx.Bucket([]byte("pre")).Put([]byte{device}, data)
+        return nil
+	}); err != nil {
+        log.Fatal(err)
+    }
+}
+
 func GetFileInfo(idx int64) []byte{
     var res []byte
     i := strconv.FormatInt(idx, 10)
@@ -94,6 +103,76 @@ func GetFileInfo(idx int64) []byte{
         log.Fatal(err)
     }
     return res
+}
+
+func DeletePreName(name string, device byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b:= bucket([]byte("pre"), tx)
+        var pre map[string]int64 = make(map[string]int64)
+		if tmp := b.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }
+        delete(pre, name)
+        preb, _ := json.Marshal(pre)
+		b.Put([]byte{device}, preb) 
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+    }
+}
+
+
+func UpdatePreName(new_index int64, new_name string, old_name string, device byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b:= bucket([]byte("pre"), tx)
+        var pre map[string]int64 = make(map[string]int64)
+		if tmp := b.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }
+        delete(pre, old_name)
+        pre[new_name] = new_index
+        preb, _ := json.Marshal(pre)
+		b.Put([]byte{device}, preb) 
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+    }
+}
+
+func UpdateName(new_index int64, device byte, name string, old_name string) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b:= bucket([]byte("pre"), tx)
+        var pre map[string]int64 = make(map[string]int64)
+		if tmp := b.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }     
+        delete(pre, old_name)
+        pre[name] = new_index
+        preb, _ := json.Marshal(pre)
+		b.Put([]byte{device}, preb) 
+        
+        b1 := bucket([]byte("space"), tx)
+        b1.Delete([]byte(old_name))
+        b1.Put([]byte(name), []byte(strconv.FormatInt(new_index,10)))
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+    }
+}
+
+func ReindexFile(old_index int64, new_name string, new_index int64) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        var fi FileInfo= FileInfo{}
+        b := bucket([]byte("files"), tx)
+        info := b.Get([]byte(strconv.FormatInt(old_index,10)))
+        json.Unmarshal(info, &fi)
+        fi.Name = new_name
+        fib, _ := json.Marshal(fi)
+        b.Put([]byte(strconv.FormatInt(new_index,10)), fib)
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+    }
 }
 
 func IndexFile(name string, dir string, digest [16]byte, index int64, device byte) {
@@ -128,6 +207,26 @@ func IndexFile(name string, dir string, digest [16]byte, index int64, device byt
     }
 }
 
+func DeleteFile(name string, device byte) {
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b1 := bucket([]byte("space"), tx)
+        b1.Delete([]byte(name))
+        
+        b2 := bucket([]byte("pre"), tx)
+        var pre map[string]int64 = make(map[string]int64)
+		if tmp := b2.Get([]byte{device}); len(tmp) != 0 {
+            json.Unmarshal(tmp, &pre)            
+        }
+        delete(pre, name)
+        preb, _ := json.Marshal(pre)
+		b2.Put([]byte{device}, preb) 
+        
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+    }
+}
+
 func SupplementDigest(index int64, dir string) {
     if ENV == "testing" {
         return
@@ -154,7 +253,7 @@ func SupplementDigest(index int64, dir string) {
 }
 
 //for testing:display data
-func Show() {
+func Show(key []byte) {
     if err := db.Update(func(tx *bolt.Tx) error{
         log.Println("Space:")
         b1 := bucket([]byte("space"), tx)
@@ -168,7 +267,7 @@ func Show() {
         log.Println("Pre:")
         b2 := bucket([]byte("pre"), tx)
         var pre map[string]int64 = make(map[string]int64)
-		if tmp := b2.Get([]byte{0x01}); len(tmp) != 0 {
+		if tmp := b2.Get(key); len(tmp) != 0 {
             json.Unmarshal(tmp, &pre)            
         }
         for k,v := range pre{

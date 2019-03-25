@@ -13,10 +13,20 @@ func main(){
     if err != nil {
 		log.Fatal(err)
     }
-	if os.Args[1] == "show" {
-	    s.Show()
-	}
 	if os.Args[1] == "clear" {
         s.Clear()
+		return
 	}
+	var key []byte
+	if os.Args[2] == "A" {
+		key = []byte{0x01}
+	} else {
+		key = []byte{0x02}
+	}
+	
+	if os.Args[1] == "show" {
+		log.Println(key)
+	    s.Show(key)
+	}
+	
 }
