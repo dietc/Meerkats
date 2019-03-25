@@ -1,13 +1,18 @@
 package com.example.meerkats;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,6 +22,7 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.example.meerkats.TCPMeerkats;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,18 +31,20 @@ public class MainActivity extends AppCompatActivity {
 
     ///private Handler handler;
 
+    private static Context context;
     private TCPMeerkats tcpMeerkats = new TCPMeerkats();
 
     private Button connect, send, receive;
 
     private TextView result;
 
-    private byte[] messageBody = {0x68, 0x65, 0x6c, 0x6c, 0x6f};
+    private byte[] messageBody = {};
 
-    private byte deviceID = (byte)0x01;
+    private byte deviceID = (byte)0x03;
 
-    private byte packageType = (byte)0x01;
+    private byte packetType = (byte)0x21;
 
+    private static Socket socketClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,13 +85,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        byte[] sendMessage = tcpMeerkats.buildDataPackage(messageBody, packageType, deviceID);
-                        tcpMeerkats.sendMessage(sendMessage);
+                        String[] fileName = {"large.jpeg"};
+
+                      tcpMeerkats.uploadFile(fileName);
 
 
-                        for (byte b : sendMessage) {
-                            System.out.printf("%x\n",b);
-                        }
+                       // for (byte b : sendMessage) {
+                        //    System.out.printf("%x\n",b);
+                      //  }
 
 
 
@@ -100,19 +109,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        byte [] message = tcpMeerkats.unpackData(tcpMeerkats.receiveMessage());
+                       byte[] message = tcpMeerkats.receiveMessage();
+                       for (byte b: message){
+                           System.out.printf("%x\n",b);
+                       }
 
-
-                        for (byte b : message) {
-                            System.out.printf("%x\n",b);
                         }
 
 
-                    }
                 });
 
             }
         });
-    };
+    }
 
 }
