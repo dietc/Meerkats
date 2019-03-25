@@ -12,3 +12,6 @@ updated on 2019.2.28
 
 logo version 1.2 - add icon for different file types (AVI, CSV, EML, EPS, MOV, MP3, PDF, PNG, PPT, RAW, TTF, TXT, WAV, XLS)
 updated on 2019.3.23
+
+Android Layout 1.0 - basic android layout
+updated on 2019.3.25
