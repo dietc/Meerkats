@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] messageBody = {};
 
-    private byte deviceID = (byte)0x03;
+    private byte deviceID = (byte) 0x03;
 
-    private byte packetType = (byte)0x21;
+    private byte packetType = (byte) 0x21;
 
     private static Socket socketClient;
 
@@ -51,76 +51,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        connect = (Button) findViewById(R.id.connect);
-        send = (Button) findViewById(R.id.send);
-        receive = (Button) findViewById(R.id.receive);
-        result = (TextView) findViewById(R.id.result);
 
+        tcpMeerkats.createInstance();
+        tcpMeerkats.connectSocket();
 
-        threadPool = Executors.newCachedThreadPool();
+        tcpMeerkats.buildDataPackageForPull(messageBody,packetType,deviceID);
 
+        String message = tcpMeerkats.receiveMessageForDownload(3);
 
-        connect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                threadPool.execute(new Runnable() {
-                    @Override
-                    public void run() {
-
-
-                        tcpMeerkats.createInstance();
-                        tcpMeerkats.connectSocket();
-
-                    }
-                });
-            }
-        });
-
-
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                threadPool.execute(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        String[] fileName = {"large.jpeg"};
-
-                      tcpMeerkats.uploadFile(fileName);
-
-
-                       // for (byte b : sendMessage) {
-                        //    System.out.printf("%x\n",b);
-                      //  }
-
-
-
-                    }
-                });
-            }
-        });
-
-        receive.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                threadPool.execute(new Runnable() {
-                    @Override
-                    public void run() {
-
-                       byte[] message = tcpMeerkats.receiveMessage();
-                       for (byte b: message){
-                           System.out.printf("%x\n",b);
-                       }
-
-                        }
-
-
-                });
-
-            }
-        });
+        System.out.println(message);
     }
-
 }

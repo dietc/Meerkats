@@ -5,12 +5,18 @@ package com.example.meerkats;
 import android.content.Context;
 import android.icu.text.SymbolTable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Switch;
 
+import com.example.meerkats.bean.FileType;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
-import java.io.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.BufferedReader;
+
+
+import java.io.FileInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+import static java.lang.System.in;
 
 
 public class TCPMeerkats extends Thread {
@@ -39,18 +45,16 @@ public class TCPMeerkats extends Thread {
     private static int port = 4356;
 
     private static Socket socketClient;
-
+    private static byte deviceID = 0x03;
 
 
     private static String PATH = "/data/data/com.example.meerkats/files";
-
-
-
+    private static String NEWPATH = "/data/data/com.example.meerkats/files/backup";
 
 
     //Create a socket client instance
 
-    public void createInstance(){
+    public void createInstance() {
 
         socketClient = new Socket();
     }
@@ -58,15 +62,15 @@ public class TCPMeerkats extends Thread {
 
     //Connect the socket
 
-    public void connectSocket(){
+    public void connectSocket() {
 
-        try{
+        try {
 
             SocketAddress remoteAddress = new InetSocketAddress(ip, port);
             socketClient.connect(remoteAddress);
             System.out.println(socketClient.isConnected());
 
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("ERROR!TRY AGAIN!");
 
         }
@@ -86,7 +90,7 @@ public class TCPMeerkats extends Thread {
 
             InputStream is = socketClient.getInputStream();
             DataInputStream dis = new DataInputStream(is);
-            dis.readFully(tcpHeader,0,10);
+            dis.readFully(tcpHeader, 0, 10);
 
 
         } catch (IOException e) {
@@ -99,17 +103,13 @@ public class TCPMeerkats extends Thread {
         byte[] recvBytes = new byte[tcpBodyLength];
 
 
-                try {
-                    InputStream is = socketClient.getInputStream();
-                    DataInputStream dis = new DataInputStream(is);
-                    dis.readFully(recvBytes);
-                }catch(IOException e){
-                    System.out.println("ERROR! TRY AGAIN!");
-                }
-
-
-
-
+        try {
+            InputStream is = socketClient.getInputStream();
+            DataInputStream dis = new DataInputStream(is);
+            dis.readFully(recvBytes);
+        } catch (IOException e) {
+            System.out.println("ERROR! TRY AGAIN!");
+        }
 
 
         byte[] md5 = new byte[16];
@@ -118,13 +118,12 @@ public class TCPMeerkats extends Thread {
 
             InputStream is = socketClient.getInputStream();
             DataInputStream dis = new DataInputStream(is);
-            dis.readFully(md5,0,16);
+            dis.readFully(md5, 0, 16);
 
         } catch (IOException e) {
 
             System.out.println("ERROR! TRY AGAIN!");
         }
-
 
 
         byte[] endFlag = new byte[2];
@@ -133,7 +132,7 @@ public class TCPMeerkats extends Thread {
 
             InputStream is = socketClient.getInputStream();
             DataInputStream dis = new DataInputStream(is);
-            dis.readFully(endFlag,0,2);
+            dis.readFully(endFlag, 0, 2);
 
         } catch (IOException e) {
 
@@ -141,17 +140,17 @@ public class TCPMeerkats extends Thread {
         }
 
 
-        if (endFlag[0] == (byte)0xff && endFlag[1] == (byte)0xee) {
+        if (endFlag[0] == (byte) 0xff && endFlag[1] == (byte) 0xee) {
 
             return unpackData(recvBytes);
 
         } else {
 
             return null;
-       }
+        }
     }
 
-    public String receiveMessageForDownload() {
+    public String receiveMessageForDownload(int fileType) {
 
         byte[] recvBytes;
 
@@ -172,7 +171,6 @@ public class TCPMeerkats extends Thread {
 
             System.out.println("ERROR! TRY AGAIN!");
         }
-
 
 
         tcpBodyLength = ((tcpHeader[8] & 0xff) << 8) + (tcpHeader[9] & 0xff);
@@ -231,10 +229,9 @@ public class TCPMeerkats extends Thread {
         packetNum = fJson.getNum();
 
 
-
         try {
             DataInputStream dis = new DataInputStream(socketClient.getInputStream());
-            dis.readFully(recvBytes,0,fileDataLength);
+            dis.readFully(recvBytes, 0, fileDataLength);
 
         } catch (IOException e) {
             System.out.println("ERROR! TRY AGAIN!");
@@ -264,56 +261,67 @@ public class TCPMeerkats extends Thread {
             for (byte edn : endFlag) {
                 System.out.printf("%x\n", edn);
             }
-        } catch (IOException e) {
 
+        } catch (IOException e) {
             System.out.println("ERROR! TRY AGAIN!");
         }
 
 
         try {
-        if (endFlag[0] == (byte) 0xff && endFlag[1] == (byte) 0xee) {
 
-            System.out.println("8");
-            File file = new File(PATH, fileName);
-            FileOutputStream fos = new FileOutputStream(file,false);
-            fos.write(recvBytes);
-            System.out.println("9");
+            if (endFlag[0] == (byte) 0xff && endFlag[1] == (byte) 0xee) {
+                File file = new File(PATH, fileName);
+                FileOutputStream fos = new FileOutputStream(file, false);
 
-            if (packetNum == 1) {
-                fos.flush();
-                fos.close();
-                System.out.println("9");
-                return fileName + "DOWNLOADED!";
-            } else {
-
-                FileOutputStream fos1 = new FileOutputStream(file,true);
-                while (packetNum > 1) {
-
-                    byte[] fileData = unpackData(receiveMessage());
-                    fos1.write(fileData);
-                    System.out.println("1");
-                    packetNum--;
+                switch (fileType) {
+                    case 0:
+                        fos.write(recvBytes);
+                        break;
+                    case 1:
+                        fos.write(recvBytes);
+                        break;
                 }
-                fos1.flush();
-                fos1.close();
-                System.out.println("10");
 
+                if (packetNum == 1) {
+                    fos.flush();
+                    fos.close();
+                    System.out.println("9");
+                    return fileName + "DOWNLOADED!";
+                } else {
+
+                    FileOutputStream fos1 = new FileOutputStream(file, true);
+                    while (packetNum > 1) {
+
+                        byte[] fileData = unpackData(receiveMessage());
+                        switch (fileType) {
+                            case 0:
+                                fos1.write(fileData);
+                                break;
+                            case 1:
+                                fos1.write(fileData);
+                                break;
+                        }
+                        packetNum--;
+                    }
+                    fos1.flush();
+                    fos1.close();
+                    System.out.println("10");
+
+                }
+            } else {
+                return null;
             }
-        } else {
-            return null;
+
+        } catch (IOException e) {
+            System.out.println("ERROR!TRY AGAIN!");
         }
 
-    } catch (IOException e) {
-        System.out.println("ERROR!TRY AGAIN!");
+        return fileName + "DOWNLOAD FINISHED!";
     }
-
-        return fileName +  "DOWNLOAD FINISHED!";
-
-}
 
     ///Send Message
 
-    public void sendMessage (byte[] sendBytes){
+    public void sendMessage(byte[] sendBytes) {
 
         ///Check if connected
         if (socketClient.isConnected()) {
@@ -328,6 +336,61 @@ public class TCPMeerkats extends Thread {
         }
 
     }
+
+    public String downloadFile(List<FileTypeTCP> fileName) {
+
+        for (FileTypeTCP ja : fileName) {
+            byte[] msgBody = ja.ext.getBytes();
+            byte[] messageBodyByteForDownload = new byte[30 + msgBody.length];
+            messageBodyByteForDownload = buildDataPackageForPull(msgBody, (byte) 0x21, deviceID);
+            sendMessage(messageBodyByteForDownload);
+            receiveMessageForDownload(ja.type);
+        }
+        return "DOWNLOAD SUCCESS!";
+    }
+
+    public String renameFile(List<Rename> fileInfo) {
+        for (Rename ja : fileInfo) {
+
+            File f = new File(PATH + ja.name);
+            if (f.exists() && !f.isDirectory()) {
+                f.renameTo(new File(PATH + ja.name));
+
+            } else {
+                System.out.println("FILE NOT EXIST");
+            }
+        }
+        return "RENAME SUCCESSFULLY!";
+    }
+
+    public String backupFile(List<Backup> fileName) {
+        for (Backup ja : fileName) {
+
+            File f = new File(PATH + ja.name);
+            if (f.exists() && !f.isDirectory()) {
+                f.renameTo(new File(NEWPATH + ja.name + ".bak"));
+            } else {
+                System.out.println("FILE NOT EXIST");
+            }
+        }
+        return "BACKUP SUCCESSFULLY!";
+    }
+
+
+    public  String deleteFile(List<Delete> fileName){
+        for(Delete ja : fileName){
+            File f = new File(PATH + ja.name);
+            if (f.exists() && !f.isDirectory()) {
+                f.delete();
+            } else {
+                System.out.println("FILE NOT EXIST");
+            }
+        }
+        return "DELETE SUCCESSFULLY!";
+
+    }
+
+
 
     public void uploadFile (String[] fileName) {
 
@@ -542,15 +605,22 @@ public class TCPMeerkats extends Thread {
 
     }
 
-    //public List<String> checkUpload(byte[] recvMsg) {
+    /*public void checkCMDFlag(byte[] recvMsg, FileCheck fCheck) {
+        String resultStr = new String(recvMsg);
+        int cmdFlag = 0;
+        List<FileTypeTCP> upload = new ArrayList<>();
+        List<FileTypeTCP> download = new ArrayList<>();
+        List<Rename> rename = new ArrayList<>();
+        List<Backup> backup = new ArrayList<>();
+        fCheck.upload = upload;
+        fCheck.download = download;
+        fCheck.rename = rename;
+        fCheck.backup = backup;
+       JSONArray jArray  = (JSONArray)new Gson().toJson(resultStr);
 
-   //     String resultStr = new String(recvMsg);
 
-    //    String cmd = null;
-     //
-
-   // }
-
+    }
+*/
 
     private byte[] getCheckSum(byte packetType, byte deviceId, byte[] msg, boolean sendOrReceive ) {
 
@@ -601,7 +671,40 @@ public class TCPMeerkats extends Thread {
     }
 
 
+    public static JSONArray getAllFiles(String dirPath, String _type) {
+        File f = new File(dirPath);
+        if (!f.exists()) {//判断路径是否存在
+            return null;
+        }
 
+        File[] files = f.listFiles();
+
+        if(files==null){//判断权限
+            return null;
+        }
+
+        JSONArray fileList = new JSONArray();
+        for (File _file : files) {//遍历目录
+            if(_file.isFile() && _file.getName().endsWith(_type)){
+                String _name=_file.getName();
+                String filePath = _file.getAbsolutePath();//获取文件路径
+                String fileName = _file.getName().substring(0,_name.length()-4);//获取文件名
+//                Log.d("LOGCAT","fileName:"+fileName);
+//                Log.d("LOGCAT","filePath:"+filePath);
+                try {
+                    JSONObject _fInfo = new JSONObject();
+                    _fInfo.put("name", fileName);
+                    _fInfo.put("path", filePath);
+                    fileList.put(_fInfo);
+                }catch (Exception e){
+                }
+            } else if(_file.isDirectory()){//查询子目录
+                getAllFiles(_file.getAbsolutePath(), _type);
+            } else{
+            }
+        }
+        return fileList;
+    }
 
 
 }
