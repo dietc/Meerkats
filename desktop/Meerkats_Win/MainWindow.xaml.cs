@@ -41,9 +41,6 @@ namespace Meerkats_Win
 
         public void init_status()
         {
-            fortest.IsReadOnly = true;
-            fortest.Text = string.Empty;
-
 
             file_tree.Items.Clear();
             file_tree.ItemsSource = List;
@@ -151,6 +148,7 @@ namespace Meerkats_Win
             fh = new FuncHandle(this.send_data_rev_data);
             AsyncCallback callback = new AsyncCallback(this.AsyncCallbackImpl);
             fh.BeginInvoke(callback, null);
+            //send_data_rev_data();
         }
 
         private string send_data_rev_data()
@@ -158,7 +156,54 @@ namespace Meerkats_Win
 
             SocketTCPClient t1 = new SocketTCPClient();
 
-            string testdata = null;
+            t1.CreateInstance();
+           
+            //
+            t1.SendMessage(Get_local_File_info("F:\\fortest\\"));
+
+            byte[] result = t1.ReceiveMessage();
+
+            // get file cmd_flag < 6 operation >
+            file_check f_check = new file_check();
+            t1.Check_cmd_flag(result, f_check);
+
+            
+            string status_file = null;
+            status_file = t1.Upload_File(f_check.upload);
+
+            // string result_str = System.Text.Encoding.Default.GetString(result);
+            // fortest.Text = result_str;
+
+
+            // test for download
+            byte[] test_for_download = null;
+            byte[] MessageBodyByte_for_download = new byte[30];
+            MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
+            t1.SendMessage(MessageBodyByte_for_download);
+
+            string str_status_1 = t1.ReceiveMessage_For_download(0);
+            string str_status_2 = t1.ReceiveMessage_For_download(0);
+
+            t1.DisconnectServer();
+            return status_file + " + " + str_status_1 + " + " + str_status_2;
+
+        }
+
+        public void AsyncCallbackImpl(IAsyncResult ar)
+        {
+            string re = fh.EndInvoke(ar);
+            MessageBox.Show(re + ar.AsyncState);
+        }
+
+        public byte[] Get_local_File_info(string PATH)
+        {
+            DirectoryInfo dir = new DirectoryInfo(PATH);
+
+            FileSystemInfo[] fsinfos = dir.GetFileSystemInfos();
+            SocketTCPClient t1 = new SocketTCPClient();
+
+            List<file_info_json> file_json = new List<file_info_json>();
+
             /**
              * json file_info demo
              *
@@ -176,89 +221,59 @@ namespace Meerkats_Win
              *  ]
              *  
             **/
-            // for text md5 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            
-
-            // convert to json list
-            // Typ = 0x1 => file
-            // Typ = 0x2 => Directory
-
-            byte[] md11 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\1.txt"));
-            byte[] md22 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\2.txt"));
-
-            List<byte> file_1_md5 = new List<byte>();
-            for (int i = 0; i < 16; i++)
-                file_1_md5.Add(md11[i]);
-
-            List<byte> file_2_md5 = new List<byte>();
-            for (int i = 0; i < 16; i++)
-                file_1_md5.Add(md22[i]);
-
-
-            List <file_info_json> testdemo = new List<file_info_json>()
+            foreach (FileSystemInfo file in fsinfos)
             {
-                new file_info_json()
-                {
-                    Name = "1.txt",
+                byte[] file_md5 = t1.HexStrTobyte(t1.GetMD5HashFromFile(file.FullName));
+                List<byte> file__md5_list = new List<byte>();
+                for (int i = 0; i < 16; i++)
+                    file__md5_list.Add(file_md5[i]);
+
+                file_json.Add(new file_info_json() {
+                    Name = file.Name,
                     Typ = 0x1,
-                    Digest = file_1_md5
-                },
-
-                new file_info_json()
-                {
-                    Name = "2.txt",
-                    Typ = 0x1,
-                    Digest = file_2_md5
-                }
-
-            };
-
-            // Json serialize
-            testdata = JsonConvert.SerializeObject(testdemo);
-
-            t1.CreateInstance();
-
-            //byte[] test = t1.HexStrTobyte(testdata);
-
-            byte[] test = System.Text.Encoding.Default.GetBytes(testdata);
-            byte[] MessageBodyByte = new byte[test.Length + 30];
-
-            MessageBodyByte = t1.BuildDataPackage_For_Pull(test, 0x2, Device_id);
-
-            
-            t1.SendMessage(MessageBodyByte);
-            byte[] result = t1.ReceiveMessage();
-
-            List<string> file_name = t1.Check_If_Upload(result);
-
-            string status_file = null;
-
-            if (file_name.Count != 0)
-            {
-                status_file = t1.Upload_File(file_name);
+                    Digest = file__md5_list
+                });
+             
             }
+            // Json serialize
+            string MsgBody_str = JsonConvert.SerializeObject(file_json);
 
-            // string result_str = System.Text.Encoding.Default.GetString(result);
-            // fortest.Text = result_str;
+            byte[] MsgBody = System.Text.Encoding.Default.GetBytes(MsgBody_str);
+            // encapsulate packets
+            byte[] MessageBodyByte = new byte[MsgBody.Length + 30];
+            MessageBodyByte = t1.BuildDataPackage_For_Pull(MsgBody, 0x2, Device_id);
 
-
-            // test for download
-            byte[] test_for_download = null;
-            byte[] MessageBodyByte_for_download = new byte[30];
-            MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
-            t1.SendMessage(MessageBodyByte_for_download);
-
-            string str_status_1 = t1.ReceiveMessage_For_download();
-            string str_status_2 = t1.ReceiveMessage_For_download();
-
-            return status_file + " + " + str_status_1 + " + " + str_status_2;
-
+            return MessageBodyByte;
         }
 
-        public void AsyncCallbackImpl(IAsyncResult ar)
+        private static void listDirectory(string path, int leval, List<file_info_json> file_json)
         {
-            string re = fh.EndInvoke(ar);
-            MessageBox.Show(re + ar.AsyncState);
+            DirectoryInfo theFolder = new DirectoryInfo(@path);
+
+            leval++;
+
+            //遍历文件
+            foreach (FileInfo NextFile in theFolder.GetFiles())
+            {
+                SocketTCPClient t1 = new SocketTCPClient();
+                byte[] file_md5 = t1.HexStrTobyte(t1.GetMD5HashFromFile(NextFile.FullName));
+                List<byte> file__md5_list = new List<byte>();
+                for (int i = 0; i < 16; i++)
+                    file__md5_list.Add(file_md5[i]);
+
+                file_json.Add(new file_info_json()
+                {
+                    Name = NextFile.Name,
+                    Typ = 0x1,
+                    Digest = file__md5_list
+                });
+            }
+
+            //遍历文件夹
+            foreach (DirectoryInfo NextFolder in theFolder.GetDirectories())
+            {
+                listDirectory(NextFolder.FullName, leval, file_json);
+            }
         }
 
 

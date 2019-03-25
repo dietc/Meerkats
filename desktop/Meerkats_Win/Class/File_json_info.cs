@@ -23,5 +23,60 @@ namespace Meerkats_Win
             public List<byte> Digest { get; set; }
 
         }
+
+        public class file_check
+        {
+            public List<File_type> upload { get; set; }
+            public List<File_type> download { get; set; }
+            public List<Rename> rename { get; set; }
+            public List<Delete> delete { get; set; }
+            public List<Backup> backup { get; set; }
+
+        }
+        
+        public class File_type
+        {
+            public string Name { get; set; }
+
+            public string Ext { get; set; }
+            /// <summary>
+            /// Type = 0x0 -> the whole upload/download
+            /// Type = 0x1 -> differ upload/download
+            /// </summary>
+            public int Type { get; set; }
+
+        }
+
+        
+
+        public class Rename
+        {
+            public string Name { get; set; }
+            public string Ext { get; set; }
+
+        }
+        public class Differ_upload
+        {
+            public string Name { get; set; }
+
+        }
+
+        public class Differ_download
+        {
+            public string Ext { get; set; }
+        }
+
+        public class Delete
+        {
+            public string Name { get; set; }
+        }
+
+        public class Backup
+        {
+            public string Name { get; set; }
+        }
+
+
+
     }
 }
