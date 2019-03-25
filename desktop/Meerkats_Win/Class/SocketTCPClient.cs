@@ -13,12 +13,15 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Windows.Documents;
 using static Meerkats_Win.File_json_info;
+using Meerkats_Win.Class;
 
 namespace Meerkats_Win.Class
 {
 
     class SocketTCPClient
     {
+        func lib = new func();
+
         private static string ip = "178.128.45.7";
         private static int port = 4356;
         private static Socket socketClient;
@@ -146,7 +149,6 @@ namespace Meerkats_Win.Class
 
 
         }
-
 
         public string ReceiveMessage_For_download(int file_type)
         {
@@ -278,12 +280,12 @@ namespace Meerkats_Win.Class
                             {
                                 case 0:
                                     // the whole file --download
-                                    fs.Write(recvBytes, 0, recvBytes.Length);
+                                    fs.Write(file_data, 0, file_data.Length);
                                     fs.Position = fs.Length;
                                     break;
                                 case 1:
                                     // differ download
-                                    fs.Write(recvBytes, 0, recvBytes.Length);
+                                    fs.Write(file_data, 0, file_data.Length);
                                     fs.Position = fs.Length;
                                     break;
                             }
@@ -616,7 +618,6 @@ namespace Meerkats_Win.Class
             }
         }
 
-
         /// <summary>
         /// BuildDataPackage
         /// </summary>
@@ -864,7 +865,7 @@ namespace Meerkats_Win.Class
                 Buffer.BlockCopy(private_key, 0, Check_sum, Msg_length + index, private_key.Length);
 
                 byte[] md5 = new byte[16];
-                md5 = HexStrTobyte(GetMD5Hash(Check_sum));
+                md5 = lib.HexStrTobyte(GetMD5Hash(Check_sum));
 
                 return (md5);
             }
@@ -895,55 +896,7 @@ namespace Meerkats_Win.Class
         }
 
         // stringhex(md5) => byte[]
-        public byte[] HexStrTobyte(string hexString)
-        {
-            try
-            {
-                hexString = hexString.Replace(" ", "");
-                if ((hexString.Length % 2) != 0)
-                    hexString += " ";
-                byte[] returnBytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < returnBytes.Length; i++)
-                    returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2).Trim(), 16);
-                return returnBytes;
 
-                ////byte[] => stringhex(md5)
-
-                //byte[] buffer = {};
-
-                //StringBuilder strBuider = new StringBuilder();
-                //for (int index = 0; index < count; index++)
-                //{
-                //    strBuider.Append(((int)buffer[index]).ToString("X2"));
-                //}
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public string GetMD5HashFromFile(string fileName)
-        {
-            try
-            {
-                FileStream file = new FileStream(fileName, FileMode.Open);
-                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-                byte[] retVal = md5.ComputeHash(file);
-                file.Close();
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < retVal.Length; i++)
-                {
-                    sb.Append(retVal[i].ToString("x2"));
-                }
-                return sb.ToString();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
-            }
-        }
 
 
     }

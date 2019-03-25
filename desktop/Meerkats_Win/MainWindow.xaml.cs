@@ -28,6 +28,10 @@ namespace Meerkats_Win
         public delegate string FuncHandle();
         FuncHandle fh;
 
+        // the path for stored data 
+        private static string PATH = "F:\\fortest\\";
+        // private static string Backup_PATH = "F:\\fortest\\back_history_file";
+
         /// <summary>
         /// desktop client id = 0x2
         /// </summary>
@@ -45,65 +49,59 @@ namespace Meerkats_Win
             file_tree.Items.Clear();
             file_tree.ItemsSource = List;
 
-            //// Json Filedata
-            //string File_json = "{\"1\":\"2\",\"3\":{\"4\":\"5\",\"6\":\"7\"}}";
-
-            //var js_obj = JObject.Parse(File_json);
-            ////创建TreeView的数据源
-            //file_tree.ItemsSource = js_obj.Children().Select(c => JsonHeaderLogic.FromJToken(c));
-
             DirectoryTreeView mainTree = new DirectoryTreeView();
             mainTree.SelectedItemChanged += MainTree_SelectedItemChanged;
             file_tree_grid.Children.Add(mainTree);
 
-            //右键菜单
-            ContextMenu myContext = new ContextMenu();
+            //// Right-click menu
+            //ContextMenu myContext = new ContextMenu();
 
-            MenuItem myMUItem = new MenuItem();
-            myMUItem.Header = "Open";
-            myMUItem.Name = "Menu01";
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "View";
-            myMUItem.Name = "Menu02";
-            //myMUItem.Click += FileLook_Click;
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "Refresh";
-            myMUItem.Name = "Menu03";
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "Rename";
-            myMUItem.Name = "Menu04";
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "Delete";
-            myMUItem.Name = "Menu05";
-            myContext.Items.Add(myMUItem);
-
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "New directory";
-            myMUItem.Name = "Menu06";
-            myContext.Items.Add(myMUItem);
-
-            //myMUItem = new MenuItem();
-            //myMUItem.Header = "Upload file";
-            //myMUItem.Click += upload_file;
-            //myMUItem.Name = "Menu07";
+            //MenuItem myMUItem = new MenuItem();
+            //myMUItem.Header = "Open";
+            //myMUItem.Name = "Menu01";
+            //myMUItem.Click += FileOpen_Click;
             //myContext.Items.Add(myMUItem);
 
-            file_info.ContextMenu = myContext;
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "View";
+            //myMUItem.Name = "Menu02";
+            ////myMUItem.Click += FileLook_Click;
+            //myContext.Items.Add(myMUItem);
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "Refresh";
+            //myMUItem.Name = "Menu03";
+            //myContext.Items.Add(myMUItem);
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "Rename";
+            //myMUItem.Name = "Menu04";
+            //myContext.Items.Add(myMUItem);
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "Delete";
+            //myMUItem.Name = "Menu05";
+            //myContext.Items.Add(myMUItem);
+
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "New directory";
+            //myMUItem.Name = "Menu06";
+            //myContext.Items.Add(myMUItem);
+
+            ////myMUItem = new MenuItem();
+            ////myMUItem.Header = "Upload file";
+            ////myMUItem.Click += upload_file;
+            ////myMUItem.Name = "Menu07";
+            ////myContext.Items.Add(myMUItem);
+
+            //file_info.ContextMenu = myContext;
 
         }
 
-        private void upload_file(object sender, RoutedEventArgs e)
+        private void FileOpen_Click(object sender, RoutedEventArgs e)
         {
-            //
+
         }
 
         /// <summary>
@@ -158,8 +156,8 @@ namespace Meerkats_Win
 
             t1.CreateInstance();
            
-            //
-            t1.SendMessage(Get_local_File_info("F:\\fortest\\"));
+            // 
+            t1.SendMessage(Get_local_File_info(PATH));
 
             byte[] result = t1.ReceiveMessage();
 
@@ -204,6 +202,9 @@ namespace Meerkats_Win
 
             List<file_info_json> file_json = new List<file_info_json>();
 
+            //  traverse files and dirs
+            int level = 0;
+            listDirectory(PATH, PATH, level, file_json);
             /**
              * json file_info demo
              *
@@ -221,20 +222,8 @@ namespace Meerkats_Win
              *  ]
              *  
             **/
-            foreach (FileSystemInfo file in fsinfos)
-            {
-                byte[] file_md5 = t1.HexStrTobyte(t1.GetMD5HashFromFile(file.FullName));
-                List<byte> file__md5_list = new List<byte>();
-                for (int i = 0; i < 16; i++)
-                    file__md5_list.Add(file_md5[i]);
 
-                file_json.Add(new file_info_json() {
-                    Name = file.Name,
-                    Typ = 0x1,
-                    Digest = file__md5_list
-                });
-             
-            }
+
             // Json serialize
             string MsgBody_str = JsonConvert.SerializeObject(file_json);
 
@@ -246,37 +235,35 @@ namespace Meerkats_Win
             return MessageBodyByte;
         }
 
-        private static void listDirectory(string path, int leval, List<file_info_json> file_json)
+        private static void listDirectory(String PATH,string path, int leval, List<file_info_json> file_json)
         {
             DirectoryInfo theFolder = new DirectoryInfo(@path);
 
             leval++;
 
-            //遍历文件
+            // traverse files
             foreach (FileInfo NextFile in theFolder.GetFiles())
             {
-                SocketTCPClient t1 = new SocketTCPClient();
-                byte[] file_md5 = t1.HexStrTobyte(t1.GetMD5HashFromFile(NextFile.FullName));
+                func lib = new func();
+                byte[] file_md5 = lib.HexStrTobyte(lib.GetMD5HashFromFile(NextFile.FullName));
                 List<byte> file__md5_list = new List<byte>();
                 for (int i = 0; i < 16; i++)
                     file__md5_list.Add(file_md5[i]);
 
                 file_json.Add(new file_info_json()
                 {
-                    Name = NextFile.Name,
+                    Name = NextFile.FullName.Replace(PATH, String.Empty),
                     Typ = 0x1,
                     Digest = file__md5_list
                 });
             }
 
-            //遍历文件夹
+            // traverse directories
             foreach (DirectoryInfo NextFolder in theFolder.GetDirectories())
             {
-                listDirectory(NextFolder.FullName, leval, file_json);
+                listDirectory(PATH,NextFolder.FullName, leval, file_json);
             }
         }
-
-
 
 
         /**

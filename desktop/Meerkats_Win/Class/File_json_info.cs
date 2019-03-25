@@ -53,17 +53,6 @@ namespace Meerkats_Win
         {
             public string Name { get; set; }
             public string Ext { get; set; }
-
-        }
-        public class Differ_upload
-        {
-            public string Name { get; set; }
-
-        }
-
-        public class Differ_download
-        {
-            public string Ext { get; set; }
         }
 
         public class Delete
