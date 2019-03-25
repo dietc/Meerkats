@@ -12,6 +12,9 @@
 \begin{document}
 \maketitle{}
 
+\tableofcontents
+\newpage
+
 \section{Introduction}
 We live in a dynamic and fast paced world where access to data is no longer limited to having access to a single device. Information is now available and accessible through one click and people are carrying small computers in their hands most of the time by having smart phone devices and are able to access their files from anywhere in the world. Additionally, enterprises use the cloud as a means for collaboration to increase their workforce productivity and to meet their customers’ requirements of having mobile access to products and services.
 
@@ -48,7 +51,6 @@ Signing up for GoogleDrive provide users with 15GB of storage space for free. It
 The solution is compatible with Windows, Mac, Android, iOS and it implements a sync folder mechanism, adding a “Google Drive” folder to the user's file-system when they install the desktop client (the client is called “Backup & Sync”). Any folder users drop in it gets sent off to the cloud, then onto other devices. The disadvantage of this process that it requires that files be stored both on the users’ hard drive and in the cloud to work, which is not useful if users want to free up their disk space. To address this concern, Google has introduced a new feature to allow users select specific folders to help in free up hard drive space. Users need to click on “preferences” button to open a window that will let them turn sync off for specific folders,(see figure1)
 One point to mention about GoogleDrive is that it uploads and downloads the entire file all over again when a change is made, which takes time, but it is worth mentioning that google has multiple data centers around the world, which decreases both users computer’s distance to the cloud and server congestion at the same time. (See https://www.cloudwards.net/dropbox-vs-google-drive/#two)
 
-figure1
 
 \subsection{DropBox}
 \textbf{Storage and Cost:}
@@ -61,10 +63,6 @@ DropBox can be installed on Windows, Mac, Linux, Android, iOS, Windows Phone, Bl
 
 \newline
 \hfill \break
-
-INSERT figure2 HERE?
-
-\newline
 
 \subsection{Box}
 \textbf{Cost and Storage}
@@ -87,7 +85,7 @@ OneDrive is a Microsoft product and it offers up to 5GB free storage space. User
 \textbf{File Synchronization}
 OneDrive can run on Windows, Mac, Android, iOS, Windows Phone and it follows the standard sync model developed by DropBox. It includes a sync folder, which is like a normal folder with the only difference being that it’s connected to the cloud. OneDrive offers simple way to sync files. Users can move individual files to OneDrive’s sync folder by right-clicking and selecting “move to OneDrive”. A drawback about OneDrive is that specific files can’t be synced to OneDrive. Instead, users have to go to the settings menu of the OneDrive desktop client and update the folders (see figure 4) that OneDrive selected to “auto save” On Windows 10, they are “desktop,” “pictures” and “documents.” (seehttps://www.cloudwards.net/review/onedrive/)
 
-figure 4
+
 
 The solution is compatible with Google docs and with some of office tools, which provides convenience for users who have google accounts as they can save their attachments directly into their googleDrive.(to be added if we needed more words later)
 \newline
@@ -171,6 +169,12 @@ The following flow charts show the general design of the solution as well as det
     \caption{Flowchart}
     \label{fig:flowchart1}
 \end{figure}
+
+\newline
+\hfill \break
+
+This diagram shown in Figure 3 shows two main functions of the file synchronization software that are executed through desktop application.
+The flowchart illustrates how the upload and download functions are implemented in details, from the time a user clicks on upload/download till complete execution of those requests.
 
 \subsection{Mobile Application Interface Design Principles}
 We understand that designing mobile application is very different than designing desktop application.
@@ -438,8 +442,6 @@ We will decide on the file versioning strategies and will be using one of the av
 \section{Things I am adding later/working on}
 DONT MIND THE FORMAT??
 
-Please collect some background information about the  topics below. Then you can put it as materials in our final report. Be careful not to use their original description to avoiding plagiarism.
-
 Finite-State Matchine(FSM)
 What is a FSM?
 Our server implements a FSM model to process incoming TCP stream of bytes.
@@ -460,8 +462,6 @@ What is gizp?
 Gzip is both a file format and a software application that is used for file compression and decompression.
 What is its mechanism?
 
-Rsync
-There is a link given in professor’s slide.
 
 Our Security Mechanism
 Hopefully we can achieve it after developing all the basic functions!

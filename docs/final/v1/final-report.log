@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  25 MAR 2019 15:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  25 MAR 2019 15:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -156,18 +156,30 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 13.
+ (./final-report.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 3.
+)
+\tf@toc=\write3
+\openout3 = `final-report.toc'.
+
+ [1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
 
-./final-report.tex:20: LaTeX Error: There's no line here to end.
+./final-report.tex:23: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.20 \newline
+l.23 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -176,30 +188,27 @@ or  <return>  to continue without it.
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-<./images/logo.png, id=1, 501.875pt x 195.73125pt>
+<./images/logo.png, id=11, 501.875pt x 195.73125pt>
 File: ./images/logo.png Graphic file (type png)
  <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png used on input line 30.
+Package pdftex.def Info: ./images/logo.png used on input line 33.
 (pdftex.def)             Requested size: 327.74895pt x 127.82709pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[1
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+[2]
 
-
-./final-report.tex:45: LaTeX Error: There's no line here to end.
+./final-report.tex:48: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.45 \newline
+l.48 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -214,8 +223,8 @@ Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
-./final-report.tex:48: Misplaced alignment tab character &.
-l.48 ...p client (the client is called ‚ÄúBackup &
+./final-report.tex:51: Misplaced alignment tab character &.
+l.51 ...p client (the client is called ‚ÄúBackup &
                                                    Sync‚Äù). Any folder user...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -239,36 +248,8 @@ Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-./final-report.tex:49: You can't use `macro parameter character #' in horizontal mode.
-l.49 ...w.cloudwards.net/dropbox-vs-google-drive/#
-                                                  two)
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-[2 <./images/logo.png>]
-
-./final-report.tex:57: LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.57 \newline
-             
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-./final-report.tex:60: You can't use `macro parameter character #' in horizontal mode.
-l.60 ...w.cloudwards.net/dropbox-vs-google-drive/#
+./final-report.tex:52: You can't use `macro parameter character #' in horizontal mode.
+l.52 ...w.cloudwards.net/dropbox-vs-google-drive/#
                                                   two)
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -276,44 +257,59 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 
-./final-report.tex:62: LaTeX Error: There's no line here to end.
+./final-report.tex:59: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.62 \newline
+l.59 \newline
+             
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+./final-report.tex:62: You can't use `macro parameter character #' in horizontal mode.
+l.62 ...w.cloudwards.net/dropbox-vs-google-drive/#
+                                                  two)
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+[3 <./images/logo.png>]
+
+./final-report.tex:64: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.64 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 63--64
+Underfull \hbox (badness 10000) in paragraph at lines 65--66
 
  []
 
 
-./final-report.tex:67: LaTeX Error: There's no line here to end.
+./final-report.tex:71: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.67 \newline
-             
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-./final-report.tex:73: LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.73 \newline
+l.71 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -323,32 +319,31 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-./final-report.tex:79: LaTeX Error: There's no line here to end.
+./final-report.tex:77: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.79 \newline
+l.77 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 80--81
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
 
  []
 
-[3]
 
-./final-report.tex:85: LaTeX Error: There's no line here to end.
+./final-report.tex:83: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.85 \newline
+l.83 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -393,18 +388,18 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 92--96
-
- []
-
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
 [4]
+Underfull \hbox (badness 10000) in paragraph at lines 90--94
+
+ []
+
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+[5]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ò in font cmr10!
@@ -423,195 +418,209 @@ Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- <./images/timeline.png, id=21, 1350.04375pt x 368.37625pt>
+ <./images/timeline.png, id=24, 1350.04375pt x 368.37625pt>
 File: ./images/timeline.png Graphic file (type png)
  <use ./images/timeline.png>
-Package pdftex.def Info: ./images/timeline.png used on input line 129.
+Package pdftex.def Info: ./images/timeline.png used on input line 127.
 (pdftex.def)             Requested size: 345.0pt x 94.13423pt.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 140.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 140.
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--142
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
 []|\OT1/cmr/bx/n/10 Start
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 142--142
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
 []|\OT1/cmr/bx/n/10 End
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--144
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []|\OT1/cmr/m/n/10 Kick-off
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--144
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--144
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--144
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 144--144
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 \OT1/cmr/m/n/10 27,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--146
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--146
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
 \OT1/cmr/m/n/10 28,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--148
+Underfull \hbox (badness 10000) in paragraph at lines 146--146
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--148
+Underfull \hbox (badness 10000) in paragraph at lines 146--146
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 []|\OT1/cmr/m/n/10 Initial Re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 \OT1/cmr/m/n/10 29,
  []
 
 
-Underfull \hbox (badness 8038) in paragraph at lines 152--152
+Underfull \hbox (badness 8038) in paragraph at lines 150--150
 []|\OT1/cmr/m/n/10 Group Pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--152
+Underfull \hbox (badness 10000) in paragraph at lines 150--150
 []|\OT1/cmr/m/n/10 To demon-strate
  []
 
 
-Underfull \hbox (badness 7740) in paragraph at lines 152--152
+Underfull \hbox (badness 7740) in paragraph at lines 150--150
 \OT1/cmr/m/n/10 the group ini-tial
  []
 
 
-Underfull \hbox (badness 3668) in paragraph at lines 152--152
+Underfull \hbox (badness 3668) in paragraph at lines 150--150
 \OT1/cmr/m/n/10 share the project
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 Software
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/m/n/10 15,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 1102) in paragraph at lines 156--156
+Underfull \hbox (badness 1102) in paragraph at lines 154--154
 []|\OT1/cmr/m/n/10 To sub-mit the fi-
  []
 
 
-Underfull \hbox (badness 1946) in paragraph at lines 156--156
+Underfull \hbox (badness 1946) in paragraph at lines 154--154
 \OT1/cmr/m/n/10 ma-tion about the
  []
 
 
-Underfull \hbox (badness 5622) in paragraph at lines 156--156
+Underfull \hbox (badness 5622) in paragraph at lines 154--154
 \OT1/cmr/m/n/10 soft-ware and the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--156
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--156
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
 \OT1/cmr/m/n/10 28,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 []|\OT1/cmr/m/n/10 Final Pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 \OT1/cmr/m/n/10 22,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 \OT1/cmr/m/n/10 29,
  []
 
 
-Overfull \hbox (15.87476pt too wide) in paragraph at lines 140--161
+Overfull \hbox (15.87476pt too wide) in paragraph at lines 138--159
  [] 
  []
 
-[5 <./images/timeline.png>] <./images/flowchart.png, id=25, 934.49126pt x 996.72375pt>
+[6 <./images/timeline.png>] <./images/flowchart.png, id=28, 934.49126pt x 996.72375pt>
 File: ./images/flowchart.png Graphic file (type png)
  <use ./images/flowchart.png>
-Package pdftex.def Info: ./images/flowchart.png used on input line 170.
+Package pdftex.def Info: ./images/flowchart.png used on input line 168.
 (pdftex.def)             Requested size: 327.74895pt x 349.57335pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7 <./images/flowchart.png>]
+
+./final-report.tex:173: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.173 \newline
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--175
+
+ []
+
+[7] [8 <./images/flowchart.png>]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -621,83 +630,77 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 191.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 195.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 191.
- <./images/signup.png, id=35, 1204.5pt x 1132.23pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 195.
+ [9] <./images/signup.png, id=42, 1204.5pt x 1132.23pt>
 File: ./images/signup.png Graphic file (type png)
  <use ./images/signup.png>
-Package pdftex.def Info: ./images/signup.png used on input line 197.
+Package pdftex.def Info: ./images/signup.png used on input line 201.
 (pdftex.def)             Requested size: 327.74895pt x 308.09033pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[8] [9 <./images/signup.png>]
-Overfull \hbox (3.98012pt too wide) in paragraph at lines 224--227
+ [10 <./images/signup.png>] [11]
+Overfull \hbox (3.98012pt too wide) in paragraph at lines 228--231
 []\OT1/cmr/bx/n/10 The prin-ci-ple of least priv-i-lege \OT1/cmr/m/n/10 The Prin-ci-ple of Least Priv-i-lege (POLP)
  []
 
-[10]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Overfull \hbox (2.47098pt too wide) in paragraph at lines 232--233
+Overfull \hbox (2.47098pt too wide) in paragraph at lines 236--237
 []\OT1/cmr/bx/n/10 Security Con-trol Ti-tle: \OT1/cmr/m/n/10 Rivest-Shamir-Adleman (RSA) Al-go-rithm.
  []
 
 
-Overfull \hbox (2.70142pt too wide) in paragraph at lines 240--241
+Overfull \hbox (2.70142pt too wide) in paragraph at lines 244--245
 []\OT1/cmr/bx/n/10 Security Con-trol: \OT1/cmr/m/n/10 Data Stream Cipher- Ad-vanced En-cryp-tion Stan-
  []
 
+[12]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ò in font cmr10!
-[11]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+ [13]
 
-
-./final-report.tex:274: LaTeX Error: There's no line here to end.
+./final-report.tex:278: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.274 \newline
+l.278 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[12]
-./final-report.tex:282: You can't use `macro parameter character #' in horizontal mode.
-l.282 \item\textbf{The Desktop Client:} C#
+./final-report.tex:286: You can't use `macro parameter character #' in horizontal mode.
+l.286 \item\textbf{The Desktop Client:} C#
                                            was selected to build windows des...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
-./final-report.tex:282: You can't use `macro parameter character #' in horizontal mode.
-l.282 ...s to develop desktop application using C#
+./final-report.tex:286: You can't use `macro parameter character #' in horizontal mode.
+l.286 ...s to develop desktop application using C#
                                                   . Additionally, C# has a b...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
-./final-report.tex:282: You can't use `macro parameter character #' in horizontal mode.
-l.282 ...op application using C#. Additionally, C#
+./final-report.tex:286: You can't use `macro parameter character #' in horizontal mode.
+l.286 ...op application using C#. Additionally, C#
                                                    has a built-in advanced c...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -705,53 +708,53 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 
-./final-report.tex:284: LaTeX Error: There's no line here to end.
+./final-report.tex:288: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.284 \newline
+l.288 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-./final-report.tex:290: LaTeX Error: There's no line here to end.
+./final-report.tex:294: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.290 \newline
+l.294 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 291--301
+Underfull \hbox (badness 10000) in paragraph at lines 295--305
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 291--301
+Underfull \hbox (badness 10000) in paragraph at lines 295--305
 
  []
 
-[13] [14]
-Underfull \hbox (badness 10000) in paragraph at lines 312--323
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 312--323
+[14] [15]
+Underfull \hbox (badness 10000) in paragraph at lines 316--327
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 312--323
+Underfull \hbox (badness 10000) in paragraph at lines 316--327
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--327
 
  []
 
@@ -761,40 +764,6 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-[15]
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-
-
-./final-report.tex:349: LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.349 \newline
-              
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-./final-report.tex:355: LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.355 \newline
-              
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
 [16]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -802,20 +771,48 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [17]
+
+
+./final-report.tex:353: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.353 \newline
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+./final-report.tex:359: LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.359 \newline
+              
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[17]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [18]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmbx10!
 Missing character: There is no Ä in font cmbx10!
 Missing character: There is no ô in font cmbx10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
- [18]
+ [19]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -842,21 +839,24 @@ Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
- [19] (./final-report.aux) ) 
+Missing character: There is no ú in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ù in font cmr10!
+ [20] (./final-report.aux) ) 
 Here is how much of TeX's memory you used:
- 1786 strings out of 493014
- 26154 string characters out of 6133351
- 92581 words of memory out of 5000000
+ 1789 strings out of 493014
+ 26192 string characters out of 6133351
+ 90582 words of memory out of 5000000
  5313 multiletter control sequences out of 15000+600000
  7895 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,9n,23p,805b,241s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on final-report.pdf (19 pages, 418551 bytes).
+Output written on final-report.pdf (20 pages, 422089 bytes).
 PDF statistics:
- 96 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
+ 99 PDF objects out of 1000 (max. 8388607)
+ 65 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
