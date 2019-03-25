@@ -131,14 +131,46 @@ ADD SOME SORT OF INTRO HERE
     \label{fig:timeline1}
 \end{figure}
 
-TALK ABOUT TIMELINE. Also talk about the WATERFALL model.
+TALK ABOUT TIMELINE.
+
+\subsection{Implementation Timeframe}
+Below table outlines the milestones along with brief description and expected timeframe.
+
+\begin{center}
+\begin{tabular}{ | m{3em} | m{2cm}| m{3cm} | m{1cm} | m{1cm} | m{2cm} |}
+\hline
+\textbf{\#} & \textbf{Milestones} & \textbf{Description} & \textbf{Start Date} & \textbf{End Date} & \textbf{Status}  \\
+\hline
+1 & Kick-off meeting & Background survey and initial plan & Jan 21, 2019 & Jan 27, 2019 & Completed \\
+\hline
+2 & Software Design  & Design the software layout & Jan 28, 2019 & Feb 3, 2019 & Completed \\
+\hline
+3 & Software Development & Work to deliver the file synchronization software & Feb 4, 2019 & March 21, 2019 & Completed \\
+\hline
+4 & Initial Report & To develop and submit the initial report & Jan 29, 2019 & Feb 7, 2019 & Completed \\
+\hline
+5 & Group Presentation & To demonstrate  the group initial software design and share the project plan & Feb 8, 2019 & Feb 8, 2019 & Completed \\
+\hline
+6 & Software Testing &  To test the software and ensure correct and secured implementation & March 15, 2019 & March 21, 2019 & Completed \\
+\hline
+7 & Final report & To submit the final report describing complete information about the software and the project lifecycle & Feb 8, 2019 & March 28, 2019 & Completed \\
+\hline
+8 & Final Presentation & To deliver the final presentation about the software & March 22, 2019 & March 29, 2019 & In progress \\
+\hline
+\end{tabular}
+\end{center}
 
 \subsection{Design Model}
 The team has decided to follow the strategy of capitalizing on existing experiences and skills to save time and to deliver efficient solution.Some of the team members had the opportunity to develop android applications and others had the chance to build windows applications. Therefore, it was wise to go with those platforms since the expertise exists in the group in addition; those systems are reliable and widely used by users.
 
 The following flow charts show the general design of the solution as well as detailed design for the Android and Windows clients.
 
-Design Flow Chart TO BE ADDED
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\textwidth]{flowchart}
+    \caption{Flowchart}
+    \label{fig:flowchart1}
+\end{figure}
 
 \subsection{Mobile Application Interface Design Principles}
 We understand that designing mobile application is very different than designing desktop application.
@@ -154,12 +186,29 @@ We designed the mobile client interface with great intent to impress users withi
 \item \textbf{Orientation:} Is how the keyboard looks like when users attempt to type in their data. We have selected Portrait as our application doesn’t require lots of data to be inputted.
 \item \textbf{Launching:} When users launch the application, they will see an image that represent the logo of the software and the application name only. We aimed at not to confuse users at the beginning by adding buttons and text when they firs load the application. When users leave the app and comeback to it, they will resume operation right where they left the application.
 \item \textbf{First impressions:} We believe on the say “ first launch make or break situation” therefore, we though of the following things:
-•	\item \textbf{Icons:} We have kept text to minimum, and selected polished and eye attraction icons to attract users attention and create excellent and lasting first impression.
-•	\item \textbf{First launch:} We ensured that users are not lost when they first launch the application and can easily deal with it without the need to seek assistance.
 \end{enumerate}
+\begin{itemize}
+\item \textbf{Icons:} We have kept text to minimum, and selected polished and eye attraction icons to attract users attention and create excellent and lasting first impression.
+\item \textbf{First launch:} We ensured that users are not lost when they first launch the application and can easily deal with it without the need to seek assistance.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.95\textwidth]{signup}
+    \caption{Sign in and sign up screen}
+    \label{fig:signup1}
+\end{figure}
 
 \subsection{Desktop Application Interface Design Principles}
 As with mobile app interface design interface, our goal was to create a perfect user experience. We thoroughly thought of how to design desktop application interface that is simple to use, fun to interact with and intuitive. Some rules that we considered include the following:
+\begin{itemize}
+\item Combine what should be combined. Features that support the execution of a task have been gathered in one place. Consequently, tasks that are performed through multiple steps can be performed in streamlined flow.
+\item Separate what should be separated. To support simplicity and avoid complex interface, key features are presented in very clear way while optional and secondary features are hidden. We also, separated tasks related to specific function (creation of a new file for example) from tasks supporting another function (uploading existing file).
+\item Eliminate what can be eliminated. The interface design has been reviewed to examine the text and all elements to make sure that clear, simple and easy to understand words are used and no redundancy in the element.
+\item Put the elements in the right place. We followed logical order when placing buttons and instructions. Progressive Disclosure Technique has been considered as applicable. It is about displaying additional information as needed instead of filing the home page with too many elements and information.
+\item Use meaningful high-level combinations. It is often simpler and more scalable to select and manipulate groups of related elements than individual elements. Examples of high-level combinations include folders, themes, styles, and user groups. Such combinations often map to a user goal or intention that isn't apparent from the individual elements. For example, the intention behind the High Contrast Black color scheme is far more apparent than that of a black window background.
+\item Select the right controls. Design elements have presented in efficient manner by selecting the right controls. We know that selecting the right controls are important to effectively interact with the application. For example, the saving file function has been presented in a simple dialog box that ask the users to enter the file name and type then have the options to save it or cancel the transaction.
+\end{itemize}
 
 
 \subsection{Security Design}
@@ -177,21 +226,27 @@ The Principle of Least Privilege (POLP) has been applied to all aspects of the a
 For example,
 \item \textbf{The principle of Defense in depth}
 The principle of defense in depth is considered in the design. The team used different security controls to approach different risks such as data leakage, data unavailability, code injection…etc.
+\begin{itemize}
+\item \textbf{Process Title:} Establishing Secure Connection (Handshake)
+\item \textbf{Risk:} Adversaries could intercept the connection between the client and the server and/or alter data or view sensitive data, in addition to repudiation risk.
+\item \textbf{Security Control Title:} Rivest-Shamir-Adleman (RSA) Algorithm. RSA was used to provide secure connection and protection of data storage. The security of an algorithm depends on the length of the private key and since it is so far very difficult for attackers to compute large prime number, which is the result of multiplying two large primes we selected RSA.
 
-Security Controls- Detailed Information
-•	Process Title: Shake-hands
-•	Risk:
-•	Security Control Title: RSA
+\item \textbf{Process Title:} Key Exchange Stage through (Diffe-Hellman) Algorithm
+\item \textbf{Risk:} Private keys can be accessed by unauthorized people, which could result in their ability to decrypt cipher text and get access to sensitive data in plaintext.
+\item \textbf{Security Control:} Since we used RSA to encrypt the connection, it is very important to use secure method to exchange keys. We used Diffe-Hellman because it is a simple yet secured algorithm to facilitate key exchange.
 
-•	Process Title: Key Exchange Stage (Diffe-Hellman)
-•	Risk:
-•	Security Control:
-•	Process Title: Data Stream Encryption
-•	Risk:
-•	Security Control: industrial-level algorithms: AES
-•	ProcessTitle: File Upload
-•	Risk:
-•	Security Controls:
+\item \textbf{Process Title:} Data Stream Encryption through Advanced Encryption Standard (AES)
+\item \textbf{Risk:} Data travel over the internet in plaintext format are vulnerable to many threats such as unauthorized access and potentially malicious modification by adversaries. To protect against those threats, we used AES to encrypt the communication between the server and the clients.
+\item \textbf{Security Control:} Data Stream Cipher- Advanced Encryption Standards (AES). This cipher was used to encrypt data when they are streamed to the cloud.
+
+\item \textbf{Process Title:} Securely Transmitting and Synchronizing Files
+\item \textbf{Risk:} The integrity of files transferred over the Internet and stored in the web need to be protected from unauthorized modification and data manipulation.
+\item \textbf{Security Control:} We are using a cryptographic hashing function ‘Message Digest (MD5) ‘ to validate data integrity when digitally transferred over the Internet. MD5 produces 128-bit hash value to check data integrity. We selected MD5 as it is simple to be implemented and we are considering using more secure non-cryptographic hash function such as MurMur in future since it has less structure considering the number of assembly instructions it generates as well as it provides a better collisions resistance than MD5.
+
+\item \textbf{Process Title:} File Upload
+\item \textbf{Risk:} Uploading infected or malicious files.
+\item \textbf{Security Controls:} Using Anti-Virus program to scan files before they are uploaded to the cloud.
+\end{itemize}
 
 \item \textbf{Fail securely}
 The application was designed to fail securely. That means, even if a failure occurs, it won’t expose sensitive data like logs or grant users additional privileges.
@@ -224,17 +279,21 @@ We discussed among the team what are the right languages to use to develop the s
 \item\textbf{The Server:} The group decided to use Golang knows also as Go for building the server. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. Go has great advantages such as no pointer arithmetic, no manual memory management, a standard library that seems fairly well thought out and purposefully excludes things that are misused (ex. no ECB mode for AES).
 \item\textbf{The Mobile Client:} Java was used to build the android mobile application. The reason for choosing Java is it is a commonly used language and some of the team members know it very well.
 Additionally, many development tools are available for Java. It is a popular object oriented programming language with most phones compatible with it.
-\item\textbf{he Desktop Client:} C# was selected to build windows desktop application because it is targeted toward windows operating system. Some team members had the chance to use it and have the skills to develop desktop application using C#. Additionally, C# has a built-in advanced code editor and debugger, which leads to debugging errors in quicker manner. It also, has an intensive framework, which make
+\item\textbf{The Desktop Client:} C# was selected to build windows desktop application because it is targeted toward windows operating system. Some team members had the chance to use it and have the skills to develop desktop application using C#. Additionally, C# has a built-in advanced code editor and debugger, which leads to debugging errors in quicker manner. It also, has an intensive framework, which make
 \end{itemize}
 \newline
 \hfill \break
 \textbf{Data Storage and Transmissions Method}
-Serialization was used to enable data transmission between the devices. In computer science, in the context of data storage and transmission, serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be "resurrected" later in the same or another computer environment. (wikibedia) MAYBE CHANGE THE WORDING
+Serialization was used to enable data transmission between the devices. In computer science, in the context of data storage and transmission, serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be "resurrected" later in the same or another computer environment. (Wikipedia). There are two ways of transmitting data between server and browser and in which we can encode data. The two methods are JavaScript Object Notation
+(JSON) and Protocol Buffers known as Protobuf. We decided to use JSON as it meets our technical needs and for simplicity and convenience. JSON uses Ajax to enable the exchange of data between the web application and the browser and server without the need to reload the page and it encodes data in a human readable manner. However, in future version of the software, we might switch to Protobuf to overcome some limitations in JSON such as the slowness of encoding and decoding for integers and floats, comparing strings is a bit time consuming as well as the need for sequential scan when parsing strings, arrays and objects which in all preceding cases are mitigated in Protobuf.
 
 \newline
 \hfill \break
 \textbf{Communication Protocol}
 The software is running over the TCP protocol through the xxxx(???) port. The team originally have thought of two protocols that are TCP and HTTP. We decided to use TCP due to its simple structure and easy to follow and implement rules
+\newline
+\hfill \break
+\textbf{Rsync: An overview:} We have looked at Rsync as suggested by the project supervisor and found it to be sufficient to do the job. In a nutshell, Rsync is used to detect changes in files that are stored in two different locations and then sync the file in the remote sever to be identical to the file that is stored in local hard drive without the need to send the complete file over the internet to the server once again each time a user makes a change in the local version of it.
 \newline
 \hfill \break
 \textbf{User Interface Testing}
@@ -321,9 +380,11 @@ Samah Alghamdi & 16.66 \\
 
 \section{Challenges}
 \begin{itemize}
-\item \textbf{Communication:}
-After two meetings with the group, it was discovered that the language could be a barrier toward successful implementation of the project. A solution to tackle this challenge was to make sure that we speak clearly and use simple communication and ask confirming questions such as is that clear to everyone? as this is important to avoid misunderstanding and make sure that every on the same page for the every aspect of the project.
+\item \textbf{Communication:} Since we came from different background and since we speak different languages (Arabic, Chinese and Norwegian), having the ability to speak English clearly and be able to deliver information and updates in clear manner is vital to the success of the group. Our chines colleagues had a problem with demonstrating the ability to which resulted sometimes in miscommunication or \textbf{Solution:} We agreed to use very simple English words and terms when we discuss project update or argue ideas and that every one should ensure that his/her message has been delivered to every one correctly by using assurance questions such as am I clear? Did you understand my point? do you want me to repeat what I just said?...etc.
 
+\item \textbf{Attendance Punctuality} In addition to our daily chats through slack, we decided to meet in person once every week to discuss progress, issues and better connect with each other’s. However, we had to cancel some meetings due to either tardiness of last minute notice of absence by some of the team members.
+\textbf{Solution:} We created a process to address this issue. We agreed to deduct points from the peer-to-peer assessment scores if a member was late for more than 5 minutes of the meeting start time or didn’t inform the group about his/her absence 24 hours prior the meeting date.
+This process ensured timely attendance and commitment of all team members.
 \item \textbf{Project timeframe:}
 Description
 
@@ -383,6 +444,7 @@ Make a comparison between common algorithms. Specially, a newly developed algori
 
 Compression Method(gzip)
 What is gizp?
+Gzip is both a file format and a software application that is used for file compression and decompression.
 What is its mechanism?
 
 Rsync

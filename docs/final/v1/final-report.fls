@@ -83,8 +83,14 @@ INPUT /usr/local/texlive/2016/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT ./images/timeline.png
 INPUT ./images/timeline.png
 INPUT ./images/timeline.png
+INPUT ./images/flowchart.png
+INPUT ./images/flowchart.png
+INPUT ./images/flowchart.png
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+INPUT ./images/signup.png
+INPUT ./images/signup.png
+INPUT ./images/signup.png
 INPUT final-report.aux
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
