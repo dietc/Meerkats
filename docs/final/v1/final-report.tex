@@ -13,8 +13,6 @@
 \maketitle{}
 
 \section{Introduction}
-Describe the context for the work and the problem you are addressing. Briefly summarise what you achieved in the project. \vfill
-\vspace{5mm}
 We live in a dynamic and fast paced world where access to data is no longer limited to having access to a single device. Information is now available and accessible through one click and people are carrying small computers in their hands most of the time by having smart phone devices and are able to access their files from anywhere in the world. Additionally, enterprises use the cloud as a means for collaboration to increase their workforce productivity and to meet their customers’ requirements of having mobile access to products and services.
 
 Digital age and user mobility have made data availability crucial not only for individuals but for business alike. Demands for having timely access to data and to ensure data accuracy and redundancy have increased dramatically and the need for technical solutions to meet these requirements has risen accordingly. The solution to reduce the time and efforts that are needed to manage data among different devices and in different locations is by using file synchronization software. File synchronization software is the process to ensuring that files in two or more locations are updated via certain rules (wikipedia). Additionally, it is used for backup and for mobile access to files.
@@ -98,8 +96,6 @@ We also looked at some resources such as Open Web Application Security Project (
 
 
 \section{Requirements and design}
-(Describe the requirements you set for your project at the beginning and the design you have taken for your project. Focus on why you decided to tackle the problem in the way you did, and what effects that had on the design. You may also wish to mention the impact of team-working on your requirements and design.)
-
 Project’s requirements have been supplied by the project’s supervisor (Dr. Laurance) for which the team has precisely aligned the software design, project timeline and allocated resources to meet the expectations.
 
 \subsection{Project Deliverables}
@@ -208,8 +204,6 @@ The team address security issues that have been identified during the testing ph
 \end{enumerate}
 
 \section{Implementation}
-Describe the most significant implementation details, focussing on those where unusual or detailed solutions were required. Quote code fragments where necessary, but remember that the examiners have full access to your source code. Explain how you tested your software (e.g. unit testing) and the extent to which you tested it. If relevant to your project, explain performance issues and how you tackled them.
-
 The team has spent great deal of time searching and deciding on the best approach to execute the project and the right methodology to develop the building blocks of the software and the integration among those components.
 
 \subsection{Development Guiding Principles}
@@ -225,9 +219,13 @@ The team has spent great deal of time searching and deciding on the best approac
 \newline
 \hfill \break
 \textbf{Programming languages}
-The group decided to use Golang, also known as Go, for building the server. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software.
-Java was used to build the android mobile application while C# was selected to build the Windows desktop application. CAN PROBABLY ADD MORE WORDS HERE LATER.
-
+We discussed among the team what are the right languages to use to develop the server, mobile client and desktop app and we agreed on the following languages:
+\begin{itemize}
+\item\textbf{The Server:} The group decided to use Golang knows also as Go for building the server. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. Go has great advantages such as no pointer arithmetic, no manual memory management, a standard library that seems fairly well thought out and purposefully excludes things that are misused (ex. no ECB mode for AES).
+\item\textbf{The Mobile Client:} Java was used to build the android mobile application. The reason for choosing Java is it is a commonly used language and some of the team members know it very well.
+Additionally, many development tools are available for Java. It is a popular object oriented programming language with most phones compatible with it.
+\item\textbf{he Desktop Client:} C# was selected to build windows desktop application because it is targeted toward windows operating system. Some team members had the chance to use it and have the skills to develop desktop application using C#. Additionally, C# has a built-in advanced code editor and debugger, which leads to debugging errors in quicker manner. It also, has an intensive framework, which make
+\end{itemize}
 \newline
 \hfill \break
 \textbf{Data Storage and Transmissions Method}
@@ -237,6 +235,19 @@ Serialization was used to enable data transmission between the devices. In compu
 \hfill \break
 \textbf{Communication Protocol}
 The software is running over the TCP protocol through the xxxx(???) port. The team originally have thought of two protocols that are TCP and HTTP. We decided to use TCP due to its simple structure and easy to follow and implement rules
+\newline
+\hfill \break
+\textbf{User Interface Testing}
+The team spent some time doing usability testing to check the user experience before completing the deployment of the software. Usability testing aimed at verifying that using the application is going to be a perfect user experience and users will live an enjoyable experience when interacting with the services provided by Meerkats.
+\newline
+\hfill \break
+\textbf{Functionality Testing}
+\newline
+\hfill \break
+\textbf{Connectivity Testing}
+\newline
+\hfill \break
+\textbf{Security Testing}
 
 
 \section{Team work}
@@ -282,11 +293,6 @@ The team also considered this group project as an opprotuenty to build the follo
 \end{itemize}
 
 \section{Evaluation}
-Critically evaluate your project: what worked well, and what didn’t?
-
-How did you do relative to your plan? what changes were the result of improved thinking and what changes were forced upon you?
-
-How did your team work together? etc. Note that you need to show that you understand the weaknesses in your work as well as its strengths. You may wish to identify relevant future work that could be done on your project.
 
 \section{Peer assessment}
 The team agreed to distribute the 100 score by each one equally as showing in the following table. The rational behind this decision is due to great efforts been put by everyone and as a reward for the continues commitment and hard work.

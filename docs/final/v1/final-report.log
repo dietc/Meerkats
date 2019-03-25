@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  20 MAR 2019 15:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  25 MAR 2019 09:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -161,13 +161,13 @@ Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
 
-./final-report.tex:22: LaTeX Error: There's no line here to end.
+./final-report.tex:20: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.22 \newline
+l.20 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -179,7 +179,7 @@ Missing character: There is no ô in font cmr10!
 <./images/logo.png, id=1, 501.875pt x 195.73125pt>
 File: ./images/logo.png Graphic file (type png)
  <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png used on input line 32.
+Package pdftex.def Info: ./images/logo.png used on input line 30.
 (pdftex.def)             Requested size: 327.74895pt x 127.82709pt.
 
 
@@ -193,13 +193,13 @@ Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
 
-./final-report.tex:47: LaTeX Error: There's no line here to end.
+./final-report.tex:45: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.47 \newline
+l.45 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -214,8 +214,8 @@ Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
-./final-report.tex:50: Misplaced alignment tab character &.
-l.50 ...p client (the client is called ‚ÄúBackup &
+./final-report.tex:48: Misplaced alignment tab character &.
+l.48 ...p client (the client is called ‚ÄúBackup &
                                                    Sync‚Äù). Any folder user...
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -239,8 +239,8 @@ Missing character: There is no ù in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-./final-report.tex:51: You can't use `macro parameter character #' in horizontal mode.
-l.51 ...w.cloudwards.net/dropbox-vs-google-drive/#
+./final-report.tex:49: You can't use `macro parameter character #' in horizontal mode.
+l.49 ...w.cloudwards.net/dropbox-vs-google-drive/#
                                                   two)
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -249,13 +249,13 @@ return to the right one by typing `I}' or `I$' or `I\par'.
 
 [2 <./images/logo.png>]
 
-./final-report.tex:59: LaTeX Error: There's no line here to end.
+./final-report.tex:57: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.59 \newline
+l.57 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -267,8 +267,8 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-./final-report.tex:62: You can't use `macro parameter character #' in horizontal mode.
-l.62 ...w.cloudwards.net/dropbox-vs-google-drive/#
+./final-report.tex:60: You can't use `macro parameter character #' in horizontal mode.
+l.60 ...w.cloudwards.net/dropbox-vs-google-drive/#
                                                   two)
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
@@ -276,44 +276,44 @@ If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 
-./final-report.tex:64: LaTeX Error: There's no line here to end.
+./final-report.tex:62: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.64 \newline
+l.62 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--66
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
 
  []
 
 
-./final-report.tex:69: LaTeX Error: There's no line here to end.
+./final-report.tex:67: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.69 \newline
+l.67 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-./final-report.tex:75: LaTeX Error: There's no line here to end.
+./final-report.tex:73: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.75 \newline
+l.73 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -323,32 +323,32 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-./final-report.tex:81: LaTeX Error: There's no line here to end.
+./final-report.tex:79: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.81 \newline
+l.79 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 82--83
+Underfull \hbox (badness 10000) in paragraph at lines 80--81
 
  []
 
 [3]
 
-./final-report.tex:87: LaTeX Error: There's no line here to end.
+./final-report.tex:85: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.87 \newline
+l.85 \newline
              
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -394,7 +394,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 94--98
+Underfull \hbox (badness 10000) in paragraph at lines 92--96
 
  []
 
@@ -426,12 +426,13 @@ Missing character: There is no ô in font cmr10!
  <./images/timeline.png, id=21, 1350.04375pt x 368.37625pt>
 File: ./images/timeline.png Graphic file (type png)
  <use ./images/timeline.png>
-Package pdftex.def Info: ./images/timeline.png used on input line 133.
+Package pdftex.def Info: ./images/timeline.png used on input line 129.
 (pdftex.def)             Requested size: 345.0pt x 94.13423pt.
- [5 <./images/timeline.png>] [6]
+ [5 <./images/timeline.png>]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+ [6]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
@@ -445,7 +446,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¢ in font cmr10!
  [7]
-Overfull \hbox (3.98012pt too wide) in paragraph at lines 179--182
+Overfull \hbox (3.98012pt too wide) in paragraph at lines 175--178
 []\OT1/cmr/bx/n/10 The prin-ci-ple of least priv-i-lege \OT1/cmr/m/n/10 The Prin-ci-ple of Least Priv-i-lege (POLP)
  []
 
@@ -491,60 +492,95 @@ Missing character: There is no ¢ in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
-[8]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 218.
- (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 212.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 218.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 212.
+ [8]
 
-
-./final-report.tex:225: LaTeX Error: There's no line here to end.
+./final-report.tex:219: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.225 \newline
+l.219 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-./final-report.tex:229: You can't use `macro parameter character #' in horizontal mode.
-l.229 ...d the android mobile application while C#
-                                                   was selected to build the...
+./final-report.tex:227: You can't use `macro parameter character #' in horizontal mode.
+l.227 \item\textbf{he Desktop Client:} C#
+                                          was selected to build windows desk...
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./final-report.tex:227: You can't use `macro parameter character #' in horizontal mode.
+l.227 ...s to develop desktop application using C#
+                                                  . Additionally, C# has a b...
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+./final-report.tex:227: You can't use `macro parameter character #' in horizontal mode.
+l.227 ...op application using C#. Additionally, C#
+                                                   has a built-in advanced c...
 Sorry, but I'm not programmed to handle this case;
 I'll just pretend that you didn't ask for it.
 If you're in the wrong mode, you might be able to
 return to the right one by typing `I}' or `I$' or `I\par'.
 
 
-./final-report.tex:231: LaTeX Error: There's no line here to end.
+./final-report.tex:229: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.231 \newline
+l.229 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-./final-report.tex:236: LaTeX Error: There's no line here to end.
+./final-report.tex:234: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.236 \newline
+l.234 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--251
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--251
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--251
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 235--251
+
+ []
 
 [9]
 Missing character: There is no ‚ in font cmr10!
@@ -556,45 +592,43 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+ [10]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
 
-./final-report.tex:266: LaTeX Error: There's no line here to end.
+./final-report.tex:277: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.266 \newline
+l.277 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-./final-report.tex:272: LaTeX Error: There's no line here to end.
+./final-report.tex:283: LaTeX Error: There's no line here to end.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.272 \newline
+l.283 \newline
               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[10]
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
+[11]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 296.
+(Font)              <7> on input line 302.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 296.
- [11] [12]
+(Font)              <5> on input line 302.
+ [12]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -625,13 +659,13 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
+ [13]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
- [13]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -645,7 +679,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  37i,9n,23p,805b,228s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on final-report.pdf (14 pages, 176962 bytes).
+Output written on final-report.pdf (14 pages, 177111 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  51 compressed objects within 1 object stream
