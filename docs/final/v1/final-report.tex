@@ -20,7 +20,7 @@ Wee live in a dynamic and fast paced world where access to data is no longer lim
 
 Digital age and user mobility have made data availability crucial not only for individuals but for business alike. Demands for having timely access to data and to ensure data accuracy and redundancy have increased dramatically and the need for technical solutions to meet these requirements has risen accordingly. The solution to reduce the time and efforts that are needed to manage data among different devices and in different locations is by using file synchronization software. File synchronization software is the process to ensuring that files in two or more locations are updated via certain rules (wikipedia). Additionally, it is used for backup and for mobile access to files.
 
-\newline
+
 \hfill \break
 In this project, we are embarked on a new journey where we develop file synchronization software to provide secure and seamless synchronization solution to enable data management processes such as file creation, deletion, modification, distribution, redundancy and availability.
 
@@ -45,42 +45,41 @@ File synchronization softwares are popular and the most famous ones are Dropbox,
 \textbf{Storage and Cost:}
 Signing up for GoogleDrive provide users with 15GB of storage space for free. It can be increased up to 1TB for 10 USD a month. Google Drive lets users automatically copy files onto their different devices.
 
-\newline
+
 \hfill \break %keep this break
 \textbf{File Synchronization:}
-The solution is compatible with Windows, Mac, Android, iOS and it implements a sync folder mechanism, adding a “Google Drive” folder to the user's file-system when they install the desktop client (the client is called “Backup & Sync”). Any folder users drop in it gets sent off to the cloud, then onto other devices. The disadvantage of this process that it requires that files be stored both on the users’ hard drive and in the cloud to work, which is not useful if users want to free up their disk space. To address this concern, Google has introduced a new feature to allow users select specific folders to help in free up hard drive space. Users need to click on “preferences” button to open a window that will let them turn sync off for specific folders,(see figure1)
-One point to mention about GoogleDrive is that it uploads and downloads the entire file all over again when a change is made, which takes time, but it is worth mentioning that google has multiple data centers around the world, which decreases both users computer’s distance to the cloud and server congestion at the same time. (See https://www.cloudwards.net/dropbox-vs-google-drive/#two)
+The solution is compatible with Windows, Mac, Android, iOS and it implements a sync folder mechanism, adding a “Google Drive” folder to the user's file-system when they install the desktop client (the client is called “Backup and Sync”). Any folder users drop in it gets sent off to the cloud, then onto other devices. The disadvantage of this process that it requires that files be stored both on the users’ hard drive and in the cloud to work, which is not useful if users want to free up their disk space. To address this concern, Google has introduced a new feature to allow users select specific folders to help in free up hard drive space. Users need to click on “preferences” button to open a window that will let them turn sync off for specific folders,(see figure1)
+One point to mention about GoogleDrive is that it uploads and downloads the entire file all over again when a change is made, which takes time, but it is worth mentioning that google has multiple data centers around the world, which decreases both users computer’s distance to the cloud and server congestion at the same time.
 
 
 \subsection{DropBox}
 \textbf{Storage and Cost:}
 Users who sign up to DropBox get 2GB of storage for free. This limited space is considered as a disadvantage of using DropBox, as users who want to get extra disk space, such as 100GB, need to get a paid subscription for 10 USD a month.
 
-\newline
+
 \hfill \break
 \textbf{File Synchronization:}
-DropBox can be installed on Windows, Mac, Linux, Android, iOS, Windows Phone, BlackBerry, Kindle Fire.As with GoogleDrive, DropBox uses a sync folder with a new feature called block-level sync.This feature allows users to manage selective files stored in the sync folder from the “preferences” tool accessible via the DropBox taskbar icon (on PC), (see figure2). This is very important functionality as it helps users to save their disk space and to better utilize it to store important documents that they want to access it and share it from anywhere.(See https://www.cloudwards.net/dropbox-vs-google-drive/#two)
+DropBox can be installed on Windows, Mac, Linux, Android, iOS, Windows Phone, BlackBerry, Kindle Fire.As with GoogleDrive, DropBox uses a sync folder with a new feature called block-level sync.This feature allows users to manage selective files stored in the sync folder from the “preferences” tool accessible via the DropBox taskbar icon (on PC), (see figure2). This is very important functionality as it helps users to save their disk space and to better utilize it to store important documents that they want to access it and share it from anywhere.
 
-\newline
+
 \hfill \break
 
 \subsection{Box}
 \textbf{Cost and Storage}
 Box for personal use offers free storage up to 10GB. Users can opt for more flexibility and storage space up to 100GB, which requires 10 USD per month.
 
-\newline
 \hfill \break
 \textbf{File Synchronization}
 Box applies the same file synchronization method invented by DropBox. Adding files and folders to the Box Sync folder on computer will automatically upload them to user’s account on Box.com and mark them for Sync. Users can selectively sync folders to better manage their disk space (see figure3). The solution can be run in Windows, Mac, Android, iOS, Windows Phone, BlackBerry.In 2018, Gartner assessed 14 Enterprise File Sync and Share (EFSS) and named Box as a leader in
 2018 Magic Quadrant for Content Collaboration Platforms. (see  https://www.box.com/en-gb/resources/gartner-ccp-magic-quadrant)
 
-\newline
+
 \hfill \break
 \subsection{OneDrive}
 \textbf{Cost and Storage}
 OneDrive is a Microsoft product and it offers up to 5GB free storage space. Users can pay 2 dollars a month to increase the storage size to 50GB. The solution is a great productivity tool since it is integrated with many other Microsoft products, such as Office Online, Skype, Outlook and the Office 365 suite for desktop.
 
-\newline
+
 \hfill \break
 \textbf{File Synchronization}
 OneDrive can run on Windows, Mac, Android, iOS, Windows Phone and it follows the standard sync model developed by DropBox. It includes a sync folder, which is like a normal folder with the only difference being that it’s connected to the cloud. OneDrive offers simple way to sync files. Users can move individual files to OneDrive’s sync folder by right-clicking and selecting “move to OneDrive”. A drawback about OneDrive is that specific files can’t be synced to OneDrive. Instead, users have to go to the settings menu of the OneDrive desktop client and update the folders (see figure 4) that OneDrive selected to “auto save” On Windows 10, they are “desktop,” “pictures” and “documents.” (seehttps://www.cloudwards.net/review/onedrive/)
@@ -170,8 +169,6 @@ The following flow charts show the general design of the solution as well as det
     \label{fig:flowchart1}
 \end{figure}
 
-\newline
-\hfill \break
 
 This diagram shown in Figure 3 shows two main functions of the file synchronization software that are executed through desktop application.
 The flowchart illustrates how the upload and download functions are implemented in details, from the time a user clicks on upload/download till complete execution of those requests.
@@ -275,7 +272,6 @@ The team has spent great deal of time searching and deciding on the best approac
 \end{itemize}
 
 
-\newline
 \hfill \break
 \textbf{Programming languages}
 We discussed among the team what are the right languages to use to develop the server, mobile client and desktop app and we agreed on the following languages:
@@ -283,15 +279,14 @@ We discussed among the team what are the right languages to use to develop the s
 \item\textbf{The Server:} The group decided to use Golang knows also as Go for building the server. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. Go has great advantages such as no pointer arithmetic, no manual memory management, a standard library that seems fairly well thought out and purposefully excludes things that are misused (ex. no ECB mode for AES).
 \item\textbf{The Mobile Client:} Java was used to build the android mobile application. The reason for choosing Java is it is a commonly used language and some of the team members know it very well.
 Additionally, many development tools are available for Java. It is a popular object oriented programming language with most phones compatible with it.
-\item\textbf{The Desktop Client:} C# was selected to build windows desktop application because it is targeted toward windows operating system. Some team members had the chance to use it and have the skills to develop desktop application using C#. Additionally, C# has a built-in advanced code editor and debugger, which leads to debugging errors in quicker manner. It also, has an intensive framework, which make
+\item\textbf{The Desktop Client:} C Sharp was selected to build windows desktop application because it is targeted toward windows operating system. Some team members had the chance to use it and have the skills to develop desktop application using C sharp. Additionally, C sharp has a built-in advanced code editor and debugger, which leads to debugging errors in quicker manner. It also, has an intensive framework, which make
 \end{itemize}
-\newline
+
 \hfill \break
 \textbf{Data Storage and Transmissions Method}
 Serialization was used to enable data transmission between the devices. In computer science, in the context of data storage and transmission, serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be "resurrected" later in the same or another computer environment. (Wikipedia). There are two ways of transmitting data between server and browser and in which we can encode data. The two methods are JavaScript Object Notation
 (JSON) and Protocol Buffers known as Protobuf. We decided to use JSON as it meets our technical needs and for simplicity and convenience. JSON uses Ajax to enable the exchange of data between the web application and the browser and server without the need to reload the page and it encodes data in a human readable manner. However, in future version of the software, we might switch to Protobuf to overcome some limitations in JSON such as the slowness of encoding and decoding for integers and floats, comparing strings is a bit time consuming as well as the need for sequential scan when parsing strings, arrays and objects which in all preceding cases are mitigated in Protobuf.
 
-\newline
 \hfill \break
 \textbf{Communication Protocol}
 The software is running over the TCP protocol through the xxxx(???) port. The team originally have thought of two protocols that are TCP and HTTP. We decided to use TCP due to its simple structure and easy to follow and implement rules
@@ -350,13 +345,12 @@ Here are the group’s communication ground rules:
 
 Furthermore, the team depended on Google Docs to share links and important updates, and GIT to store project documentations. We also utilized technology such as Slack to facilitate instant conversation and to share information about the project, which has significantly saved everyone’s time.
 
-\newline
 \subsection{Conflict Management}
 The team members were inspired to provide a friendly project environment that enabled everyone to put in their best efforts. We aimed to build a resilient team that responded to challenges, unforeseen events and different circumstances in a timely manner.
 
 One way to avoid conflict was to use consensus for important decisions and issues. For less important issues, we relied on the subject matter expert with input from others. This approach worked well throughout the entire project.
 
-\newline
+
 \hfill \break %dont remove this line for some reason
 The team also considered this group project as an opprotuenty to build the following types of skills:
 
