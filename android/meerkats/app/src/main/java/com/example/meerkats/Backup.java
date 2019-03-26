@@ -10,4 +10,8 @@ public class Backup {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Backup(String name) {
+        this.name = name;
+    }
 }

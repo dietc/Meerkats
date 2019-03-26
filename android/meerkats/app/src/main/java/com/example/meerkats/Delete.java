@@ -10,4 +10,8 @@ public class Delete {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Delete(String name) {
+        this.name = name;
+    }
 }

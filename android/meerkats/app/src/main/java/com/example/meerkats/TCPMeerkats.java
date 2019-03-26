@@ -10,8 +10,10 @@ import android.widget.Switch;
 import com.example.meerkats.bean.FileType;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -34,6 +36,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import static java.lang.System.in;
 
@@ -605,22 +608,59 @@ public class TCPMeerkats extends Thread {
 
     }
 
-    /*public void checkCMDFlag(byte[] recvMsg, FileCheck fCheck) {
+    public void checkCMDFlag(byte[] recvMsg, FileCheck fCheck) {
         String resultStr = new String(recvMsg);
         int cmdFlag = 0;
-        List<FileTypeTCP> upload = new ArrayList<>();
-        List<FileTypeTCP> download = new ArrayList<>();
-        List<Rename> rename = new ArrayList<>();
-        List<Backup> backup = new ArrayList<>();
-        fCheck.upload = upload;
-        fCheck.download = download;
-        fCheck.rename = rename;
-        fCheck.backup = backup;
-       JSONArray jArray  = (JSONArray)new Gson().toJson(resultStr);
+        List<FileTypeTCP> uploadList = new ArrayList<>();
+        List<FileTypeTCP> downloadList = new ArrayList<>();
+        List<Rename> renameList = new ArrayList<>();
+        List<Backup> backupList = new ArrayList<>();
+        fCheck.upload = uploadList;
+        fCheck.download = downloadList;
+        fCheck.rename = renameList;
+        fCheck.backup = backupList;
+        try {
+            JSONArray jArray = new JSONArray(resultStr);
+            for (int i = 0; i < jArray.length(); i ++){
+                JSONObject jObject = jArray.getJSONObject(i);
+                cmdFlag = Integer.parseInt(jObject.getString("Cmd"));
+                switch (cmdFlag){
+                    case 1:
+                        FileTypeTCP uploadAll = new FileTypeTCP(jObject.getString("Name"),jObject.getString("Ext"),0);
+                        fCheck.upload.add(uploadAll);
+                        break;
+                    case 2:
+                        FileTypeTCP downloadAll = new FileTypeTCP(jObject.getString("Name"),jObject.getString("Ext"),1);
+                        fCheck.download.add(downloadAll);
+                        break;
+                    case 3:
+                        Rename rename = new Rename(jObject.getString("Name"),jObject.getString("Ext"));
+                        fCheck.rename.add(rename);
+                        break;
+                    case 4:
+                        //differ upload
+                        break;
+                    case 5:
+                        //differ download
+                        break;
+                    case 6:
+                        Delete delete = new Delete(jObject.getString("Name"));
+                        fCheck.delete.add(delete);
+                        break;
+                    case 7:
+                        Backup backup = new Backup(jObject.getString("Name"));
+                        fCheck.backup.add(backup);
+                        break;
+                    }
+                }
+
+        }catch (JSONException e){
+            System.out.println("JSON CONVERT FAILED!");
+        }
 
 
     }
-*/
+
 
     private byte[] getCheckSum(byte packetType, byte deviceId, byte[] msg, boolean sendOrReceive ) {
 

@@ -8,6 +8,12 @@ public class FileTypeTCP {
 
     public int type;
 
+    public FileTypeTCP(String name, String ext, int type) {
+        this.name = name;
+        this.ext = ext;
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }
