@@ -162,12 +162,8 @@ namespace Meerkats_Win
             byte[] result = t1.ReceiveMessage();
 
             // get file cmd_flag < 6 operation >
-            file_check f_check = new file_check();
-            t1.Check_cmd_flag(result, f_check);
+            t1.Check_cmd_flag(result);
 
-            
-            string status_file = null;
-            status_file = t1.Upload_File(f_check.upload);
 
             // string result_str = System.Text.Encoding.Default.GetString(result);
             // fortest.Text = result_str;
@@ -183,7 +179,7 @@ namespace Meerkats_Win
             string str_status_2 = t1.ReceiveMessage_For_download(0);
 
             t1.DisconnectServer();
-            return status_file + " + " + str_status_1 + " + " + str_status_2;
+            return str_status_1 + " + " + str_status_2;
 
         }
 
@@ -200,7 +196,7 @@ namespace Meerkats_Win
             FileSystemInfo[] fsinfos = dir.GetFileSystemInfos();
             SocketTCPClient t1 = new SocketTCPClient();
 
-            List<file_info_json> file_json = new List<file_info_json>();
+            List<file_info_json_pull> file_json = new List<file_info_json_pull>();
 
             //  traverse files and dirs
             int level = 0;
@@ -235,7 +231,7 @@ namespace Meerkats_Win
             return MessageBodyByte;
         }
 
-        private static void listDirectory(String PATH,string path, int leval, List<file_info_json> file_json)
+        private static void listDirectory(String PATH,string path, int leval, List<file_info_json_pull> file_json)
         {
             DirectoryInfo theFolder = new DirectoryInfo(@path);
 
@@ -250,7 +246,7 @@ namespace Meerkats_Win
                 for (int i = 0; i < 16; i++)
                     file__md5_list.Add(file_md5[i]);
 
-                file_json.Add(new file_info_json()
+                file_json.Add(new file_info_json_pull()
                 {
                     Name = NextFile.FullName.Replace(PATH, String.Empty),
                     Typ = 0x1,

@@ -350,53 +350,49 @@ namespace Meerkats_Win.Class
 
         }
 
-        public string Download_File(List<File_type> file_name)
+        public string Download_File(string file_name, int download_type)
         {
 
-            foreach(File_type ja in file_name)
-            {
-                byte[] Msgbody = System.Text.Encoding.Default.GetBytes(ja.Ext);
-                byte[] MessageBodyByte_for_download = new byte[30 + Msgbody.Length];
-                MessageBodyByte_for_download = BuildDataPackage_For_Pull(Msgbody, 0x21, Device_id);
-                SendMessage(MessageBodyByte_for_download);
+            
+            byte[] Msgbody = System.Text.Encoding.Default.GetBytes(file_name);
+            byte[] MessageBodyByte_for_download = new byte[30 + Msgbody.Length];
+            MessageBodyByte_for_download = BuildDataPackage_For_Pull(Msgbody, 0x21, Device_id);
+            SendMessage(MessageBodyByte_for_download);
 
-                ReceiveMessage_For_download(ja.Type);
+            ReceiveMessage_For_download(download_type);
 
-            };
+            
             return "Download success";
         }
 
-        public string Rename_File(List<Rename> file_info)
+        public string Rename_File(string file_name_origin,string file_name)
         {
-            foreach(Rename ja in file_info)
-            {
-                if (File.Exists(PATH + ja.Name))
-                    File.Move(PATH + ja.Name, PATH + ja.Ext);
-            }
+            
+            if (File.Exists(PATH + file_name_origin))
+                File.Move(PATH + file_name_origin, PATH + file_name);
+            
             return "rename successfully";
         }
 
-        public string Backup_File(List<Backup> file_name)
+        public string Backup_File(string file_name)
         {
-            foreach(Backup ja in file_name)
-            {
-                if (File.Exists(PATH + ja.Name))
-                    // overwrite = true
-                    File.Move(PATH + ja.Name, Backup_PATH + ja.Name + ".bak");
-            }
+            
+             if (File.Exists(PATH + file_name))
+                // overwrite = true
+                File.Move(PATH + file_name, Backup_PATH + file_name + ".bak");
+            
             return "backup successfully";
         }
 
-        public string Delete_File(List<Delete> file_name)
+        public string Delete_File(string file_name)
         {
-            foreach(Delete ja in file_name)
-            {
-                if (File.Exists(PATH + ja.Name))
-                File.Delete(PATH + ja.Name);
-            }
+            
+            if (File.Exists(PATH + file_name))
+                File.Delete(PATH + file_name);
+            
             return "delete successfully";
         }
-        public string Upload_File(List<File_type> file_name)
+        public string Upload_File(string file_name,int upload_type)
         {
             try
             {
@@ -410,29 +406,131 @@ namespace Meerkats_Win.Class
 
                 // 0xffff - 300 - 2 
                 int MessageBody_Length_Max = 65233;
+                   
+                //read file 
+                //for test
+                FileStream file = new FileStream(PATH + file_name, FileMode.Open);
+                file.Seek(0, SeekOrigin.Begin);
+                long file_length = file.Length;
 
-                foreach (File_type ja in file_name)
+                file_data = null;
+
+                // MessageBody Length
+                int MessageBody_Length = 0;
+
+                if (file_length <= MessageBody_Length_Max)
                 {
-                    
-                    //read file 
-                    //for test
-                    FileStream file = new FileStream(PATH + ja.Name, FileMode.Open);
-                    file.Seek(0, SeekOrigin.Begin);
-                    long file_length = file.Length;
 
+                    MessageBody_Length = (int)file_length;
+
+                    // 8 + 2 + 1 + 1 + 300 + len(MessageBody) + 16 +2
+                    byte[] MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
+
+                    // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
+                    byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
+                    Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
+
+                    // Packet Content Length [ 2 bytes ]
+                    // Context_Length = 2 + 300 <file_index_json> + len(MessageBody) 
+                    int Context_Length = (2 + 300 + MessageBody_Length);
+                    byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
+                    Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
+
+                    // Packet Type [ 1 byte ]
+                    MessageBodyByte[10] = Packet_type;
+
+                    // Packet ID [ 1 byte ]
+                    MessageBodyByte[11] = Device_id;
+
+                    byte[] file_json = new byte[300];
+
+                    file_index_json f_js = new file_index_json() { Name = file_name, Num = 0x1, Index = 0 };
+                    string f_js_str = JsonConvert.SerializeObject(f_js);
+                    byte[] f_js_bytes = System.Text.Encoding.Default.GetBytes(f_js_str);
+                    Buffer.BlockCopy(f_js_bytes, 0, file_json, 0, f_js_str.Length);
+
+                    /** for 1.txt file (cmd = 1)
+                        * demo
+                        * {
+                            "Name": "1.txt",
+                            "Num": 2,       
+                            "Index": 0
+                        }
+                        {
+                            "Name": "1.txt",
+                            "Num": 2,
+                            "Index": 1
+                        }
+                        * 
+                        */
+
+                    //copy json data
+                    Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
+
+                    switch (upload_type) {
+
+                        case 0:
+                            //read file data
+                            file_data = new byte[MessageBody_Length];
+                            file.Read(file_data, 0, (int)MessageBody_Length);
+                            //copy file data  from index = 312
+                            Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
+                            break;
+                        case 1: 
+                            //read file data -- rsync
+                            file_data = new byte[MessageBody_Length];
+                            file.Read(file_data, 0, (int)MessageBody_Length);
+                            //copy file data  from index = 312
+                            Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
+                            break;
+                        }
+
+                    // Check_sum
+                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+
+                    Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
+
+                    // end with 0xff 0xee
+                    MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
+                    MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
+
+                    SendMessage(MessageBodyByte);
+
+                    byte[] res_flag = ReceiveMessage();
+                    // result == "ok"
+                    if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
+                    {
+                        file.Close();
+                    }
+
+                    else
+                    {
+                        file.Close();
+                        return "failed upload" + file_name;
+                    }
+
+                }
+
+                else
+                {
+                    // Rounds 
+                    double Packet_num = Math.Ceiling((double)file_length / (double)MessageBody_Length_Max);
+
+                    // Json - Packet Num
+                    byte Packet_Num = (byte)Packet_num;
+                    // Json - Packet Index
+                    byte index = 0;
                     file_data = null;
 
-                    // MessageBody Length
-                    int MessageBody_Length = 0;
-
-                    if (file_length <= MessageBody_Length_Max)
+                    byte[] MessageBodyByte;
+                    while (Packet_num > 0)
                     {
+                        if (Packet_num != 1)
+                            MessageBody_Length = MessageBody_Length_Max;
+                        else
+                            MessageBody_Length = (int)(file_length - MessageBody_Length_Max * index);
 
-                        MessageBody_Length = (int)file_length;
-
-                        // 8 + 2 + 1 + 1 + 300 + len(MessageBody) + 16 +2
-                        byte[] MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
-
+                        MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
                         // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
                         byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
                         Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
@@ -450,50 +548,27 @@ namespace Meerkats_Win.Class
                         MessageBodyByte[11] = Device_id;
 
                         byte[] file_json = new byte[300];
-
-                        file_index_json f_js = new file_index_json() { Name = ja.Name, Num = 0x1, Index = 0 };
+                        file_index_json f_js = new file_index_json() { Name = file_name, Num = Packet_Num, Index = index };
                         string f_js_str = JsonConvert.SerializeObject(f_js);
                         byte[] f_js_bytes = System.Text.Encoding.Default.GetBytes(f_js_str);
                         Buffer.BlockCopy(f_js_bytes, 0, file_json, 0, f_js_str.Length);
 
-                        /** for 1.txt file (cmd = 1)
-                         * demo
-                         * {
-                                "Name": "1.txt",
-                                "Num": 2,       
-                                "Index": 0
-                           }
-                           {
-                                "Name": "1.txt",
-                                "Num": 2,
-                                "Index": 1
-                           }
-                         * 
-                         */
-
                         //copy json data
                         Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
 
-                        switch (ja.Type) {
 
-                            case 0:
-                                //read file data
-                                file_data = new byte[MessageBody_Length];
-                                file.Read(file_data, 0, (int)MessageBody_Length);
-                                //copy file data  from index = 312
-                                Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
-                                break;
-                            case 1: 
-                                //read file data -- rsync
-                                file_data = new byte[MessageBody_Length];
-                                file.Read(file_data, 0, (int)MessageBody_Length);
-                                //copy file data  from index = 312
-                                Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
-                                break;
-                         }
+                        //read file
+                        file_data = new byte[MessageBody_Length];
+                        //it will continue reading from last position
+                        file.Read(file_data, 0, MessageBody_Length);
+                        //copy file data
+                        Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
 
-                    // Check_sum
-                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+                        // Check_sum
+                        /*
+                            * ** FILE data
+                            */
+                        byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
 
                         Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
 
@@ -501,113 +576,31 @@ namespace Meerkats_Win.Class
                         MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
                         MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
 
+
+                        Packet_num--;
+                        index++;
                         SendMessage(MessageBodyByte);
 
-                        byte[] res_flag = ReceiveMessage();
-                        // result == "ok"
-                        if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
-                        {
-                            file.Close();
-                            continue;
-                        }
 
-                        else
-                        {
-                            file.Close();
-                            return "failed upload" + ja.Name;
-                        }
+                    }
 
+                    
+
+                    byte[] res_flag = ReceiveMessage();
+                    if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
+                    {
+                        file.Close();
                     }
 
                     else
                     {
-                        // Rounds 
-                        double Packet_num = Math.Ceiling((double)file_length / (double)MessageBody_Length_Max);
-
-                        // Json - Packet Num
-                        byte Packet_Num = (byte)Packet_num;
-                        // Json - Packet Index
-                        byte index = 0;
-                        file_data = null;
-
-                        byte[] MessageBodyByte;
-                        while (Packet_num > 0)
-                        {
-                            if (Packet_num != 1)
-                                MessageBody_Length = MessageBody_Length_Max;
-                            else
-                                MessageBody_Length = (int)(file_length - MessageBody_Length_Max * index);
-
-                            MessageBodyByte = new byte[MessageBody_Length + 30 + 300];
-                            // Packet Initiator[ 8 bytes] 0x11 0xff 0x6c 0x6f 0x6e 0x64 0x6f 0x6e
-                            byte[] Initiator = { 0x11, 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e };
-                            Buffer.BlockCopy(Initiator, 0, MessageBodyByte, 0, Initiator.Length);
-
-                            // Packet Content Length [ 2 bytes ]
-                            // Context_Length = 2 + 300 <file_index_json> + len(MessageBody) 
-                            int Context_Length = (2 + 300 + MessageBody_Length);
-                            byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
-                            Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
-
-                            // Packet Type [ 1 byte ]
-                            MessageBodyByte[10] = Packet_type;
-
-                            // Packet ID [ 1 byte ]
-                            MessageBodyByte[11] = Device_id;
-
-                            byte[] file_json = new byte[300];
-                            file_index_json f_js = new file_index_json() { Name = ja.Name, Num = Packet_Num, Index = index };
-                            string f_js_str = JsonConvert.SerializeObject(f_js);
-                            byte[] f_js_bytes = System.Text.Encoding.Default.GetBytes(f_js_str);
-                            Buffer.BlockCopy(f_js_bytes, 0, file_json, 0, f_js_str.Length);
-
-                            //copy json data
-                            Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
-
-
-                            //read file
-                            file_data = new byte[MessageBody_Length];
-                            //it will continue reading from last position
-                            file.Read(file_data, 0, MessageBody_Length);
-                            //copy file data
-                            Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
-
-                            // Check_sum
-                            /*
-                             * ** FILE data
-                             */
-                            byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
-
-                            Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
-
-                            // end with 0xff 0xee
-                            MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
-                            MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
-
-
-                            Packet_num--;
-                            index++;
-                            SendMessage(MessageBodyByte);
-
-
-                        }
-
                         file.Close();
-
-                        byte[] res_flag = ReceiveMessage();
-                        if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
-                        {
-                            continue;
-                        }
-
-                        else
-                        {
-                            return "failed upload" + ja.Name;
-                        }
-
+                        return "failed upload" + file_name;
                     }
 
                 }
+
+                
                 // socketClient.Close();
                 return "success upload";
             }
@@ -707,22 +700,13 @@ namespace Meerkats_Win.Class
         /// </summary>
         /// <param name="recvMsg">Msg body</param>
         /// <param name="F_check">return json data including file operation</param>
-        public void Check_cmd_flag(byte[] recvMsg, file_check F_check)
+        public void Check_cmd_flag(byte[] recvMsg)
         {
             try
             {
 
                 string result_str = System.Text.Encoding.Default.GetString(recvMsg);
                 int cmd_flag = 0;
-
-
-                // initialization
-                F_check.upload = new List<File_type>();
-                F_check.download = new List<File_type>();
-                F_check.rename = new List<Rename>();
-                F_check.backup = new List<Backup>();
-
-                // file_check F_check = new file_check();
 
                 // convert json to JArray
                 JArray jArray = (JArray)JsonConvert.DeserializeObject(result_str);
@@ -752,64 +736,36 @@ namespace Meerkats_Win.Class
                         case 1:
                             // upload the whole file 
 
-                            F_check.upload.Add(new File_type()
-                            {
-                                Name = ja["Name"].ToString(),
-                                Ext = ja["Ext"].ToString(),
-                                Type = 0
-                                    
-                                });
+                            Upload_File(ja["Name"].ToString(), 0);
 
-                            // file_name.Add(ja["Name"].ToString());
                             break;
                         case 2:
                             // download the whole file
-                            F_check.download.Add(new File_type()
-                            {
-                                Name = ja["Name"].ToString(),
-                                Ext = ja["Ext"].ToString(),
-                                Type = 1
-                            });
+
+                            Upload_File(ja["Name"].ToString(), 0);
                             break;
                         case 3:
                             // rename
-                            F_check.rename.Add(new Rename()
-                            {
-                                Name = ja["Name"].ToString(),
-                                Ext = ja["Ext"].ToString()
-                            });
+
+                            Rename_File(ja["Name"].ToString(), ja["Ext"].ToString());
                             break;
                         case 4:
                             // differ upload
-                            F_check.upload.Add(new File_type()
-                            {
-                                Name = ja["Name"].ToString(),
-                                Ext = ja["Ext"].ToString(),
-                                Type = 0x1
-                            });
+                            Upload_File(ja["Name"].ToString(), 1);
                             break;
                         case 5:
                             // differ download
-                            F_check.download.Add(new File_type()
-                            {
-                                Name = ja["Name"].ToString(),
-                                Ext = ja["Ext"].ToString(),
-                                Type = 0x1
-                            });
+                            Upload_File(ja["Name"].ToString(), 1);
                             break;
                         case 6:
                             // delete
-                            F_check.delete.Add(new Delete()
-                            {
-                                Name = ja["Name"].ToString()
-                            });
+
+                            Delete_File(ja["Name"].ToString());
                             break;
                         case 7:
                             // backup
-                            F_check.backup.Add(new Backup()
-                            {
-                                Name = ja["Name"].ToString()
-                            });
+
+                            Backup_File(ja["Name"].ToString());
                             break;
 
                     }
