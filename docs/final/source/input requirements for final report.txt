@@ -1,0 +1,67 @@
+1.    Design and requirements Answer below questions for your part (server, desktop, android)
+·       If you haven’t shared your solution diagram, please put it here
+ 
+·      If you have used external tools or libraries, please mention them here and why you used them?
+ 
+·      If you already shared with us above requirements, you may ignore this section
+ 
+2.    Evaluation Critically. 
+a.     What worked well, and what didn’t?
+b.    How did you do relative to your plan? 
+c.     What changes were the result of improved thinking and what changes were forced upon you? 
+d.    How did your team work together? 
+e.     Note that you need to show that you understand the weaknesses in your work as well as its strengths. 
+f.      You may wish to identify relevant future work that could be done on your project.
+ 
+3.    Implementation 
+1.   Describe the most significant implementation details, focusing on those where unusual or detailed solutions were required.
+ 
+2.    Quote code fragments where necessary, but remember that the examiners have full access to your source code. 
+ 
+3.    Explain how you tested your software(e.g. unit testing) and the extent to which you tested it. 
+
+4.   If relevant to your project, explain performance issues and how you tackled them.
+
+Testing section
+Here is a sample for the testing section. I hope it helps.
+ 
+#
+Test Category
+Test Scenario
+Expected Result
+Actual Result(pass/fail)
+Comments
+Test Completion #Date
+1
+Functionality testing
+Test file upload functionality
+All types of files should be uploaded to cloud smoothly
+fail
+Files of type PDF were not uploaded
+ 
+Note: The code was fixed to allow files of PDF to be uploaded
+March 23
+2
+Security Testing
+Files are being checked by Anti-Virus program before they are uploaded
+Malicious files are not uploaded and being blocked by AV
+fail
+Infected file was successfully uploaded
+March 21
+3
+Functionality testing
+Test server ability to respond to too many requests at the same time
+The server should be able to respond to 10 upload requests within 10 seconds
+pass
+ 
+March 25
+4
+Security Testing
+Test the security control(data encryption)
+Data are encrypted while stored on the data base
+Pass
+ 
+March 26
+
+
+
