@@ -50,15 +50,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        threadPool = Executors.newCachedThreadPool();
+        threadPool.execute(new Runnable() {
+            @Override
+            public void run() {
 
+                tcpMeerkats.createInstance();
+                tcpMeerkats.connectSocket();
 
-        tcpMeerkats.createInstance();
-        tcpMeerkats.connectSocket();
+                tcpMeerkats.buildDataPackageForPull(messageBody, packetType, deviceID);
 
-        tcpMeerkats.buildDataPackageForPull(messageBody,packetType,deviceID);
+                String message = tcpMeerkats.receiveMessageForDownload(0);
 
-        String message = tcpMeerkats.receiveMessageForDownload(3);
-
-        System.out.println(message);
+                System.out.println(message);
+            }
+        });
     }
 }

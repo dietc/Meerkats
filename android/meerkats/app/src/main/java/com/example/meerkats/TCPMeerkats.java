@@ -340,62 +340,52 @@ public class TCPMeerkats extends Thread {
 
     }
 
-    public String downloadFile(List<FileTypeTCP> fileName) {
+    public String downloadFile(String fileName, int downloadType) {
 
-        for (FileTypeTCP ja : fileName) {
-            byte[] msgBody = ja.ext.getBytes();
-            byte[] messageBodyByteForDownload = new byte[30 + msgBody.length];
-            messageBodyByteForDownload = buildDataPackageForPull(msgBody, (byte) 0x21, deviceID);
-            sendMessage(messageBodyByteForDownload);
-            receiveMessageForDownload(ja.type);
-        }
-        return "DOWNLOAD SUCCESS!";
+        byte[] messageBody = fileName.getBytes();
+        byte[] messageBodyForDownload = new byte[30 + messageBody.length];
+        messageBodyForDownload = buildDataPackageForPull(messageBody, (byte) 0x21, deviceID);
+        sendMessage(messageBodyForDownload);
+        receiveMessageForDownload(downloadType);
+        return "DOWNLOAD SUCCESSED!";
     }
 
-    public String renameFile(List<Rename> fileInfo) {
-        for (Rename ja : fileInfo) {
+    public String renameFile(String fileName, String newFileName) {
 
-            File f = new File(PATH + ja.name);
-            if (f.exists() && !f.isDirectory()) {
-                f.renameTo(new File(PATH + ja.name));
 
-            } else {
-                System.out.println("FILE NOT EXIST");
-            }
+        File f = new File(PATH + fileName);
+        if (f.exists()) {
+            f.renameTo(new File(PATH + newFileName));
+        } else {
+            System.out.println("FILE NOT EXIST");
         }
         return "RENAME SUCCESSFULLY!";
     }
 
-    public String backupFile(List<Backup> fileName) {
-        for (Backup ja : fileName) {
+    public String backupFile(String fileName) {
 
-            File f = new File(PATH + ja.name);
-            if (f.exists() && !f.isDirectory()) {
-                f.renameTo(new File(NEWPATH + ja.name + ".bak"));
-            } else {
-                System.out.println("FILE NOT EXIST");
-            }
+        File f = new File(PATH + fileName);
+        if (f.exists() && !f.isDirectory()) {
+            f.renameTo(new File(NEWPATH + fileName + ".bak"));
+        } else {
+            System.out.println("FILE NOT EXIST");
         }
         return "BACKUP SUCCESSFULLY!";
     }
 
 
-    public  String deleteFile(List<Delete> fileName){
-        for(Delete ja : fileName){
-            File f = new File(PATH + ja.name);
-            if (f.exists() && !f.isDirectory()) {
-                f.delete();
-            } else {
-                System.out.println("FILE NOT EXIST");
-            }
+    public String deleteFile(String fileName) {
+        File f = new File(PATH + fileName);
+        if (f.exists() && !f.isDirectory()) {
+            f.delete();
+        } else {
+            System.out.println("FILE NOT EXIST");
         }
         return "DELETE SUCCESSFULLY!";
-
     }
 
 
-
-    public void uploadFile (String[] fileName) {
+    public String uploadFile(String fileName, int uploadType) {
 
         byte packetType = 0x20;
         byte deviceID = 0x03;
@@ -403,141 +393,148 @@ public class TCPMeerkats extends Thread {
 
         int messageBodyLengthMax = 65233;
 
-        for (int i = 0; i < fileName.length; i++){
 
+        File f = new File(PATH + "/" + fileName);
 
-            File f = new File(PATH + "/" + fileName[i]);
+        long fileLength = f.length();
 
-            long fileLength = f.length();
+        int messageBodyLength = 0;
 
-            int messageBodyLength = 0;
+        if (fileLength <= messageBodyLengthMax) {
 
-            if (fileLength <= messageBodyLengthMax){
+            messageBodyLength = (int) fileLength;
 
-                messageBodyLength = (int)fileLength;
+            byte[] messageBodyByte = new byte[messageBodyLength + 30 + 300];
 
-                byte[] messageBodyByte = new byte[messageBodyLength + 30 + 300];
+            byte[] initiator = {0x11, (byte) 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e};
 
-                byte[] initiator = {0x11, (byte)0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e};
+            System.arraycopy(initiator, 0, messageBodyByte, 0, initiator.length);
 
-                System.arraycopy(initiator, 0, messageBodyByte,0, initiator.length);
+            int contextLength = messageBodyLength + 2 + 300;
 
+            byte[] length = {(byte) (contextLength >> 8), (byte) (contextLength & 0xff)};
+
+            System.arraycopy(length, 0, messageBodyByte, 8, length.length);
+
+            messageBodyByte[10] = packetType;
+
+            messageBodyByte[11] = deviceID;
+
+            byte[] fileJson = new byte[300];
+
+            FileIndexJson fjs = new FileIndexJson(fileName, (byte) 0x1, (byte) 0);
+            Gson gson = new Gson();
+            String fjsString = gson.toJson(fjs);
+
+            byte[] fjsByte = fjsString.getBytes();
+
+            System.arraycopy(fjsByte, 0, fileJson, 0, fjsString.length());
+
+            System.arraycopy(fileJson, 0, messageBodyByte, 12, fileJson.length);
+            fileData = new byte[messageBodyLength];
+            switch (uploadType) {
+                case 0:
+                    try {
+                        //这里可能有问题 fileData的值不确定能不能传过去
+                        FileInputStream fis = new FileInputStream(f);
+                        fis.read(fileData, 0, messageBodyLength);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
+                    break;
+                case 1:
+                    try {
+                        FileInputStream fis = new FileInputStream(f);
+                        fis.read(fileData, 0, messageBodyLength);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
+                    break;
+            }
+
+            byte[] md5 = getCheckSum(packetType, deviceID, fileData, true);
+
+            System.arraycopy(md5, 0, messageBodyByte, 12 + 300 + messageBodyLength, md5.length);
+
+            messageBodyByte[messageBodyLength + 28 + 300] = (byte) 0xff;
+            messageBodyByte[messageBodyLength + 29 + 300] = (byte) 0xee;
+
+            sendMessage(messageBodyByte);
+
+            byte[] resflag = receiveMessage();
+            if (resflag[0] != 0x6f || resflag[1] != 0x6b) {
+                return "UPLOAD FAILED!:(" + fileName;
+            }
+        } else {
+
+            double packetNumD = Math.ceil((double) fileLength / (double) messageBodyLengthMax);
+            byte packetNumB = (byte) packetNumD;
+            byte index = 0;
+            byte[] messageBodyByte;
+            while (packetNumD > 0) {
+                if (packetNumD != 1) {
+                    messageBodyLength = messageBodyLengthMax;
+                } else {
+                    messageBodyLength = (int) (fileLength - messageBodyLengthMax * index);
+                }
+
+                messageBodyByte = new byte[messageBodyLength + 30 + 300];
+                byte[] initiator = {0x11, (byte) 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e};
+                System.arraycopy(initiator, 0, messageBodyByte, 0, initiator.length);
                 int contextLength = messageBodyLength + 2 + 300;
-
-                byte[] length = { (byte)(contextLength >> 8), (byte)(contextLength & 0xff)};
-
-                System.arraycopy(length,0, messageBodyByte,8, length.length);
+                byte[] length = {(byte) (contextLength >> 8), (byte) (contextLength & (byte) 0xff)};
+                System.arraycopy(length, 0, messageBodyByte, 8, length.length);
 
                 messageBodyByte[10] = packetType;
-
                 messageBodyByte[11] = deviceID;
 
                 byte[] fileJson = new byte[300];
 
-                FileIndexJson fjs = new FileIndexJson(fileName[i], (byte)0x1, (byte)0);
+                FileIndexJson fjs = new FileIndexJson(fileName, packetNumB, index);
                 Gson gson = new Gson();
-
-
                 String fjsString = gson.toJson(fjs);
 
                 byte[] fjsByte = fjsString.getBytes();
 
-                System.arraycopy(fjsByte,0,fileJson,0,fjsString.length());
+                System.arraycopy(fjsByte, 0, fileJson, 0, fjsString.length());
 
-                System.arraycopy(fileJson,0,messageBodyByte,12, fileJson.length);
+                System.arraycopy(fileJson, 0, messageBodyByte, 12, fileJson.length);
+
 
                 fileData = new byte[messageBodyLength];
 
                 try {
                     FileInputStream fis = new FileInputStream(f);
-                    fis.read(fileData,0,(int)messageBodyLength);
+                    fis.read(fileData, 0, (int) messageBodyLength);
 
-                }catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+                System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
 
-                System.arraycopy(fileData,0,messageBodyByte,12+300, messageBodyLength);
+                byte[] md5 = getCheckSum(packetType, deviceID, fileData, true);
 
-                byte[] md5 = getCheckSum(packetType, deviceID, fileData,true);
-
-                System.arraycopy(md5,0, messageBodyByte,12 + 300 + messageBodyLength, md5.length);
+                System.arraycopy(md5, 0, messageBodyByte, 12 + 300 + messageBodyLength, md5.length);
 
                 messageBodyByte[messageBodyLength + 28 + 300] = (byte) 0xff;
                 messageBodyByte[messageBodyLength + 29 + 300] = (byte) 0xee;
 
+                packetNumD--;
+                index++;
+
                 sendMessage(messageBodyByte);
 
-            } else {
-
-                double packetNum =  Math.ceil((double)fileLength / (double)messageBodyLengthMax);
-                byte index = 0;
-                byte[] messageBodyByte;
-                while (packetNum > 0) {
-                    if (packetNum != 1) {
-                        messageBodyLength = messageBodyLengthMax;
-                    } else {
-                        messageBodyLength = (int) (fileLength - messageBodyLengthMax * index);
-                    }
-
-                    messageBodyByte = new byte[messageBodyLength + 30 + 300];
-                    byte[] initiator = {0x11, (byte) 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e};
-                    System.arraycopy(initiator, 0, messageBodyByte, 0, initiator.length);
-                    int contextLength = messageBodyLength + 2 + 300;
-                    byte[] length = {(byte) (contextLength >> 8), (byte) (contextLength & (byte) 0xff)};
-                    System.arraycopy(length, 0, messageBodyByte, 8, length.length);
-
-                    messageBodyByte[10] = packetType;
-                    messageBodyByte[11] = deviceID;
-
-                    byte[] fileJson = new byte[300];
-
-                    FileIndexJson fjs = new FileIndexJson(fileName[i], (byte) packetNum, index);
-
-                    byte[] jsonByte = new byte[1];
-                    System.arraycopy(jsonByte, 0, fileJson, 0, jsonByte.length);
-
-                    System.arraycopy(fileJson, 0, messageBodyByte, 12, fileJson.length);
-
-                    fileData = new byte[messageBodyLength];
-
-                    try {
-                        FileInputStream fis = new FileInputStream(f);
-                        fis.read(fileData,0,(int)messageBodyLength);
-
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-
-                    System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
-
-                    byte[] md5 = getCheckSum(packetType, deviceID, fileData, true);
-
-                    System.arraycopy(md5, 0, messageBodyByte, 12 + 300 + messageBodyLength, md5.length);
-
-                    messageBodyByte[messageBodyLength + 28 + 300] = (byte) 0xff;
-                    messageBodyByte[messageBodyLength + 29 + 300] = (byte) 0xee;
-
-                    packetNum--;
-                    index++;
-
-                    sendMessage(messageBodyByte);
-
-                }
-
-
-
-
-
             }
-
+            byte[] resflag = receiveMessage();
+            if (resflag[0] != 0x6f || resflag[1] != 0x6b) {
+                return "UPLOAD FAILED!:(" + fileName;
             }
-
-
-
+        }
+        return "UPLOAD SUCCESSED!";
     }
-
-
 
 
 
@@ -608,17 +605,9 @@ public class TCPMeerkats extends Thread {
 
     }
 
-    public void checkCMDFlag(byte[] recvMsg, FileCheck fCheck) {
+    public void checkCMDFlag(byte[] recvMsg) {
         String resultStr = new String(recvMsg);
         int cmdFlag = 0;
-        List<FileTypeTCP> uploadList = new ArrayList<>();
-        List<FileTypeTCP> downloadList = new ArrayList<>();
-        List<Rename> renameList = new ArrayList<>();
-        List<Backup> backupList = new ArrayList<>();
-        fCheck.upload = uploadList;
-        fCheck.download = downloadList;
-        fCheck.rename = renameList;
-        fCheck.backup = backupList;
         try {
             JSONArray jArray = new JSONArray(resultStr);
             for (int i = 0; i < jArray.length(); i ++){
@@ -626,30 +615,27 @@ public class TCPMeerkats extends Thread {
                 cmdFlag = Integer.parseInt(jObject.getString("Cmd"));
                 switch (cmdFlag){
                     case 1:
-                        FileTypeTCP uploadAll = new FileTypeTCP(jObject.getString("Name"),jObject.getString("Ext"),0);
-                        fCheck.upload.add(uploadAll);
+                        uploadFile(jObject.getString("Name"),0);
                         break;
                     case 2:
-                        FileTypeTCP downloadAll = new FileTypeTCP(jObject.getString("Name"),jObject.getString("Ext"),1);
-                        fCheck.download.add(downloadAll);
+                        downloadFile(jObject.getString("Name"),0);
                         break;
                     case 3:
-                        Rename rename = new Rename(jObject.getString("Name"),jObject.getString("Ext"));
-                        fCheck.rename.add(rename);
+                        renameFile(jObject.getString("Name"),jObject.getString("Ext"));
                         break;
                     case 4:
                         //differ upload
+                        uploadFile(jObject.getString("Name"),1);
                         break;
                     case 5:
                         //differ download
+                        downloadFile(jObject.getString("Name"),1);
                         break;
                     case 6:
-                        Delete delete = new Delete(jObject.getString("Name"));
-                        fCheck.delete.add(delete);
+                        deleteFile(jObject.getString("Name"));
                         break;
                     case 7:
-                        Backup backup = new Backup(jObject.getString("Name"));
-                        fCheck.backup.add(backup);
+                        backupFile(jObject.getString("Name"));
                         break;
                     }
                 }
@@ -710,41 +696,6 @@ public class TCPMeerkats extends Thread {
 
     }
 
-
-    public static JSONArray getAllFiles(String dirPath, String _type) {
-        File f = new File(dirPath);
-        if (!f.exists()) {//判断路径是否存在
-            return null;
-        }
-
-        File[] files = f.listFiles();
-
-        if(files==null){//判断权限
-            return null;
-        }
-
-        JSONArray fileList = new JSONArray();
-        for (File _file : files) {//遍历目录
-            if(_file.isFile() && _file.getName().endsWith(_type)){
-                String _name=_file.getName();
-                String filePath = _file.getAbsolutePath();//获取文件路径
-                String fileName = _file.getName().substring(0,_name.length()-4);//获取文件名
-//                Log.d("LOGCAT","fileName:"+fileName);
-//                Log.d("LOGCAT","filePath:"+filePath);
-                try {
-                    JSONObject _fInfo = new JSONObject();
-                    _fInfo.put("name", fileName);
-                    _fInfo.put("path", filePath);
-                    fileList.put(_fInfo);
-                }catch (Exception e){
-                }
-            } else if(_file.isDirectory()){//查询子目录
-                getAllFiles(_file.getAbsolutePath(), _type);
-            } else{
-            }
-        }
-        return fileList;
-    }
 
 
 }
