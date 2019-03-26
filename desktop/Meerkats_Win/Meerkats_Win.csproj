@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>meerkat.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -70,6 +73,7 @@
     <Compile Include="Class\DirectoryTreeViewItem.cs" />
     <Compile Include="Class\FileInfo_cs.cs" />
     <Compile Include="Class\File_json_info.cs" />
+    <Compile Include="Class\func.cs" />
     <Compile Include="Class\ImagedTreeViewItem.cs" />
     <Compile Include="Class\JsonHeaderLogic.cs" />
     <Compile Include="Class\SocketTCPClient.cs" />
@@ -110,6 +114,12 @@
     <Resource Include="img\Folder close.png" />
     <Resource Include="img\Folder.png" />
     <Resource Include="img\OPEN.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\meerkat.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="meerkat.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
