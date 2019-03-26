@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  25 MAR 2019 17:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  26 MAR 2019 16:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -65,24 +65,32 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 ))
 \Gin@req@height=\dimen109
 \Gin@req@width=\dimen110
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count89
+\float@exts=\toks16
+\float@box=\box27
+\@float@everytoks=\toks17
+\@floatcapt=\box28
 ) (./final-report.aux)
 \openout1 = `final-report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 12.
-LaTeX Font Info:    ... okay on input line 12.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/ms/ragged2e.sty
 Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
- (/usr/local/texlive/2016/texmf-dist/tex/latex/ms/everysel.sty
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ms/everysel.sty
 Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
  ABD: EverySelectfont initializing macros
 LaTeX Info: Redefining \selectfont on input line 126.
@@ -101,20 +109,19 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \RaggedLeftParindent=\skip56
 \RaggedRightParindent=\skip57
 \JustifyingParindent=\skip58
-)
-(/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+) (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count89
+\scratchcounter=\count90
 \scratchdimen=\dimen111
-\scratchbox=\box27
-\nofMPsegments=\count90
-\nofMParguments=\count91
-\everyMPshowfont=\toks16
-\MPscratchCnt=\count92
+\scratchbox=\box29
+\nofMPsegments=\count91
+\nofMParguments=\count92
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count93
 \MPscratchDim=\dimen112
-\MPnumerator=\count93
-\makeMPintoPDFobject=\count94
-\everyMPtoPDFconversion=\toks17
+\MPnumerator=\count94
+\makeMPintoPDFobject=\count95
+\everyMPtoPDFconversion=\toks19
 ) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO)
  (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ifluatex.sty
@@ -151,11 +158,11 @@ Package grfext Info: Graphics extension search list:
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 13.
+(Font)              <12> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 13.
+(Font)              <8> on input line 14.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 13.
+(Font)              <6> on input line 14.
  (./final-report.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 3.
@@ -177,7 +184,7 @@ Missing character: There is no ô in font cmr10!
  <./images/logo.png, id=11, 501.875pt x 195.73125pt>
 File: ./images/logo.png Graphic file (type png)
  <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png used on input line 33.
+Package pdftex.def Info: ./images/logo.png used on input line 34.
 (pdftex.def)             Requested size: 327.74895pt x 127.82709pt.
 
 
@@ -218,7 +225,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
  [3 <./images/logo.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 65--66
+Underfull \hbox (badness 10000) in paragraph at lines 66--67
 
  []
 
@@ -226,7 +233,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+Underfull \hbox (badness 10000) in paragraph at lines 78--79
 
  []
 
@@ -270,7 +277,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 89--93
+Underfull \hbox (badness 10000) in paragraph at lines 90--94
 
  []
 
@@ -302,188 +309,179 @@ Missing character: There is no ô in font cmr10!
  <./images/timeline.png, id=24, 1350.04375pt x 368.37625pt>
 File: ./images/timeline.png Graphic file (type png)
  <use ./images/timeline.png>
-Package pdftex.def Info: ./images/timeline.png used on input line 126.
+Package pdftex.def Info: ./images/timeline.png used on input line 127.
 (pdftex.def)             Requested size: 345.0pt x 94.13423pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--139
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
 []|\OT1/cmr/bx/n/10 Start
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--139
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
 []|\OT1/cmr/bx/n/10 End
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []|\OT1/cmr/m/n/10 Kick-off
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 \OT1/cmr/m/n/10 27,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--143
+Underfull \hbox (badness 10000) in paragraph at lines 144--144
 \OT1/cmr/m/n/10 28,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 146--146
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--145
+Underfull \hbox (badness 10000) in paragraph at lines 146--146
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 147--147
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 []|\OT1/cmr/m/n/10 Initial Re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 147--147
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 147--147
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
 \OT1/cmr/m/n/10 29,
  []
 
 
-Underfull \hbox (badness 8038) in paragraph at lines 149--149
+Underfull \hbox (badness 8038) in paragraph at lines 150--150
 []|\OT1/cmr/m/n/10 Group Pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 149--149
+Underfull \hbox (badness 10000) in paragraph at lines 150--150
 []|\OT1/cmr/m/n/10 To demon-strate
  []
 
 
-Underfull \hbox (badness 7740) in paragraph at lines 149--149
+Underfull \hbox (badness 7740) in paragraph at lines 150--150
 \OT1/cmr/m/n/10 the group ini-tial
  []
 
 
-Underfull \hbox (badness 3668) in paragraph at lines 149--149
+Underfull \hbox (badness 3668) in paragraph at lines 150--150
 \OT1/cmr/m/n/10 share the project
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--151
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 Software
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--151
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--151
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/m/n/10 15,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--151
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--151
+Underfull \hbox (badness 10000) in paragraph at lines 152--152
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 1102) in paragraph at lines 153--153
+Underfull \hbox (badness 1102) in paragraph at lines 154--154
 []|\OT1/cmr/m/n/10 To sub-mit the fi-
  []
 
 
-Underfull \hbox (badness 1946) in paragraph at lines 153--153
+Underfull \hbox (badness 1946) in paragraph at lines 154--154
 \OT1/cmr/m/n/10 ma-tion about the
  []
 
 
-Underfull \hbox (badness 5622) in paragraph at lines 153--153
+Underfull \hbox (badness 5622) in paragraph at lines 154--154
 \OT1/cmr/m/n/10 soft-ware and the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--153
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--153
+Underfull \hbox (badness 10000) in paragraph at lines 154--154
 \OT1/cmr/m/n/10 28,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--155
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 []|\OT1/cmr/m/n/10 Final Pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--155
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--155
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 \OT1/cmr/m/n/10 22,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--155
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--155
+Underfull \hbox (badness 10000) in paragraph at lines 156--156
 \OT1/cmr/m/n/10 29,
  []
 
 
-Overfull \hbox (15.87476pt too wide) in paragraph at lines 137--158
+Overfull \hbox (15.87476pt too wide) in paragraph at lines 138--159
  [] 
  []
 
-[6 <./images/timeline.png>] <./images/flowchart.png, id=28, 934.49126pt x 996.72375pt>
-File: ./images/flowchart.png Graphic file (type png)
- <use ./images/flowchart.png>
-Package pdftex.def Info: ./images/flowchart.png used on input line 167.
-(pdftex.def)             Requested size: 327.74895pt x 349.57335pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7] [8 <./images/flowchart.png>]
+[6 <./images/timeline.png>] [7]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -493,19 +491,30 @@ Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 192.
+ [8]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 183.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 192.
- <./images/signup.png, id=38, 1204.5pt x 1132.23pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 183.
+ <./images/signup.png, id=35, 1204.5pt x 1132.23pt>
 File: ./images/signup.png Graphic file (type png)
  <use ./images/signup.png>
-Package pdftex.def Info: ./images/signup.png used on input line 198.
+Package pdftex.def Info: ./images/signup.png used on input line 189.
 (pdftex.def)             Requested size: 327.74895pt x 308.09033pt.
- [9] [10 <./images/signup.png>] [11]
-Overfull \hbox (3.98012pt too wide) in paragraph at lines 225--228
+ [9 <./images/signup.png>] <./images/flowchart.png, id=40, 934.49126pt x 996.72375pt>
+File: ./images/flowchart.png Graphic file (type png)
+ <use ./images/flowchart.png>
+Package pdftex.def Info: ./images/flowchart.png used on input line 211.
+(pdftex.def)             Requested size: 327.74895pt x 349.57335pt.
+ [10]
+Underfull \hbox (badness 10000) in paragraph at lines 216--217
+
+ []
+
+[11 <./images/flowchart.png>]
+Overfull \hbox (3.98012pt too wide) in paragraph at lines 228--231
 []\OT1/cmr/bx/n/10 The prin-ci-ple of least priv-i-lege \OT1/cmr/m/n/10 The Prin-ci-ple of Least Priv-i-lege (POLP)
  []
 
@@ -513,16 +522,15 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Overfull \hbox (2.47098pt too wide) in paragraph at lines 233--234
+Overfull \hbox (2.47098pt too wide) in paragraph at lines 236--237
 []\OT1/cmr/bx/n/10 Security Con-trol Ti-tle: \OT1/cmr/m/n/10 Rivest-Shamir-Adleman (RSA) Al-go-rithm.
  []
 
-
-Overfull \hbox (2.70142pt too wide) in paragraph at lines 241--242
+[12]
+Overfull \hbox (2.70142pt too wide) in paragraph at lines 244--245
 []\OT1/cmr/bx/n/10 Security Con-trol: \OT1/cmr/m/n/10 Data Stream Cipher- Ad-vanced En-cryp-tion Stan-
  []
 
-[12]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ò in font cmr10!
@@ -532,29 +540,9 @@ Missing character: There is no ò in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
- [13]
-Underfull \hbox (badness 10000) in paragraph at lines 290--300
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 290--300
-
- []
-
-[14] [15]
-Underfull \hbox (badness 10000) in paragraph at lines 311--322
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 311--322
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 311--322
-
+[13] [14]
+Overfull \hbox (1.10275pt too wide) in paragraph at lines 293--296
+\OT1/cmr/bx/n/10 Communication Pro-to-col \OT1/cmr/m/n/10 The soft-ware is run-ning over TCP pro-to-col through
  []
 
 Missing character: There is no ‚ in font cmr10!
@@ -563,7 +551,38 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--309
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 299--309
+
+ []
+
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 324--336
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--336
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--336
+
+ []
+
 [16]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -573,62 +592,48 @@ Missing character: There is no ô in font cmr10!
  [17]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
+Missing character: There is no ¶ in font cmr10!
  [18]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+ [19]
 Missing character: There is no ‚ in font cmbx10!
 Missing character: There is no Ä in font cmbx10!
 Missing character: There is no ô in font cmbx10!
- [19]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
+ [20]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ù in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ú in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
-Missing character: There is no ù in font cmr10!
- [20] (./final-report.aux) ) 
+ [21] (./final-report.aux) ) 
 Here is how much of TeX's memory you used:
- 1789 strings out of 493014
- 26192 string characters out of 6133351
- 91582 words of memory out of 5000000
- 5313 multiletter control sequences out of 15000+600000
+ 1849 strings out of 493014
+ 26983 string characters out of 6133351
+ 92988 words of memory out of 5000000
+ 5369 multiletter control sequences out of 15000+600000
  7895 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,9n,23p,807b,241s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on final-report.pdf (20 pages, 421993 bytes).
+Output written on final-report.pdf (21 pages, 422563 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
- 65 compressed objects within 1 object stream
+ 102 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

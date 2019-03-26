@@ -3,6 +3,7 @@
 \usepackage{array}
 \usepackage[rightcaption]{sidecap}
 \usepackage{graphicx}
+\usepackage{float}
 \graphicspath{ {./images/} }
 
 \title{Meerkats File Synchronizer - Final Report}
@@ -162,16 +163,6 @@ The team has decided to follow the strategy of capitalizing on existing experien
 
 The following flow charts show the general design of the solution as well as detailed design for the Android and Windows clients.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.95\textwidth]{flowchart}
-    \caption{Flowchart}
-    \label{fig:flowchart1}
-\end{figure}
-
-
-This diagram shown in Figure 3 shows two main functions of the file synchronization software that are executed through desktop application.
-The flowchart illustrates how the upload and download functions are implemented in details, from the time a user clicks on upload/download till complete execution of those requests.
 
 \subsection{Mobile Application Interface Design Principles}
 We understand that designing mobile application is very different than designing desktop application.
@@ -211,6 +202,18 @@ As with mobile app interface design interface, our goal was to create a perfect 
 \item Select the right controls. Design elements have presented in efficient manner by selecting the right controls. We know that selecting the right controls are important to effectively interact with the application. For example, the saving file function has been presented in a simple dialog box that ask the users to enter the file name and type then have the options to save it or cancel the transaction.
 \end{itemize}
 
+\hfill \break
+This diagram, shown in Figure 3, shows two main functions of the file synchronization software that are executed through desktop application.
+The flowchart illustrates how the upload and download functions are implemented in details, from the time a user clicks on upload/download till complete execution of those requests.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{flowchart}
+    \caption{Desktop Application Solution Diagram}
+    \label{fig:flowchart1}
+\end{figure}
+
+\hfill \break
 
 \subsection{Security Design}
 
@@ -289,9 +292,15 @@ Serialization was used to enable data transmission between the devices. In compu
 
 \hfill \break
 \textbf{Communication Protocol}
-The software is running over the TCP protocol through the xxxx(???) port. The team originally have thought of two protocols that are TCP and HTTP. We decided to use TCP due to its simple structure and easy to follow and implement rules
+The software is running over TCP protocol through port 4356. The team originally has thought of two protocols that are TCP and UDP as both of them are used to transfer data over the Internet. The decision was made to use TCP over UDP, and the main reason for this is that TCP is reliable and stateful protocol which is important
+
+feature to ensure complete and ordered transfer of file bits during download/upload stage.
+
+UDP doesn’t guarantee delivery of data packets or even the sequence of which it has to be received plus it doesn’t establish end-to-end connection between communicating systems. For all these reasons we opted for TCP.
 \newline
 \hfill \break
+\textbf{Compression Method(gzip)}
+Gzip is both a file format and a software application that is used for file compression and decompression.
 \textbf{Rsync: An overview:} We have looked at Rsync as suggested by the project supervisor and found it to be sufficient to do the job. In a nutshell, Rsync is used to detect changes in files that are stored in two different locations and then sync the file in the remote sever to be identical to the file that is stored in local hard drive without the need to send the complete file over the internet to the server once again each time a user makes a change in the local version of it.
 \newline
 \hfill \break
@@ -308,6 +317,11 @@ Below steps were copied from \underline{jenkov.com} as they well describe how rs
 \item NEW sends back instructions to OLD on how to create a copy of the newest version of the file. NEW does this by sending a list of block references in the old file for the sections of the newest file that has not changed. For the parts that has changed NEW sends back the changed data in full.
 \item OLD receives the list of block references and literal data (the changes), and from the old file and the literal data, constructs the new version of the file.
 \end{enumerate}
+
+\textbf{External Tools and libraries}
+We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is tjat we are keepin the master branch free from broken code. Our features include server, docs, android and desktop. 
+
+\textbf{Software Testing}
 \textbf{User Interface Testing}
 The team spent some time doing usability testing to check the user experience before completing the deployment of the software. Usability testing aimed at verifying that using the application is going to be a perfect user experience and users will live an enjoyable experience when interacting with the services provided by Meerkats.
 \newline
@@ -363,6 +377,15 @@ The team also considered this group project as an opprotuenty to build the follo
 \end{itemize}
 
 \section{Evaluation}
+As expected, we had to do some changes here and there during the development stage for different reasons such as better performance, better user experience, more secure approach…etc.
+
+In the desktop and mobile apps, the user input was through one variable only such as file name or the file type, then we decided to improve this logic to allow users to provide more variables at the same time to simplify the data input process.
+
+The mobile interface design was also changed later. The software designer in the beginning used a nice theme that represents the team goal of collaboration. However, it was realized that following this design is not practical when designing the pages required to execute the entire functions. The design has been changed to be more file system related context.
+
+\textbf{Data Security}
+
+The software is secured in general, the confidentiality, integrity and availability have been considered during the development work. However, the security level can be evolved in future to include more controls such as performing virus scanning when uploading/downloading files. Files’ contenet also, can be encrypted while stored in the server to avoid data leakage risk.
 
 \section{Peer assessment}
 The team agreed to distribute the 100 score by each one equally as showing in the following table. The rational behind this decision is due to great efforts been put by everyone and as a reward for the continues commitment and hard work.
@@ -420,11 +443,6 @@ We will decide on the file versioning strategies and will be using one of the av
 
 \textbf{Added Value:} Since dealing with electronic documents involved rapid changes, there is a need to keep old versions to restore deleted files or undo certain changes. It will also, increase collaboration among team members who might be working on the same project as each person will have the chance to work on the same file at the same time and all versions will be kept in one repository.
 
-\item \textbf{Offer paid subscription with premium features}
-
-\textbf{Description:} We are thinking to offer specific features on paid basis since they will require special development and allocation of resources. We are planning to offer greater storage capacity, longer file versioning duration to premium users
-
-\textbf{Added Value:} To increase the customer satisfaction by introducing new features that help to increase their productivity and make the software more responsive to customers’ needs such as the desire to have larger storage space.
 
 \item \textbf{Anticipate and Answer Users’ Queries:}
 
@@ -441,30 +459,5 @@ What is a FSM?
 Our server implements a FSM model to process incoming TCP stream of bytes.
 You can find out what my implementation is in the part of “Pseudocode For Depacking”. (http://t.cn/EIi6Kxs)
 
-Serialization Method Comparison (JSON vs Protobuf)
-What are the two method?
-What are their features?
-Protobuf is a more advanced method, but we use JSON as our encoding method for simplicity and convenience. We can still mention in the “lessons we got” or “our future work” part of our final report that we will involve Protobuf in our next version.
 
-Hash Functions (Comparison)
-We adopt md5 also for simplicity. algorithm?
-What is its mechanism?
-Make a comparison between common algorithms. Specially, a newly developed algorithm called MurmurHash should be considered. Also, you can put it to “our future work” part.
-
-Compression Method(gzip)
-What is gizp?
-Gzip is both a file format and a software application that is used for file compression and decompression.
-What is its mechanism?
-
-
-Our Security Mechanism
-Hopefully we can achieve it after developing all the basic functions!
-Shake-hands Stage(RSA)
-Key Exchange Stage(Diffe-Hellman)
-Data Stream Encryption Stage(industrial-level algorithms:AES or RC4, features?performance?make a comparison)
-
-Git Feature Branch Workflow
-We are using it now. What is it?What is its strength?
-
-?
 \end{document}
