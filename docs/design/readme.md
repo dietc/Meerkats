@@ -15,3 +15,6 @@ updated on 2019.3.23
 
 Android Layout 1.0 - basic android layout
 updated on 2019.3.25
+
+logo version 1.3 - add icon and splash in different dpi (mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi)
+updated on 2019.3.26
