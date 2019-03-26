@@ -21,3 +21,6 @@ updated on 2019.3.26
 
 android layout version 1.1 - add welcome page, code reformated, add comment lines
 updated on 2019.3.26
+
+android layout version 1.2 - exchange theme colors into meerkats style, add button sync and related classes to test the real functions under this layout
+updated on 2019.3.26

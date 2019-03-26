@@ -10,7 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -38,11 +40,23 @@ public class MainActivity extends AppCompatActivity {
     private int PERMISSION_CODE_WRITE_EXTERNAL_STORAGE = 100;
     private String rootPath;
     private TitleAdapter titleAdapter;
+    private Button ButtonSync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button ButtonSync = (Button) findViewById(R.id.buttonsync);
+
+        ButtonSync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Successful Synchronization", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         //Set Title
         title_recycler_view = (RecyclerView) findViewById(R.id.title_recycler_view);

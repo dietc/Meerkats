@@ -15,6 +15,14 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
+        <Button
+            android:id="@+id/buttonsync"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="Sync"
+            android:textAppearance="@style/BB_BottomBarBadge_Text" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/title_recycler_view"
             android:layout_width="match_parent"
@@ -58,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="没有文件"
+                android:text="No documents"
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
