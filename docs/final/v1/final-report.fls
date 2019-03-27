@@ -90,9 +90,9 @@ INPUT ./images/timeline.png
 INPUT ./images/timeline.png
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
-INPUT ./images/signup.png
-INPUT ./images/signup.png
-INPUT ./images/signup.png
+INPUT ./images/collage1.png
+INPUT ./images/collage1.png
+INPUT ./images/collage1.png
 INPUT ./images/flowchart.png
 INPUT ./images/flowchart.png
 INPUT ./images/flowchart.png

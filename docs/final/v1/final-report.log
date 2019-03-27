@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  27 MAR 2019 14:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  27 MAR 2019 14:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -417,9 +417,6 @@ Overfull \hbox (15.87476pt too wide) in paragraph at lines 127--148
 [5] [6 <./images/timeline.png>] [7]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
-Missing character: There is no ô in font cmr10!
-Missing character: There is no ‚ in font cmr10!
-Missing character: There is no Ä in font cmr10!
 Missing character: There is no ú in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -431,23 +428,23 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 171.
- <./images/signup.png, id=35, 1204.5pt x 1132.23pt>
-File: ./images/signup.png Graphic file (type png)
- <use ./images/signup.png>
-Package pdftex.def Info: ./images/signup.png used on input line 177.
-(pdftex.def)             Requested size: 327.74895pt x 308.09033pt.
- [9 <./images/signup.png>] <./images/flowchart.png, id=40, 1101.11375pt x 1415.2875pt>
+ <./images/collage1.png, id=35, 1204.5pt x 1192.455pt>
+File: ./images/collage1.png Graphic file (type png)
+ <use ./images/collage1.png>
+Package pdftex.def Info: ./images/collage1.png used on input line 177.
+(pdftex.def)             Requested size: 327.74895pt x 324.47812pt.
+ [9 <./images/collage1.png>] <./images/flowchart.png, id=40, 1101.11375pt x 1415.2875pt>
 File: ./images/flowchart.png Graphic file (type png)
  <use ./images/flowchart.png>
-Package pdftex.def Info: ./images/flowchart.png used on input line 199.
+Package pdftex.def Info: ./images/flowchart.png used on input line 198.
 (pdftex.def)             Requested size: 327.74895pt x 421.26382pt.
  [10]
-Underfull \hbox (badness 10000) in paragraph at lines 204--205
+Underfull \hbox (badness 10000) in paragraph at lines 203--204
 
  []
 
 [11 <./images/flowchart.png>]
-Overfull \hbox (3.98012pt too wide) in paragraph at lines 216--219
+Overfull \hbox (3.98012pt too wide) in paragraph at lines 215--217
 []\OT1/cmr/bx/n/10 The prin-ci-ple of least priv-i-lege \OT1/cmr/m/n/10 The Prin-ci-ple of Least Priv-i-lege (POLP)
  []
 
@@ -455,12 +452,12 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
 
-Overfull \hbox (2.47098pt too wide) in paragraph at lines 224--225
+Overfull \hbox (2.47098pt too wide) in paragraph at lines 222--223
 []\OT1/cmr/bx/n/10 Security Con-trol Ti-tle: \OT1/cmr/m/n/10 Rivest-Shamir-Adleman (RSA) Al-go-rithm.
  []
 
 [12]
-Overfull \hbox (2.70142pt too wide) in paragraph at lines 232--233
+Overfull \hbox (2.70142pt too wide) in paragraph at lines 230--231
 []\OT1/cmr/bx/n/10 Security Con-trol: \OT1/cmr/m/n/10 Data Stream Cipher- Ad-vanced En-cryp-tion Stan-
  []
 
@@ -474,7 +471,7 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 [13] [14]
-Overfull \hbox (1.10275pt too wide) in paragraph at lines 281--284
+Overfull \hbox (1.10275pt too wide) in paragraph at lines 276--279
 \OT1/cmr/bx/n/10 Communication Pro-to-col \OT1/cmr/m/n/10 The soft-ware is run-ning over TCP pro-to-col through
  []
 
@@ -485,31 +482,16 @@ Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 287--297
+Underfull \hbox (badness 10000) in paragraph at lines 280--290
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 287--297
+Underfull \hbox (badness 10000) in paragraph at lines 280--290
 
  []
 
-[15]
-Underfull \hbox (badness 10000) in paragraph at lines 312--324
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 312--324
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 312--324
-
- []
-
-[16]
+[15] [16]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
@@ -526,6 +508,9 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ¶ in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
  [18]
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
@@ -536,7 +521,25 @@ Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmr10!
 Missing character: There is no Ä in font cmr10!
 Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
  [19]
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no Ä in font cmr10!
+Missing character: There is no ô in font cmr10!
 Missing character: There is no ‚ in font cmbx10!
 Missing character: There is no Ä in font cmbx10!
 Missing character: There is no ô in font cmbx10!
@@ -556,14 +559,14 @@ Missing character: There is no ù in font cmr10!
  [21] (./final-report.aux) ) 
 Here is how much of TeX's memory you used:
  1849 strings out of 493014
- 26983 string characters out of 6133351
+ 26994 string characters out of 6133351
  94988 words of memory out of 5000000
  5369 multiletter control sequences out of 15000+600000
  7895 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,9n,23p,781b,239s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,9n,23p,781b,241s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on final-report.pdf (21 pages, 442071 bytes).
+Output written on final-report.pdf (21 pages, 647105 bytes).
 PDF statistics:
  102 PDF objects out of 1000 (max. 8388607)
  67 compressed objects within 1 object stream

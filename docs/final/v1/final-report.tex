@@ -17,7 +17,7 @@
 \newpage
 
 \section{Introduction}
-Wee live in a dynamic and fast paced world where access to data is no longer limited to having access to a single device. Information is now available and accessible through one click and people are carrying small computers in their hands most of the time by having smart phone devices and are able to access their files from anywhere in the world. Additionally, enterprises use the cloud as a means for collaboration to increase their workforce productivity and to meet their customers’ requirements of having mobile access to products and services.
+Wee live in a dynamic and fast paced world where access to data is no longer limited to having access to a single device. Information is now available and accessible through one click and people are carrying small computers in their hands most of the time by having smart phone devices and are able to access their files from anywhere in the world. Additionally, enterprises use the cloud as a tool for collaboration to increase their workforce productivity and to meet their customers’ requirements of having mobile access to products and services.
 
 Digital age and user mobility have made data availability crucial, not only for individuals, but for business alike. Demands for having timely access to data and to ensure data accuracy and redundancy have increased dramatically and the need for technical solutions to meet these requirements has risen accordingly. The solution to reduce the time and efforts that are needed to manage data among different devices and in different locations is by using file synchronization software. File synchronization software is used to ensure that files in two or more locations are updated via certain rules. Additionally, it is used for backup and for mobile access to files.
 
@@ -105,7 +105,7 @@ ADD SOME SORT OF INTRO HERE
   \item Build a ‘hub and spoke‘ file synchronizer
   Description: File synchronizer will allow communication between a single central server (the ‘hub’) to which multiple other clients (the ‘spokes’) synchronize.
   \item Develop a web server and two clients (desktop, mobile)
-  Description: A web server will be developed and it will exchange data with mobile client (Android) and desktop client (Windows)
+  Description: A web server will be developed and it will exchange data with mobile client (Android) and desktop client (Windows).
 \end{enumerate}
 
 
@@ -162,8 +162,8 @@ We designed the mobile client interface with great intent to impress users withi
 \item \textbf{Unambiguous Interactive Elements:} Elements that are intended for interaction with users are clearly depicted. Key options such as Create, Delete and Rename are visible and easy to access by users when required by them without the need to search for hidden options in menus.
 \item \textbf{Single Trial Learning Experience:}  Since we aim to create user friendly application, we designed the app and placed the options tin a way that allow users to anticipate the next step and the flow of the process in general without the need to remember the steps.
 \item \textbf{Layered User Experience:} We understand that UX should be layered. Meaning that not all the features and options of the app are visible at once. We kept some buttons hidden as we wanted to keep the interest of users for longer time and as they go deeper into the app. However, we balanced between keeping the excitement of users and the simplicity of navigating the app.
-\item \textbf{Navigation Models:} We know that there are many navigation models out there but we chose tab bar or Drill down because it makes the most sense of our application.
-\item \textbf{Orientation:} Is how the keyboard looks like when users attempt to type in their data. We have selected Portrait as our application doesn’t require lots of data to be inputted.
+\item \textbf{Navigation Models:} We know that there are many navigation models out there but we chose Drill down because it makes the most sense of our application.
+\item \textbf{Orientation:} We have selected portrait and landscape to follow the user's hands movement.
 \item \textbf{Launching:} When users launch the application, they will see an image that represent the logo of the software and the application name only. We aimed at not to confuse users at the beginning by adding buttons and text when they firs load the application. When users leave the app and comeback to it, they will resume operation right where they left the application.
 \item \textbf{First impressions:} We believe on the say “ first launch make or break situation” therefore, we though of the following things:
 \end{enumerate}
@@ -174,9 +174,9 @@ We designed the mobile client interface with great intent to impress users withi
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.95\textwidth]{signup}
-    \caption{Sign in and sign up screen}
-    \label{fig:signup1}
+    \includegraphics[width=0.95\textwidth]{collage1}
+    \caption{Screenshots of the app in action}
+    \label{fig:collage1}
 \end{figure}
 
 \subsection{Desktop Application Interface Design Principles}
@@ -191,8 +191,7 @@ As with mobile app interface design interface, our goal was to create a perfect 
 \end{itemize}
 
 \hfill \break
-This diagram, shown in Figure 4, shows two main functions of the file synchronization software that are executed through desktop application.
-The flowchart illustrates how the upload and download functions are implemented in details, from the time a user clicks on upload/download till complete execution of those requests.
+This flowchart, shown in Figure 4, shows the main functions of the file synchronization software.
 
 \begin{figure}[H]
     \centering
@@ -205,17 +204,16 @@ The flowchart illustrates how the upload and download functions are implemented 
 
 \subsection{Security Design}
 
-The team worked hard to ensure not only delivering functional solution but also a secured product. For that, the team followed the security principles that were cited in OWASP Development Guide. They include:
+The team worked hard to ensure not only delivering functional solution but also a secured product. For that, the team followed the security principles that were cited in Open Web Application Security Project (OWASP) Development Guide. They include:
 
 \begin{enumerate}
 \item \textbf{Minimise attack surface area??}
 We tried to minimize the attack surface area by producing file synchronization software that is capable to perform essential functions that users are interested in  such as create, delete, rename and modify files to reduce potential threats and the possibility of exploiting vulnerabilities in the application.
-For example, we coded file search feature into the application. That search feature is potentially vulnerable to SQL injection attacks. But we have developed data sanitization control to prevent users from sending sql injection directly to the file server and by doing so, we are reducing the attack surface and success attempts to manipulate data.
+For example, we coded file search feature into the application. That search feature is potentially vulnerable to SQL injection attacks. But we have developed data sanitization control to prevent users from sending sql injection directly to the file server and by doing so, we are reducing the attack surface and success attempts to manipulate data. CHECK LATER
 \item \textbf{Establish secure defaults}
 The solution was designed to be secure by default. On another word, we have disabled some privileges for non-admin users and activated other security features by default to enhance the security status of the application and reduce the likelihood of attacking the application. For example, when creating new file, users are not allowed to use special characters in the file name, absolute file path is not allowed as well as file names that could be misinterpreted by the server is prohibited.
 \item \textbf{The principle of least privilege}
 The Principle of Least Privilege (POLP) has been applied to all aspects of the application. The team has designed the solution in away that allows users to execute tasks with minimum privileges required to perform that task.
-For example,
 \item \textbf{The principle of Defense in depth}
 The principle of defense in depth is considered in the design. The team used different security controls to approach different risks such as data leakage, data unavailability, code injection…etc.
 \begin{itemize}
@@ -235,9 +233,6 @@ The principle of defense in depth is considered in the design. The team used dif
 \item \textbf{Risk:} The integrity of files transferred over the Internet and stored in the web need to be protected from unauthorized modification and data manipulation.
 \item \textbf{Security Control:} We are using a cryptographic hashing function ‘Message Digest (MD5) ‘ to validate data integrity when digitally transferred over the Internet. MD5 produces 128-bit hash value to check data integrity. We selected MD5 as it is simple to be implemented and we are considering using more secure non-cryptographic hash function such as MurMur in future since it has less structure considering the number of assembly instructions it generates as well as it provides a better collisions resistance than MD5.
 
-\item \textbf{Process Title:} File Upload
-\item \textbf{Risk:} Uploading infected or malicious files.
-\item \textbf{Security Controls:} Using Anti-Virus program to scan files before they are uploaded to the cloud.
 \end{itemize}
 
 \item \textbf{Fail securely}
@@ -280,15 +275,13 @@ Serialization was used to enable data transmission between the devices. In compu
 
 \hfill \break
 \textbf{Communication Protocol}
-The software is running over TCP protocol through port 4356. The team originally has thought of two protocols that are TCP and UDP as both of them are used to transfer data over the Internet. The decision was made to use TCP over UDP, and the main reason for this is that TCP is reliable and stateful protocol which is important
-
-feature to ensure complete and ordered transfer of file bits during download/upload stage.
+The software is running over TCP protocol through port 4356. The team originally has thought of two protocols that are TCP and UDP as both of them are used to transfer data over the Internet. The decision was made to use TCP over UDP, and the main reason for this is that TCP is reliable and stateful protocol which is important feature to ensure complete and ordered transfer of file bits during download/upload stage.
 
 UDP doesn’t guarantee delivery of data packets or even the sequence of which it has to be received plus it doesn’t establish end-to-end connection between communicating systems. For all these reasons we opted for TCP.
 \newline
 \hfill \break
 \textbf{Compression Method(gzip)}
-Gzip is both a file format and a software application that is used for file compression and decompression.
+Gzip is both a file format and a software application that is used for file compression and decompression. HOW DO WE USE IT
 \textbf{Rsync: An overview:} We have looked at Rsync as suggested by the project supervisor and found it to be sufficient to do the job. In a nutshell, Rsync is used to detect changes in files that are stored in two different locations and then sync the file in the remote sever to be identical to the file that is stored in local hard drive without the need to send the complete file over the internet to the server once again each time a user makes a change in the local version of it.
 \newline
 \hfill \break
@@ -307,20 +300,20 @@ Below steps were copied from \underline{jenkov.com} as they well describe how rs
 \end{enumerate}
 
 \textbf{External Tools and libraries}
-We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is tjat we are keepin the master branch free from broken code. Our features include server, docs, android and desktop.
+We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is that we are keeping the master branch free from broken code. Our features include server, docs, android and desktop.
 
-\textbf{Software Testing}
+%\textbf{Software Testing}
 \textbf{User Interface Testing}
 The team spent some time doing usability testing to check the user experience before completing the deployment of the software. Usability testing aimed at verifying that using the application is going to be a perfect user experience and users will live an enjoyable experience when interacting with the services provided by Meerkats.
-\newline
-\hfill \break
-\textbf{Functionality Testing}
-\newline
-\hfill \break
-\textbf{Connectivity Testing}
-\newline
-\hfill \break
-\textbf{Security Testing}
+%\newline
+%\hfill \break
+%\textbf{Functionality Testing}
+%\newline
+%\hfill \break
+%\textbf{Connectivity Testing}
+%\newline
+%\hfill \break
+%\textbf{Security Testing}
 
 
 \section{Team work}
@@ -369,7 +362,7 @@ As expected, we had to do some changes here and there during the development sta
 
 In the desktop and mobile apps, the user input was through one variable only such as file name or the file type, then we decided to improve this logic to allow users to provide more variables at the same time to simplify the data input process.
 
-The mobile interface design was also changed later. The software designer in the beginning used a nice theme that represents the team goal of collaboration. However, it was realized that following this design is not practical when designing the pages required to execute the entire functions. The design has been changed to be more file system related context.
+The mobile interface design was also changed later. The software designer in the beginning used a nice theme that represents the team goal of collaboration. However, it was realized that following this design is not practical when designing the pages required to execute the entire functions. The design has been changed to be more file system related context, showing different icons depending on the nature of the file.
 
 \textbf{Data Security}
 
@@ -405,37 +398,31 @@ Samah Alghamdi & 16.66 \\
 \item \textbf{Communication:} Since we came from different background and since we speak different languages (Arabic, Chinese and Norwegian), having the ability to speak English clearly and be able to deliver information and updates in clear manner is vital to the success of the group. Our chines colleagues had a problem with demonstrating the ability to which resulted sometimes in miscommunication or \textbf{Solution:} We agreed to use very simple English words and terms when we discuss project update or argue ideas and that every one should ensure that his/her message has been delivered to every one correctly by using assurance questions such as am I clear? Did you understand my point? do you want me to repeat what I just said?...etc.
 
 \item \textbf{Attendance Punctuality} In addition to our daily chats through slack, we decided to meet in person once every week to discuss progress, issues and better connect with each other’s. However, we had to cancel some meetings due to either tardiness of last minute notice of absence by some of the team members.
-\textbf{Solution:} We created a process to address this issue. We agreed to deduct points from the peer-to-peer assessment scores if a member was late for more than 5 minutes of the meeting start time or didn’t inform the group about his/her absence 24 hours prior the meeting date.
-This process ensured timely attendance and commitment of all team members.
-\item \textbf{Project timeframe:}
-Description
-
-\item \textbf{Resources:}
-Description
-\item \textbf{Creating simple and user friendly interface:}
-Description
+\textbf{Solution:} We created a process to address this issue. We agreed to deduct points from the peer-to-peer assessment scores if a member was late for more than 5 minutes of the meeting start time or didn’t inform the group about his/her absence 24 hours prior the meeting date. This process ensured timely attendance and commitment of all team members.
+\item \textbf{Project timeframe:} Although the project’s supervisor provided clear requirements, the implementation was a bit challenging due to different reason one is the project duration. In addition to work on the project, the team members had to attend lectures and work on other course works related to other modules as well as started to work on the dissertation to sit the scope of work and agree on the course of actions with the dissertation supervisor, which put the team members under pressure.
+\textbf{Solution:} We divided the work and sat priorities before starting any new tasks. We jumped to assist each other’s when anyone get stuck in task in hands. We tried to deliver the main requirements and decided to include features that we didn’t find the time to execute as future work.
 \end{itemize}
 
 \section{Future Work}
 \begin{itemize}
 
 \item \textbf{Design iPhone client}
-
 \textbf{Description:} In addition for the software to be compatible with Windows and Android, we are planning to further enhance its usability by developing MAC client.
-
 \textbf{Added Value:} More users especially those who have iphones and mac desktops are expected to use the software and benefit from its services.
-\item \textbf{Introduce file versioning feature}
 
+\item \textbf{Development of Privacy Policy Statement}
+\textbf{Description:} Devise private statement explaining how are we storing the user’s files, for how long, what happens when the retention date is approached and what controls we apply to protect them and then require user’s consent for allowing us to store their data on our cloud and that they are in agreement with how are protecting their data.
+\textbf{Added Value:} with the introduction with GDPR, it is crucial to let users’ know how their data is being dealt with by us and obtain their consent accordingly to avoid any legal implications that may occur in future in case of any data breach incidents that are a result of users’ mistakes not due to a vulnerability in our system.
+
+
+\item \textbf{Introduce file versioning feature}
 \textbf{Description:} File versioning feature enables archiving the old version of a file when users attempt to delete it or replace it with a newer version and still want to keep the old versions of the original file. This feature will be configured per file and on per-device fashion and it is usually defaulted to no file versioning are used.
 We will decide on the file versioning strategies and will be using one of the available options such as automatically delete files if they are older than the maximum age or exceed the number of files allowed in an interval (one hour, one day, 30 days). Another strategy is to delegate file versioning method to an external program after specifying the versioning strategies.
-
 \textbf{Added Value:} Since dealing with electronic documents involved rapid changes, there is a need to keep old versions to restore deleted files or undo certain changes. It will also, increase collaboration among team members who might be working on the same project as each person will have the chance to work on the same file at the same time and all versions will be kept in one repository.
 
 
 \item \textbf{Anticipate and Answer Users’ Queries:}
-
 \textbf{Description:} When users tap a button, they want to know whether the process has started and how long will it take. As technology abstracts these actions, the users are usually kept in the dark while the process is going on. Use Toast in Android and notifications in iOS so users will be notified when a process has completed. The Gmail app is a good example of such a design, as it displays messages like “saved in draft, message sent, etc.” to inform the users about the completion of the task.
-
 \textbf{Added Value:} better user experience as users can anticipate how long it will take to complete their request and better manage their times.
 \end{itemize}
 
