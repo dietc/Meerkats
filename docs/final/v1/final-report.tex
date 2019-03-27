@@ -19,15 +19,15 @@
 \section{Introduction}
 Wee live in a dynamic and fast paced world where access to data is no longer limited to having access to a single device. Information is now available and accessible through one click and people are carrying small computers in their hands most of the time by having smart phone devices and are able to access their files from anywhere in the world. Additionally, enterprises use the cloud as a means for collaboration to increase their workforce productivity and to meet their customers’ requirements of having mobile access to products and services.
 
-Digital age and user mobility have made data availability crucial not only for individuals but for business alike. Demands for having timely access to data and to ensure data accuracy and redundancy have increased dramatically and the need for technical solutions to meet these requirements has risen accordingly. The solution to reduce the time and efforts that are needed to manage data among different devices and in different locations is by using file synchronization software. File synchronization software is the process to ensuring that files in two or more locations are updated via certain rules (wikipedia). Additionally, it is used for backup and for mobile access to files.
+Digital age and user mobility have made data availability crucial, not only for individuals, but for business alike. Demands for having timely access to data and to ensure data accuracy and redundancy have increased dramatically and the need for technical solutions to meet these requirements has risen accordingly. The solution to reduce the time and efforts that are needed to manage data among different devices and in different locations is by using file synchronization software. File synchronization software is used to ensure that files in two or more locations are updated via certain rules. Additionally, it is used for backup and for mobile access to files.
 
 
 \hfill \break
-In this project, we are embarked on a new journey where we develop file synchronization software to provide secure and seamless synchronization solution to enable data management processes such as file creation, deletion, modification, distribution, redundancy and availability.
+In this project, we are embarked on a new journey where we develop a file synchronization software. We aim to provide a secure and seamless synchronization solution to enable data management processes, such as file creation, deletion, modification, distribution, redundancy and availability.
 
-Our solution targets different kind of users and can be used in different sectors of the business world such as health organizations, educational entities, financial companies and much more. Company’s employees for instance, who work at separate locations can use it to access and distribute files. Individuals can utilize it to upload their holiday photos, for example, and to view them from their different devices (windows desktop and mobile).
+Our solution targets different kind of users and can be used in different sectors of the business world, such as health organizations, educational entities, financial companies and more. A company's employees for instance, who work at separate locations, can use it to access and distribute files. Individuals can utilize it to upload their holiday photos, for example, and to view them from their different devices.
 
-It also, can be run on Windows desktops and Android mobile devices at the same time. We have chosen to name our software Meerkats, because the meerkats are one of the most collaborative animals in the world, and one of the main features for our software is collaboration.
+We have chosen to name our software Meerkats, because the meerkats are one of the most collaborative animals in the world, and one of the main features for our software is collaboration.
 
 \begin{figure}[h]
     \centering
@@ -36,11 +36,11 @@ It also, can be run on Windows desktops and Android mobile devices at the same t
     \label{fig:logo1}
 \end{figure}
 
-In this report, we provide complete information about the file synchronization software project. Detailing information about how we worked together as a team to develop our product, the strategies we used to ensure the delivery of reliable and efficient solution as well as information about the features and the configuration of the software itself I addition to our future plan.
+In this report, we provide information about the file synchronization software project. Detailing information about how we worked together as a team to develop our product, the strategies we used to ensure the delivery of reliable and efficient solution. We will also cover information about the features and the configuration of the software itself, in addition to our future plan.
 
 
 \section{Review}
-File synchronization softwares are popular and the most famous ones are Dropbox, GoogleDrive, One Drive and Box. We have reviewed these popular solutions. We found them all to provide the same basic features, as they allow users to access, share and synchronie data. Choosing the right synchronization software really depends on the user’s needs and expectations, as each solution has its advantages and disadvantages. We have focused on the file synchronization feature in each solution to understand how it works.
+File synchronization softwares are popular and the most famous ones are Dropbox, GoogleDrive, One Drive and Box. We have reviewed these popular solutions. We found them all to provide the same basic features, as they allow users to access, share and synchronie data. Choosing the right synchronization software really depends on the user's needs and expectations, as each solution has its advantages and disadvantages. We have focused on the file synchronization feature in each solution to understand how it works.
 
 \subsection{GoogleDrive}
 \textbf{Storage and Cost:}
@@ -49,48 +49,38 @@ Signing up for GoogleDrive provide users with 15GB of storage space for free. It
 
 \hfill \break %keep this break
 \textbf{File Synchronization:}
-The solution is compatible with Windows, Mac, Android, iOS and it implements a sync folder mechanism, adding a “Google Drive” folder to the user's file-system when they install the desktop client (the client is called “Backup and Sync”). Any folder users drop in it gets sent off to the cloud, then onto other devices. The disadvantage of this process that it requires that files be stored both on the users’ hard drive and in the cloud to work, which is not useful if users want to free up their disk space. To address this concern, Google has introduced a new feature to allow users select specific folders to help in free up hard drive space. Users need to click on “preferences” button to open a window that will let them turn sync off for specific folders,(see figure1)
-One point to mention about GoogleDrive is that it uploads and downloads the entire file all over again when a change is made, which takes time, but it is worth mentioning that google has multiple data centers around the world, which decreases both users computer’s distance to the cloud and server congestion at the same time.
+The solution is compatible with Windows, Mac, Android and iOS. It implements a sync folder mechanism, adding a “Google Drive” folder to the user's file-system when they install the desktop client. Any folders or files the users choose to drop in the Google Drive folder gets sent off to the cloud, then onto other devices. The disadvantage of this process is that it requires the files be stored on both the users hard drive and in the cloud. This is not useful if the users want to free up their disk space. To address this concern, Google has introduced a new feature that allows users to select specific folders to help them free up hard drive space.
 
-
-\subsection{DropBox}
+\subsection{Dropbox}
 \textbf{Storage and Cost:}
-Users who sign up to DropBox get 2GB of storage for free. This limited space is considered as a disadvantage of using DropBox, as users who want to get extra disk space, such as 100GB, need to get a paid subscription for 10 USD a month.
+Users who sign up to Dropbox gets 2GB of storage for free. This limited space is considered as a disadvantage of using Dropbox. If users want to get extra disk space, such as 100GB, they need to get a paid subscription plan for 10 USD a month.
 
 
 \hfill \break
 \textbf{File Synchronization:}
-DropBox can be installed on Windows, Mac, Linux, Android, iOS, Windows Phone, BlackBerry, Kindle Fire.As with GoogleDrive, DropBox uses a sync folder with a new feature called block-level sync.This feature allows users to manage selective files stored in the sync folder from the “preferences” tool accessible via the DropBox taskbar icon (on PC), (see figure2). This is very important functionality as it helps users to save their disk space and to better utilize it to store important documents that they want to access it and share it from anywhere.
+Dropbox can be installed on Windows, Mac, Linux, Android, iOS, Windows Phone, BlackBerry and Kindle Fire. As with GoogleDrive, Dropbox uses a sync folder with a new feature called block-level sync. This feature allows users to manage selective files stored in the sync folder from the “preferences” tool accessible via the DropBox taskbar icon (on PC). This is a very important functionality, as it helps users to save their disk space and to better utilize it to store important documents that they want to access and share from anywhere.
 
-
-\hfill \break
 
 \subsection{Box}
 \textbf{Cost and Storage}
-Box for personal use offers free storage up to 10GB. Users can opt for more flexibility and storage space up to 100GB, which requires 10 USD per month.
+Box for personal use offers free storage up to 10GB. Users can upgrade is they want  more flexibility and storage space (up to 100GB), which costs 10 USD per month.
 
 \hfill \break
 \textbf{File Synchronization}
-Box applies the same file synchronization method invented by DropBox. Adding files and folders to the Box Sync folder on computer will automatically upload them to user’s account on Box.com and mark them for Sync. Users can selectively sync folders to better manage their disk space (see figure3). The solution can be run in Windows, Mac, Android, iOS, Windows Phone, BlackBerry.In 2018, Gartner assessed 14 Enterprise File Sync and Share (EFSS) and named Box as a leader in
-2018 Magic Quadrant for Content Collaboration Platforms. (see  https://www.box.com/en-gb/resources/gartner-ccp-magic-quadrant)
+Box applies the same file synchronization method invented by Dropbox. Adding files and folders to the Box Sync folder on a computer will automatically upload them tothe user's account on Box and mark them for Sync. Users can selectively sync folders to better manage their disk space. The solution can be run on Windows, Mac, Android, iOS, Windows Phone and BlackBerry.
 
-
-\hfill \break
 \subsection{OneDrive}
 \textbf{Cost and Storage}
-OneDrive is a Microsoft product and it offers up to 5GB free storage space. Users can pay 2 dollars a month to increase the storage size to 50GB. The solution is a great productivity tool since it is integrated with many other Microsoft products, such as Office Online, Skype, Outlook and the Office 365 suite for desktop.
-
+OneDrive is a Microsoft product and it offers up to 5GB of free storage space. Users can pay 2 USD a month to increase the storage space to 50GB. The solution is a great productivity tool since it is integrated with many other Microsoft products, such as Office Online, Skype, Outlook and the Office 365 suite for desktop.
 
 \hfill \break
 \textbf{File Synchronization}
-OneDrive can run on Windows, Mac, Android, iOS, Windows Phone and it follows the standard sync model developed by DropBox. It includes a sync folder, which is like a normal folder with the only difference being that it’s connected to the cloud. OneDrive offers simple way to sync files. Users can move individual files to OneDrive’s sync folder by right-clicking and selecting “move to OneDrive”. A drawback about OneDrive is that specific files can’t be synced to OneDrive. Instead, users have to go to the settings menu of the OneDrive desktop client and update the folders (see figure 4) that OneDrive selected to “auto save” On Windows 10, they are “desktop,” “pictures” and “documents.” (seehttps://www.cloudwards.net/review/onedrive/)
+OneDrive can run on Windows, Mac, Android, iOS and Windows Phone. It follows the standard sync model developed by Dropbox. It includes a sync folder, which is like a normal folder with the only difference being that it's connected to the cloud. OneDrive offers a simple way to sync files. Users can move individual files to the OneDrive sync folder by right-clicking and selecting “move to OneDrive”. A drawback about OneDrive is that specific files can’t be synced to OneDrive. Instead, users have to go to the settings menu of the OneDrive desktop client and update the folders.
 
-
-
-The solution is compatible with Google docs and with some of office tools, which provides convenience for users who have google accounts as they can save their attachments directly into their googleDrive.(to be added if we needed more words later)
+OneDrive is compatible with Google docs and with some other office tools. This provides convenience for users who have google accounts, as they can save their attachments directly into their googleDrive.
 \newline
 \hfill \break
-We also looked at some resources such as Open Web Application Security Project (OWASP) to learn more about risks associated with web applications, secure software development, cloud and file security ''
+We also looked at some resources such as Open Web Application Security Project (OWASP) to learn more about the risks associated with web applications, secure software development and cloud and file security.
 
 
 \section{Requirements and design}
@@ -319,7 +309,7 @@ Below steps were copied from \underline{jenkov.com} as they well describe how rs
 \end{enumerate}
 
 \textbf{External Tools and libraries}
-We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is tjat we are keepin the master branch free from broken code. Our features include server, docs, android and desktop. 
+We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is tjat we are keepin the master branch free from broken code. Our features include server, docs, android and desktop.
 
 \textbf{Software Testing}
 \textbf{User Interface Testing}

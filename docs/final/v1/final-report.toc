@@ -1,13 +1,13 @@
 \contentsline {section}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {2}Review}{2}
+\contentsline {section}{\numberline {2}Review}{3}
 \contentsline {subsection}{\numberline {2.1}GoogleDrive}{3}
-\contentsline {subsection}{\numberline {2.2}DropBox}{3}
+\contentsline {subsection}{\numberline {2.2}Dropbox}{3}
 \contentsline {subsection}{\numberline {2.3}Box}{4}
 \contentsline {subsection}{\numberline {2.4}OneDrive}{4}
-\contentsline {section}{\numberline {3}Requirements and design}{5}
+\contentsline {section}{\numberline {3}Requirements and design}{4}
 \contentsline {subsection}{\numberline {3.1}Project Deliverables}{5}
 \contentsline {subsection}{\numberline {3.2}Business Requirements}{5}
-\contentsline {subsection}{\numberline {3.3}Project plan}{6}
+\contentsline {subsection}{\numberline {3.3}Project plan}{5}
 \contentsline {subsection}{\numberline {3.4}Implementation Timeframe}{6}
 \contentsline {subsection}{\numberline {3.5}Design Model}{7}
 \contentsline {subsection}{\numberline {3.6}Mobile Application Interface Design Principles}{8}
