@@ -1,25 +1,26 @@
-\contentsline {section}{\numberline {1}Introduction}{2}
-\contentsline {section}{\numberline {2}Review}{3}
-\contentsline {subsection}{\numberline {2.1}GoogleDrive}{3}
-\contentsline {subsection}{\numberline {2.2}Dropbox}{3}
-\contentsline {subsection}{\numberline {2.3}Box}{4}
-\contentsline {subsection}{\numberline {2.4}OneDrive}{4}
-\contentsline {section}{\numberline {3}Requirements and design}{4}
-\contentsline {subsection}{\numberline {3.1}Project Deliverables}{5}
-\contentsline {subsection}{\numberline {3.2}Business Requirements}{5}
-\contentsline {subsection}{\numberline {3.3}Project plan}{5}
-\contentsline {subsection}{\numberline {3.4}Implementation Timeframe}{6}
-\contentsline {subsection}{\numberline {3.5}Design Model}{7}
-\contentsline {subsection}{\numberline {3.6}Mobile Application Interface Design Principles}{8}
-\contentsline {subsection}{\numberline {3.7}Desktop Application Interface Design Principles}{9}
-\contentsline {subsection}{\numberline {3.8}Security Design}{11}
-\contentsline {section}{\numberline {4}Implementation}{14}
-\contentsline {subsection}{\numberline {4.1}Development Guiding Principles}{14}
-\contentsline {section}{\numberline {5}Team work}{16}
-\contentsline {subsection}{\numberline {5.1}Effective Communication}{17}
-\contentsline {subsection}{\numberline {5.2}Conflict Management}{17}
-\contentsline {section}{\numberline {6}Evaluation}{18}
-\contentsline {section}{\numberline {7}Peer assessment}{19}
-\contentsline {section}{\numberline {8}Challenges}{19}
-\contentsline {section}{\numberline {9}Future Work}{20}
-\contentsline {section}{\numberline {10}Things I am adding later/working on}{21}
+\select@language {english}
+\contentsline {section}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {2}Review}{4}
+\contentsline {subsection}{\numberline {2.1}GoogleDrive}{4}
+\contentsline {subsection}{\numberline {2.2}Dropbox}{4}
+\contentsline {subsection}{\numberline {2.3}Box}{5}
+\contentsline {subsection}{\numberline {2.4}OneDrive}{5}
+\contentsline {section}{\numberline {3}Requirements and design}{5}
+\contentsline {subsection}{\numberline {3.1}Project Deliverables}{6}
+\contentsline {subsection}{\numberline {3.2}Business Requirements}{6}
+\contentsline {subsection}{\numberline {3.3}Project plan}{6}
+\contentsline {subsection}{\numberline {3.4}Implementation Timeframe}{7}
+\contentsline {subsection}{\numberline {3.5}Design Model}{8}
+\contentsline {subsection}{\numberline {3.6}Mobile Application Interface Design Principles}{9}
+\contentsline {subsection}{\numberline {3.7}Desktop Application Interface Design Principles}{10}
+\contentsline {subsection}{\numberline {3.8}Security Design}{12}
+\contentsline {section}{\numberline {4}Implementation}{15}
+\contentsline {subsection}{\numberline {4.1}Development Guiding Principles}{15}
+\contentsline {section}{\numberline {5}Team work}{17}
+\contentsline {subsection}{\numberline {5.1}Effective Communication}{18}
+\contentsline {subsection}{\numberline {5.2}Conflict Management}{18}
+\contentsline {section}{\numberline {6}Evaluation}{19}
+\contentsline {section}{\numberline {7}Peer assessment}{20}
+\contentsline {section}{\numberline {8}Challenges}{20}
+\contentsline {section}{\numberline {9}Future Work}{21}
+\contentsline {section}{\numberline {10}Things I am adding later/working on}{22}

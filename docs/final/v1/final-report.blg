@@ -1,0 +1,71 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: final-report.aux
+The style file: plainurl.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: final-report.bib
+Warning--entry type for "OWASP10" isn't style-file defined
+--line 2 of file final-report.bib
+Warning--entry type for "OWASPSCP" isn't style-file defined
+--line 10 of file final-report.bib
+Warning--entry type for "creativeblog" isn't style-file defined
+--line 18 of file final-report.bib
+Warning--entry type for "Gildred" isn't style-file defined
+--line 26 of file final-report.bib
+Warning--entry type for "Branko" isn't style-file defined
+--line 34 of file final-report.bib
+Warning--entry type for "Piper" isn't style-file defined
+--line 42 of file final-report.bib
+Warning--entry type for "Darius" isn't style-file defined
+--line 50 of file final-report.bib
+Warning--entry type for "Sharma" isn't style-file defined
+--line 58 of file final-report.bib
+Warning--entry type for "Kennedy" isn't style-file defined
+--line 66 of file final-report.bib
+Warning--entry type for "Protobuf" isn't style-file defined
+--line 74 of file final-report.bib
+You've used 10 entries,
+            2849 wiz_defined-function locations,
+            662 strings with 6397 characters,
+and the built_in function-call counts, 3120 in all, are:
+= -- 290
+> -- 80
+< -- 0
++ -- 33
+- -- 20
+* -- 82
+:= -- 433
+add.period$ -- 30
+call.type$ -- 10
+change.case$ -- 40
+chr.to.int$ -- 0
+cite$ -- 10
+duplicate$ -- 90
+empty$ -- 381
+format.name$ -- 20
+if$ -- 861
+int.to.chr$ -- 0
+int.to.str$ -- 10
+missing$ -- 0
+newline$ -- 53
+num.names$ -- 20
+pop$ -- 120
+preamble$ -- 1
+purify$ -- 30
+quote$ -- 0
+skip$ -- 279
+stack$ -- 0
+substring$ -- 53
+swap$ -- 10
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 40
+warning$ -- 0
+while$ -- 20
+width$ -- 12
+write$ -- 92
+(There were 10 warnings)

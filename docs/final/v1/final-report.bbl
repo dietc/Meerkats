@@ -1,0 +1,61 @@
+\begin{thebibliography}{10}
+
+\bibitem{Branko}
+V.~Branko.
+\newblock One drive review.
+\newblock URL: \url{https://www.cloudwards.net/review/onedrive/}.
+
+\bibitem{Darius}
+S.~Darius.
+\newblock Security by design principles according to owasp.
+\newblock URL:
+  \url{https://blog.threatpress.com/security-design-principles-owasp/}.
+
+\bibitem{OWASPSCP}
+The~OWASP Foundation.
+\newblock The secure coding practices quick reference guide project.
+\newblock URL:
+  \url{https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf}.
+
+\bibitem{OWASP10}
+The~OWASP Foundation.
+\newblock The ten most critical web application security risks.
+\newblock URL:
+  \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf}.
+
+\bibitem{Gildred}
+J.~Gildred.
+\newblock Dropbox vs google drive: the battle of the titans.
+\newblock URL: \url{https://www.cloudwards.net/dropbox-vs-google-drive/#two}.
+
+\bibitem{Kennedy}
+K.~Kennedy.
+\newblock How to design a great user experience for desktop applications.
+\newblock URL:
+  \url{https://docs.microsoft.com/en-us/windows/desktop/uxguide/how-to-design-desktop-ux}.
+
+\bibitem{Piper}
+S.~Piper.
+\newblock Looking for security trouble spots in go code.
+\newblock URL:
+  \url{http://0xdabbad00.com/2015/04/12/looking_for_security_trouble_spots_in_go_code/}.
+
+\bibitem{Sharma}
+A.~Sharma.
+\newblock Principles to adhere to while designing mobile app’s ui.
+\newblock URL:
+  \url{https://www.codementor.io/design/tutorial/mobile-app-ui-design-principles}.
+
+\bibitem{creativeblog}
+Creative~Bloq Staff.
+\newblock The 10 principles of mobile interface design.
+\newblock URL:
+  \url{https://www.creativebloq.com/mobile/10-principles-mobile-interface-design-4122910}.
+
+\bibitem{Protobuf}
+T.~Wen.
+\newblock Is protobuf 5x faster than json?
+\newblock URL: \url{https://dzone.com/articles/is-protobuf-5x-faster
+  than-json}.
+
+\end{thebibliography}

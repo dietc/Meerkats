@@ -4,14 +4,35 @@
 \usepackage[rightcaption]{sidecap}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{cite}
+
+
 \graphicspath{ {./images/} }
 
-\title{Meerkats File Synchronizer - Final Report}
-\author{Made in GB}
-\date{}
-
 \begin{document}
-\maketitle{}
+\begin{center}
+\thispagestyle{empty}
+\parskip=14pt%
+\vspace*{3\parskip}%
+Meerkats File Synchronizer - Final Report
+
+By
+
+Made in GB
+
+Boyang Zhang, Xi He, YiFeng Zheng,
+ Yenan Huang, Frida Solheim \& Samah Alghamdi
+
+For 7CCSMGPR GROUP PROJECT
+
+Department of Informatics, King's College London
+
+Term 2 2019
+\end{center}
+\newpage
+
 
 \tableofcontents
 \newpage
@@ -433,6 +454,11 @@ Finite-State Matchine(FSM)
 What is a FSM?
 Our server implements a FSM model to process incoming TCP stream of bytes.
 You can find out what my implementation is in the part of “Pseudocode For Depacking”. (http://t.cn/EIi6Kxs)
+
+\nocite{*}
+
+\bibliography{final-report}
+\bibliographystyle{plainurl}
 
 
 \end{document}
