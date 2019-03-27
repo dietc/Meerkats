@@ -20,9 +20,11 @@ namespace Meerkats_Win.Class
 
     class SocketTCPClient
     {
-        func lib = new func();
-
-        private static string ip = "178.128.45.7";
+        Func lib = new Func();
+        // 10.40.157.245
+        // 
+        //private static string ip = "178.128.45.7";
+        private static string ip = "10.40.157.245";
         private static int port = 4356;
         private static Socket socketClient;
 
@@ -34,8 +36,8 @@ namespace Meerkats_Win.Class
 
 
         // the path for stored data 
-        private static string PATH = "F:\\fortest\\";
-        private static string Backup_PATH = "F:\\fortest\\back_history_file";
+        private static string PATH = System.AppDomain.CurrentDomain.BaseDirectory + "sync_disk\\";
+        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "back_history_file\\";
 
         public static List<string> listMessage = new List<string>();
 
@@ -360,27 +362,32 @@ namespace Meerkats_Win.Class
             SendMessage(MessageBodyByte_for_download);
 
             ReceiveMessage_For_download(download_type);
-
-            
+    
             return "Download success";
         }
 
         public string Rename_File(string file_name_origin,string file_name)
         {
-            
-            if (File.Exists(PATH + file_name_origin))
-                File.Move(PATH + file_name_origin, PATH + file_name);
-            
+            FileInfo fi = new FileInfo(PATH + file_name);
+            var di = fi.Directory;
+            if (!di.Exists)
+                di.Create();
+
+            File.Move(PATH + file_name_origin, PATH + file_name);
+
             return "rename successfully";
         }
 
         public string Backup_File(string file_name)
         {
-            
-             if (File.Exists(PATH + file_name))
-                // overwrite = true
+
+            if (File.Exists(PATH + file_name))
+            // overwrite = true
+            {
+                System.DateTime currentTime = new System.DateTime();
+                string newPath = (Backup_PATH + file_name).Replace(".", currentTime.ToString("s")+".");
                 File.Move(PATH + file_name, Backup_PATH + file_name + ".bak");
-            
+            }
             return "backup successfully";
         }
 
@@ -486,7 +493,10 @@ namespace Meerkats_Win.Class
                         }
 
                     // Check_sum
-                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+                    byte[] all_data = new byte[file_data.Length + file_json.Length];
+                    Buffer.BlockCopy(file_json, 0, all_data, 0, file_json.Length);
+                    Buffer.BlockCopy(file_data, 0, all_data, file_json.Length, file_data.Length);
+                    byte[] md5 = GetCheck_sum(Packet_type, Device_id, all_data, true);
 
                     Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
 
@@ -568,7 +578,11 @@ namespace Meerkats_Win.Class
                         /*
                             * ** FILE data
                             */
-                        byte[] md5 = GetCheck_sum(Packet_type, Device_id, file_data, true);
+                        // Check_sum
+                        byte[] all_data = new byte[file_data.Length + file_json.Length];
+                        Buffer.BlockCopy(file_json, 0, all_data, 0, file_json.Length);
+                        Buffer.BlockCopy(file_data, 0, all_data, file_json.Length, file_data.Length);
+                        byte[] md5 = GetCheck_sum(Packet_type, Device_id, all_data, true);
 
                         Buffer.BlockCopy(md5, 0, MessageBodyByte, 12 + 300 + MessageBody_Length, md5.Length);
 
@@ -639,7 +653,8 @@ namespace Meerkats_Win.Class
 
                 // Packet Content Length [ 2 bytes ]
                 // Context_Length = len(MessageBody) + 2
-                byte Context_Length = (byte)(MessageBody_Length + 2);
+                int Context_Length = (int)(MessageBody_Length + 2);
+
                 byte[] length = { (byte)(Context_Length >> 8), (byte)(Context_Length & 0xff) };
                 Buffer.BlockCopy(length, 0, MessageBodyByte, 8, length.Length);
 
@@ -735,18 +750,14 @@ namespace Meerkats_Win.Class
                     {
                         case 1:
                             // upload the whole file 
-
                             Upload_File(ja["Name"].ToString(), 0);
-
                             break;
                         case 2:
                             // download the whole file
-
                             Upload_File(ja["Name"].ToString(), 0);
                             break;
                         case 3:
                             // rename
-
                             Rename_File(ja["Name"].ToString(), ja["Ext"].ToString());
                             break;
                         case 4:
@@ -759,12 +770,10 @@ namespace Meerkats_Win.Class
                             break;
                         case 6:
                             // delete
-
                             Delete_File(ja["Name"].ToString());
                             break;
                         case 7:
                             // backup
-
                             Backup_File(ja["Name"].ToString());
                             break;
 

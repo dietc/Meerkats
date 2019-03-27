@@ -22,15 +22,13 @@ namespace Meerkats_Win
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<FileInfo_cs> List = new ObservableCollection<FileInfo_cs>();
+        
+        private static string PATH = System.AppDomain.CurrentDomain.BaseDirectory + "sync_disk\\";
+        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "back_history_file\\";
 
         // delegate
         public delegate string FuncHandle();
         FuncHandle fh;
-
-        // the path for stored data 
-        private static string PATH = "F:\\fortest\\";
-        // private static string Backup_PATH = "F:\\fortest\\back_history_file";
 
         /// <summary>
         /// desktop client id = 0x2
@@ -40,18 +38,61 @@ namespace Meerkats_Win
         public MainWindow()
         {
             InitializeComponent();
-            init_status();
+
+            if (Directory.Exists(PATH) == false)
+            {
+                Directory.CreateDirectory(PATH);
+            }
+
+            if (Directory.Exists(Backup_PATH) == false)
+            {
+                Directory.CreateDirectory(Backup_PATH);
+            }
+            Directory_load();
+            fileInfo.AutoGeneratingColumn += fileInfoColumn_Load;
+        }
+
+        private void Directory_load()
+        {
+            var directory = new ObservableCollection<DirectoryRecord>();
+
+            directory.Add(
+                new DirectoryRecord
+                {
+                    Info = new DirectoryInfo(PATH),
+                }
+            );
+            directoryTreeView.ItemsSource = directory;
+
+        }
+
+
+        private void fileInfoColumn_Load(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            List<string> requiredProperties = new List<string>
+            {
+                "Name", "Length", "FullName", "LastWriteTime"
+            };
+
+            if (!requiredProperties.Contains(e.PropertyName))
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Column.Header = e.Column.Header.ToString();
+            }
         }
 
         public void init_status()
         {
 
-            file_tree.Items.Clear();
-            file_tree.ItemsSource = List;
+            //file_tree.Items.Clear();
+            //file_tree.ItemsSource = List;
 
-            DirectoryTreeView mainTree = new DirectoryTreeView();
-            mainTree.SelectedItemChanged += MainTree_SelectedItemChanged;
-            file_tree_grid.Children.Add(mainTree);
+            //DirectoryTreeView mainTree = new DirectoryTreeView();
+            //mainTree.SelectedItemChanged += MainTree_SelectedItemChanged;
+            //file_tree_grid.Children.Add(mainTree);
 
             //// Right-click menu
             //ContextMenu myContext = new ContextMenu();
@@ -104,39 +145,6 @@ namespace Meerkats_Win
 
         }
 
-        /// <summary>
-        /// 文件夹树改变时，查找文件夹下是否存在文件，如果存在，则显示
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            DirectoryTreeViewItem item = e.NewValue as DirectoryTreeViewItem;
-
-            //stack.Children.Clear();
-            file_info.Items.Clear();
-
-            FileInfo[] fileInfos;
-
-            try
-            {
-                fileInfos = item.DirInfo.GetFiles();
-            }
-            catch
-            {
-                return;
-            }
-
-            foreach (FileInfo info in fileInfos)
-            {
-                FileInfo_cs myFile = new FileInfo_cs();
-                myFile.strFileName = info.Name;
-                myFile.strFileType = info.Extension;
-                myFile.strFileSize = info.Length.ToString();
-                myFile.strlastModifyTime = info.LastAccessTime.ToString();
-                file_info.Items.Add(myFile);
-            }
-        }
 
 
         // connect to the server or refresh
@@ -219,7 +227,6 @@ namespace Meerkats_Win
              *  
             **/
 
-
             // Json serialize
             string MsgBody_str = JsonConvert.SerializeObject(file_json);
 
@@ -240,7 +247,7 @@ namespace Meerkats_Win
             // traverse files
             foreach (FileInfo NextFile in theFolder.GetFiles())
             {
-                func lib = new func();
+                Func lib = new Func();
                 byte[] file_md5 = lib.HexStrTobyte(lib.GetMD5HashFromFile(NextFile.FullName));
                 List<byte> file__md5_list = new List<byte>();
                 for (int i = 0; i < 16; i++)

@@ -55,3 +55,4 @@ F:\Group_Project\Meerkats\desktop\Meerkats_Win\obj\Debug\Meerkats_Win.csproj.Cor
 F:\Group_Project\Meerkats\desktop\Meerkats_Win\obj\Debug\Meerkats_Win.csproj.CopyComplete
 F:\Group_Project\Meerkats\desktop\Meerkats_Win\obj\Debug\Meerkats_Win.exe
 F:\Group_Project\Meerkats\desktop\Meerkats_Win\obj\Debug\Meerkats_Win.pdb
+F:\Group_Project\Meerkats\desktop\Meerkats_Win\obj\Debug\GeneratedInternalTypeHelper.g.cs
