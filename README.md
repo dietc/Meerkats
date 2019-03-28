@@ -1,5 +1,12 @@
 # Meerkats
-Meerkats File Synchronisor enables effective teamwork.
+Meerkats File Synchroniser enables effective teamwork.
 
 
-[Intermediate Report](https://github.com/Bellapierre/Intermediate-Report) @Bellapierre @samahghamdi
+![meerkats logo](docs/design/logo_v1.3/logo.jpg)
+
+|  part         |    branch      |      type        |      dir        |     author                        |
+| ------------- | -------------  | ---------------- | ----------------| ----------------------------------|
+| server        | feature/server |     golang       |     server/     |     @dietc                        |
+| desktop       | feature/desktop|       c#         |     desktop/    |     @YenanHHH                     |
+| android       | feature/android|     jave         |     android/    |@k1800566 @ZeyzerZeng              |                 |
+| docs          | feature/docs   |  design、report   |     docs/       |@Bellapierre@samahghamdi@ZeyzerZeng| 
