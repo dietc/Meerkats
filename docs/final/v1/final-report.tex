@@ -104,14 +104,14 @@ OneDrive is compatible with Google docs and with some other office tools. This p
 \hfill \break
 We also looked at some resources such as Open Web Application Security Project (OWASP) to learn more about the risks associated with web applications, secure software development and cloud and file security.
 
-\section{Requirements and design}
+\section{Requirements and Design}
 The requirements of this project have been supplied by the project's supervisor, Dr. Laurance, for which the team has precisely aligned the software design, project timeline and allocated resources to meet the expectations.
 
 \subsection{Project Deliverables}
 By completing this project, the following deliverables are achieved.
 \begin{enumerate}
   \item \textbf{File Storage Server} This component is used to store files and deal with requests received from users.
-  \item \textbf{Mobile Client} It is an Android solution. Users can use the app on the go and will enjoy features such as Sign Up, Log In, View Files, Upload Files, Rename Files, Delete Files, etc.
+  \item \textbf{Mobile Client} It is an Android solution. Users can use the app on the go and will enjoy features such as View Files and Upload Files.
   \item \textbf{Desktop GUI Client} The desktop GUI client is based on the Windows OS and it includes the same features as the mobile client.
   \item \textbf{Meerkats File Synchronizer Report} This report provides detailed information about the project in terms of team members, project plan, deliverables, timeline, technologies used, challenges and much more. It acts as a central reference for users who are interested in the software.
   \item \textbf{Meerkats File Synchronizer Presentation} The team will put together slides to present the work done. The team will demonstrate the solution and its layout, features and will walk the audience through the function- alities supplied by the software.
@@ -131,19 +131,17 @@ ADD SOME SORT OF INTRO HERE
 \end{enumerate}
 
 
-\subsection{Project plan}
+\subsection{Project Plan}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{timeline}
-    \caption{Timeline}
+    \caption{High level timeline}
     \label{fig:timeline1}
 \end{figure}
 
-TALK ABOUT TIMELINE.
-
 \subsection{Implementation Timeframe}
-Below table outlines the milestones along with brief description and expected timeframe.
+Below table outlines the milestones along with a description and expected timeframe.
 
 \begin{center}
 \begin{tabular}{ | m{3em} | m{2cm}| m{3cm} | m{1cm} | m{1cm} | m{2cm} |}
@@ -186,7 +184,7 @@ We designed the mobile client interface with great intent to impress users withi
 \item \textbf{Layered User Experience:} We understand that UX should be layered. Meaning that not all the features and options of the app are visible at once. We kept some buttons hidden as we wanted to keep the interest of users for longer time and as they go deeper into the app. However, we balanced between keeping the excitement of users and the simplicity of navigating the app.
 \item \textbf{Navigation Models:} We know that there are many navigation models out there but we chose Drill down because it makes the most sense of our application.
 \item \textbf{Orientation:} We have selected portrait and landscape to follow the user's hands movement.
-\item \textbf{Launching:} When users launch the application, they will see an image that represent the logo of the software and the application name only. We aimed at not to confuse users at the beginning by adding buttons and text when they firs load the application. When users leave the app and comeback to it, they will resume operation right where they left the application.
+\item \textbf{Launching:} When users launch the application, they will see a splash page. This is a page that includes an image that represent the logo of the software and the application name only. We aimed at not to confuse users at the beginning by adding buttons and text when they firs load the application. When users leave the app and comeback to it, they will resume operation right where they left the application.
 \item \textbf{First impressions:} We believe on the say “ first launch make or break situation” therefore, we though of the following things:
 \end{enumerate}
 \begin{itemize}
@@ -205,14 +203,13 @@ We designed the mobile client interface with great intent to impress users withi
 As with mobile app interface design interface, our goal was to create a perfect user experience. We thoroughly thought of how to design desktop application interface that is simple to use, fun to interact with and intuitive. Some rules that we considered include the following:
 \begin{itemize}
 \item Combine what should be combined. Features that support the execution of a task have been gathered in one place. Consequently, tasks that are performed through multiple steps can be performed in streamlined flow.
-\item Separate what should be separated. To support simplicity and avoid complex interface, key features are presented in very clear way while optional and secondary features are hidden. We also, separated tasks related to specific function (creation of a new file for example) from tasks supporting another function (uploading existing file).
+\item Separate what should be separated. To support simplicity and avoid complex interface, key features are presented in very clear way while optional and secondary features are hidden.
 \item Eliminate what can be eliminated. The interface design has been reviewed to examine the text and all elements to make sure that clear, simple and easy to understand words are used and no redundancy in the element.
 \item Put the elements in the right place. We followed logical order when placing buttons and instructions. Progressive Disclosure Technique has been considered as applicable. It is about displaying additional information as needed instead of filing the home page with too many elements and information.
-\item Use meaningful high-level combinations. It is often simpler and more scalable to select and manipulate groups of related elements than individual elements. Examples of high-level combinations include folders, themes, styles, and user groups. Such combinations often map to a user goal or intention that isn't apparent from the individual elements. For example, the intention behind the High Contrast Black color scheme is far more apparent than that of a black window background.
 \item Select the right controls. Design elements have presented in efficient manner by selecting the right controls. We know that selecting the right controls are important to effectively interact with the application. For example, the saving file function has been presented in a simple dialog box that ask the users to enter the file name and type then have the options to save it or cancel the transaction.
 \end{itemize}
 
-\hfill \break
+\subsection{Client Solution Flowchart}
 This flowchart, shown in Figure 4, shows the high level design of the software. The flow chart illustrates the main functions and the flow of the process. It is worth mentioning that the desktop and the mobile clients apply the same process flow.
 
 \begin{figure}[H]
@@ -255,7 +252,7 @@ The principle of defense in depth is considered in the design. The team used dif
 \section{Implementation}
 The team has spent a great amount of time searching and deciding on the best approach to execute the project and the right methodology to develop the building blocks of the software and the integration among those components.
 
-\subsection{Programming languages}
+\subsection{Programming Languages}
 We discussed among the team what are the right languages to use to develop the server, mobile client and desktop app. We agreed on the following languages:
 \begin{itemize}
 \item\textbf{The Server:} The group decided to use Golang, also known as Go, for building the server. Golang is an open source programming language that makes it easy to build simple, reliable, and efficient software. Golang has great advantages, such as no pointer arithmetic, no manual memory management, a standard library that seems fairly well thought out and purposefully excludes things that are misused (ex. no ECB mode for AES).
@@ -266,16 +263,8 @@ We discussed among the team what are the right languages to use to develop the s
 \hfill \break
 \textbf{Data Storage and Transmissions Method}
 Serialization was used to enable data transmission between the devices. In computer science, in the context of data storage and transmission, serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be "resurrected" later in the same or another computer environment. There are two ways of transmitting data between server and browser and in which we can encode data. The two methods are JavaScript Object Notation (JSON) and Protocol Buffers, known as Protobuf. We decided to use JSON as it meets our technical needs and for simplicity and convenience. JSON uses Ajax to enable the exchange of data between the web application and the browser and server, without the need to reload the page and it encodes data in a human readable manner. However, in future version of the software, we might switch to Protobuf to overcome some limitations in JSON, such as the slowness of encoding and decoding for integers and floats. Comparing strings is a bit time consuming as well, as the need for sequential scan when parsing strings, arrays and objects which in all preceding cases are mitigated in Protobuf.
-
-\hfill \break
-\textbf{Communication Protocol}
-The software is running over TCP protocol through port 4356. The team originally has thought of two protocols that are TCP and UDP as both of them are used to transfer data over the Internet. The decision was made to use TCP over UDP, and the main reason for this is that TCP is reliable and stateful protocol which is important feature to ensure complete and ordered transfer of file bits during download/upload stage.
-
-UDP doesn’t guarantee delivery of data packets or even the sequence of which it has to be received plus it doesn’t establish end-to-end connection between communicating systems. For all these reasons we opted for TCP.
 \newline
 \hfill \break
-\textbf{Compression Method(gzip)}
-Gzip is both a file format and a software application that is used for file compression and decompression. HOW DO WE USE IT
 \textbf{Rsync: An overview:} We have looked at Rsync as suggested by the project supervisor and found it to be sufficient to do the job. In a nutshell, Rsync is used to detect changes in files that are stored in two different locations and then sync the file in the remote sever to be identical to the file that is stored in local hard drive without the need to send the complete file over the internet to the server once again each time a user makes a change in the local version of it.
 \newline
 \hfill \break
@@ -298,7 +287,10 @@ We are using the Git Feature Branch Workflow, meaning that all our development t
 
 \subsection{Protocol}
 
-We design a communication protocol over TCP. On both the server and client side, packets of a similar format are constructed and sent as TCP payload. By sending packets between the server and clients, we can communicate in an efficient and flexible way.
+We design a communication protocol over TCP, through port 4356. On both the server and client side, packets of a similar format are constructed and sent as TCP payload. By sending packets between the server and clients, we can communicate in an efficient and flexible way.
+\newline
+\hfill \break
+ The team originally has thought of two protocols, TCP and UDPm as both of them are used to transfer data over the Internet. The decision was made to use TCP over UDP, and the main reason for this is that TCP is reliable and stateful protocol which is important feature to ensure complete and ordered transfer of file bits during download/upload stage. UDP doesn’t guarantee delivery of data packets or even the sequence of which it has to be received plus it doesn’t establish end-to-end connection between communicating systems. For all these reasons we opted for TCP.
 
 \begin{figure}[H]
     \centering
@@ -317,7 +309,7 @@ green area:checksum 16bytes
 On server, we utilize a FSM to capture structured packets within the TCP stream and resolve them to extract data payload inside. The flowchart below demonstrates the working mechanism of the FSM that we implemented.
 \newline
 \hfill \break
-For simplicit, we assume the initiator to be a two-byte value 0x110xff.
+For simplicity, we assume the initiator to be a two-byte value 0x110xff.
 
  \begin{figure}[H]
      \centering
@@ -484,7 +476,7 @@ We convert the old version to the new version according to the below json list. 
  \end{figure}
 
 
-\section{Team work}
+\section{Team Work}
 Our team strongly believes on the principle "The whole is greater than the sum of its parts". The team consists of six students, and throughout the project lifecycle, we tried to tap into each individuals strength, and challenge each other to gain new knowledge. We aimed to make this expedience as enjoyable, yet beneficial, as possible.
 
 \subsection{Effective Communication}
@@ -528,11 +520,12 @@ The team also considered this group project as an opportunity to build the follo
 \section{Evaluation}
 As expected, we had to do some changes here and there during the development stage for different reasons such as better performance, better user experience, more secure approach…etc.
 
+
+\subsection{Client App Assessment}
 In the desktop and mobile apps, the user input was through one variable only such as file name or the file type, then we decided to improve this logic to allow users to provide more variables at the same time to simplify the data input process.
+\newline
 
-\subsection{Mobile App Assessment}
-
-\textbf{Design}
+\textbf{Design:}
 \begin{itemize}
 \item We believed that the mobile interface is simple and intuitive, however, we did an initial assessment for the design and we had to change it. In the beginning we used a nice theme that represents the team goal of collaboration. However, it was realized that following this design is not practical when developing the pages that are intended to execute the entire functions. The feel and look of the mobile app has been changed to be in the context of file manger system.
 \item Another point to highlight about the design it is compatible with any new version of android system, which extends its value and usability. Additionally, we carefully choose icons that can be adapted to any Dots Per Inch (DPI) this is very important to ensure that photos are displayed with a perfect resolution in any android devices regardless of what OS version or the size of the screen.
@@ -540,19 +533,24 @@ In the desktop and mobile apps, the user input was through one variable only suc
 \item We provided default root directory (Your Meerkat) for security and convenience reasons. By implementing this control, users can’t navigate to other directory to store their files, which means they are always required to use the default directory, which we made sure to secure it. It also provides convenience, as users don’t have to navigate their device to allocate the file directory.
 \end{itemize}
 
-A general observation we would like to add is that we did partial testing but we couldn’t do complete cycle of testing for the software as we were running out of time. However, we tested some core functions and services such as resolving network packets and file synchronization.
-
 \textbf{Functionality:}
 Mobile app was developed using Java and that led to efficient implementation of the application this is rooted to the abundance of information and communities that share their knowledge about Java. For example, there was a difficulty in setting the IO function to enable reading exact length of data size from the server via TCP socket and with the assistance of Java online community the problem was resolved.
 
 Some file management processes such as file rename and file deletion are executed by other applications and not through the mobile version of Meerkats that are due to challenging time needed to develop those features plus our skills in developing Android application require additional training to develop such advanced feature.
-
-
+\newline
+\hfill \break
 \textbf{Data Security}
-
 The software is secured in general, the confidentiality, integrity and availability have been considered during the development work. However, the security level can be evolved in future to include more controls such as performing virus scanning when uploading/downloading files. Files’ content also, can be encrypted while stored in the server to avoid data leakage risk.
+\newline
+\hfill \break
+\textbf{Software Testing}
+The most challenging part of our teamwork is the integration testing phase of our whole project. Compared to HTTP, it is more difficult to build, test and debug a TCP socket network software. For example, we found an interesting thing during our testing work that there was always a white line located in the middle of our synchronized pics. After checking, there was nothing going wrong before the client receiving it, we can finally located bugs on client side. Eventually, we realized that the reason was that client received 1 byte less for some reason.
+\newline
+\hfill \break
+Although we achieved basic functions in our synchronizer, there are still many limitations that we cannot address now due to a lack of time. There are several areas that we can improve in the future . We have not optimized the file transfering function for extra large files, so there might be some problems there because we are using IO buffers, which have a limited space. We are also supposed to perform rigorous unit testing over all the functions in order to make our system robust, but we ran out of time. Therefore we only tested the core functions, such as resolving network packets and file synchronization. Moreover, we can replace some of our methods with a more advanced method in the future, such as adopting protobuf as our serialization approach.
 
-\section{Peer assessment}
+
+\section{Peer Assessment}
 The team agreed to distribute the 100 score by each one equally as showing in the following table. The rationale behind this decision is due to great efforts been put by everyone and as a reward for the continues commitment and hard work.
 
 
@@ -625,11 +623,6 @@ We will decide on the file versioning strategies and will be using one of the av
 
 \end{itemize}
 
-\section{Things I am adding later/working on}
-Finite-State Matchine(FSM)
-What is a FSM?
-Our server implements a FSM model to process incoming TCP stream of bytes.
-You can find out what my implementation is in the part of “Pseudocode For Depacking”. (http://t.cn/EIi6Kxs)
 
 \nocite{*}
 
