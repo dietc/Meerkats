@@ -161,9 +161,10 @@ namespace Meerkats_Win
         {
 
             SocketTCPClient t1 = new SocketTCPClient();
-
+            //t1.KillEmptyDirectory(PATH);
+            //t1.KillEmptyDirectory("F:\\Group_Project\\Meerkats\\desktop\\Meerkats_Win\bin\\Debug\\sync_disk\\dir2\\1\\2\\");
             t1.CreateInstance();
-           
+            
             // 
             t1.SendMessage(Get_local_File_info(PATH));
 
@@ -177,17 +178,17 @@ namespace Meerkats_Win
             // fortest.Text = result_str;
 
 
-            // test for download
-            byte[] test_for_download = null;
-            byte[] MessageBodyByte_for_download = new byte[30];
-            MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
-            t1.SendMessage(MessageBodyByte_for_download);
+            //// test for download
+            //byte[] test_for_download = null;
+            //byte[] MessageBodyByte_for_download = new byte[30];
+            //MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
+            //t1.SendMessage(MessageBodyByte_for_download);
 
-            string str_status_1 = t1.ReceiveMessage_For_download(0);
-            string str_status_2 = t1.ReceiveMessage_For_download(0);
+            //string str_status_1 = t1.ReceiveMessage_For_download(0);
+            //string str_status_2 = t1.ReceiveMessage_For_download(0);
 
             t1.DisconnectServer();
-            return str_status_1 + " + " + str_status_2;
+            return "success";
 
         }
 

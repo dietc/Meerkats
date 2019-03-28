@@ -152,12 +152,12 @@ namespace Meerkats_Win.Class
 
         }
 
-        public string ReceiveMessage_For_download(int file_type)
+        public string ReceiveMessage_For_download(string Path, int file_type)
         {
 
             try
             {
-
+                Path = PATH + Path;
                 // timer
                 System.Diagnostics.Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start(); //  start
@@ -199,6 +199,11 @@ namespace Meerkats_Win.Class
 
                 //create file or find file
                 string filePath = PATH + File_Name;
+                FileInfo fi = new FileInfo(filePath);
+                var di = fi.Directory;
+                if (!di.Exists)
+                    di.Create();
+
                 FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
 
 
@@ -254,7 +259,7 @@ namespace Meerkats_Win.Class
                             fs.Position = fs.Length;
                             break;
                     }
-                    
+
 
                     if (Packet_Num == 1)
                     {
@@ -277,7 +282,7 @@ namespace Meerkats_Win.Class
                     {
                         while (Packet_Num > 1)
                         {
-                            byte[] file_data = UnpackData(ReceiveMessage());
+                            byte[] file_data = ReceiveMessage();
                             switch (file_type)
                             {
                                 case 0:
@@ -291,7 +296,7 @@ namespace Meerkats_Win.Class
                                     fs.Position = fs.Length;
                                     break;
                             }
-                            
+
                             Packet_Num--;
                         }
 
@@ -310,7 +315,7 @@ namespace Meerkats_Win.Class
                         return File_Name + ": download successfully";
 
                     }
-                
+
                 }
 
                 else
@@ -352,70 +357,119 @@ namespace Meerkats_Win.Class
 
         }
 
-        public string Download_File(string file_name, int download_type)
+        public bool Download_File(string Path, string file_name, int download_type)
         {
+            try
+            {
 
-            
-            byte[] Msgbody = System.Text.Encoding.Default.GetBytes(file_name);
-            byte[] MessageBodyByte_for_download = new byte[30 + Msgbody.Length];
-            MessageBodyByte_for_download = BuildDataPackage_For_Pull(Msgbody, 0x21, Device_id);
-            SendMessage(MessageBodyByte_for_download);
+                byte[] Msgbody = System.Text.Encoding.Default.GetBytes(file_name);
+                byte[] MessageBodyByte_for_download = new byte[30 + Msgbody.Length];
+                MessageBodyByte_for_download = BuildDataPackage_For_Pull(Msgbody, 0x21, Device_id);
+                SendMessage(MessageBodyByte_for_download);
 
-            ReceiveMessage_For_download(download_type);
-    
-            return "Download success";
+                ReceiveMessage_For_download(Path, download_type);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                listMessage.Add(ex.ToString());
+                return false;
+            }
+
         }
 
-        public string Rename_File(string file_name_origin,string file_name)
+        public bool Rename_File(string file_name_origin, string file_name)
         {
-            FileInfo fi = new FileInfo(PATH + file_name);
-            var di = fi.Directory;
-            if (!di.Exists)
-                di.Create();
+            try
+            {
+                FileInfo fi = new FileInfo(PATH + file_name);
+                var di = fi.Directory;
+                if (!di.Exists)
+                    di.Create();
 
-            File.Move(PATH + file_name_origin, PATH + file_name);
+                File.Move(PATH + file_name_origin, PATH + file_name);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                listMessage.Add(ex.ToString());
+                return false;
+            }
 
-            return "rename successfully";
+
         }
 
-        public string Backup_File(string file_name)
+        public bool Backup_File(string file_name)
         {
 
             if (File.Exists(PATH + file_name))
             // overwrite = true
             {
-                System.DateTime currentTime = new System.DateTime();
-                string newPath = (Backup_PATH + file_name).Replace(".", currentTime.ToString("s")+".");
-                File.Move(PATH + file_name, Backup_PATH + file_name + ".bak");
+                string newPath;
+                int index = (Backup_PATH + file_name).IndexOf('.');F:\Group_Project\Meerkats\desktop\Meerkats_Win\App.xaml
+
+                if (index >= 0)
+                {
+                    DateTime dateStart = new DateTime(1970, 1, 1, 8, 0, 0);
+                    int timeStamp = Convert.ToInt32((DateTime.Now - dateStart).TotalSeconds);
+
+                    newPath = (Backup_PATH + file_name).Replace(".", "_" + timeStamp.ToString() + ".");
+                }
+                else
+                {
+                    DateTime dateStart = new DateTime(1970, 1, 1, 8, 0, 0);
+                    int timeStamp = Convert.ToInt32((DateTime.Now - dateStart).TotalSeconds);
+                    newPath = (Backup_PATH + file_name) + "_" + timeStamp.ToString();
+                }
+                File.Move(PATH + file_name, newPath);
+                // KillEmptyDirectory(PATH + file_name);
+                return true;
+
             }
-            return "backup successfully";
+            else
+                return false;
+
+
         }
 
-        public string Delete_File(string file_name)
-        {
-            
-            if (File.Exists(PATH + file_name))
-                File.Delete(PATH + file_name);
-            
-            return "delete successfully";
-        }
-        public string Upload_File(string file_name,int upload_type)
+        public bool Delete_File(string file_name)
         {
             try
             {
-                // file_list part 
-                // need to add
 
-                // Packet_type = 0x20
-                byte Packet_type = 0x20;
+                if (File.Exists(PATH + file_name))
+                    File.Delete(PATH + file_name);
+
+                // KillEmptyDirectory(PATH + file_name);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                listMessage.Add(ex.ToString());
+                return false;
+            }
+        }
+        public bool Upload_File(string file_name, int upload_type)
+        {
+            try
+            {
+
+                // upload the whole file -> 20
+                // differ upload -> 22
+                byte Packet_type;
+                if (upload_type == 0)
+                    Packet_type = 0x20;
+                else
+                    Packet_type = 0x22;
+
                 byte Device_id = 0x02;
                 byte[] file_data;
 
                 // 0xffff - 300 - 2 
-                int MessageBody_Length_Max = 65233;
-                   
-                //read file 
-                //for test
+                int MessageBody_Length_Max = 0xffff - 300 - 2;
+
+                // read file 
+                // for test
                 FileStream file = new FileStream(PATH + file_name, FileMode.Open);
                 file.Seek(0, SeekOrigin.Begin);
                 long file_length = file.Length;
@@ -474,7 +528,8 @@ namespace Meerkats_Win.Class
                     //copy json data
                     Buffer.BlockCopy(file_json, 0, MessageBodyByte, 12, file_json.Length);
 
-                    switch (upload_type) {
+                    switch (upload_type)
+                    {
 
                         case 0:
                             //read file data
@@ -483,14 +538,14 @@ namespace Meerkats_Win.Class
                             //copy file data  from index = 312
                             Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
                             break;
-                        case 1: 
+                        case 1:
                             //read file data -- rsync
                             file_data = new byte[MessageBody_Length];
                             file.Read(file_data, 0, (int)MessageBody_Length);
                             //copy file data  from index = 312
                             Buffer.BlockCopy(file_data, 0, MessageBodyByte, 12 + 300, MessageBody_Length);
                             break;
-                        }
+                    }
 
                     // Check_sum
                     byte[] all_data = new byte[file_data.Length + file_json.Length];
@@ -516,7 +571,7 @@ namespace Meerkats_Win.Class
                     else
                     {
                         file.Close();
-                        return "failed upload" + file_name;
+                        return true;
                     }
 
                 }
@@ -590,15 +645,13 @@ namespace Meerkats_Win.Class
                         MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
                         MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
 
-
                         Packet_num--;
                         index++;
                         SendMessage(MessageBodyByte);
 
-
                     }
 
-                    
+
 
                     byte[] res_flag = ReceiveMessage();
                     if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
@@ -609,19 +662,19 @@ namespace Meerkats_Win.Class
                     else
                     {
                         file.Close();
-                        return "failed upload" + file_name;
+                        return false;
                     }
 
                 }
 
-                
+
                 // socketClient.Close();
-                return "success upload";
+                return true;
             }
             catch (Exception ex)
             {
                 listMessage.Add(ex.ToString());
-                throw new Exception(ex.Message);
+                return false;
             }
         }
 
@@ -750,11 +803,13 @@ namespace Meerkats_Win.Class
                     {
                         case 1:
                             // upload the whole file 
+                            // 20
                             Upload_File(ja["Name"].ToString(), 0);
                             break;
                         case 2:
                             // download the whole file
-                            Upload_File(ja["Name"].ToString(), 0);
+                            // 21
+                            Download_File(ja["Name"].ToString(), ja["Ext"].ToString(), 0);
                             break;
                         case 3:
                             // rename
@@ -762,11 +817,13 @@ namespace Meerkats_Win.Class
                             break;
                         case 4:
                             // differ upload
+                            // 22
                             Upload_File(ja["Name"].ToString(), 1);
                             break;
                         case 5:
                             // differ download
-                            Upload_File(ja["Name"].ToString(), 1);
+                            // 23
+                            Download_File(ja["Name"].ToString(), ja["Ext"].ToString(), 1);
                             break;
                         case 6:
                             // delete
@@ -778,8 +835,8 @@ namespace Meerkats_Win.Class
                             break;
 
                     }
-                    
-                  
+
+
                 }
 
             }
@@ -860,6 +917,19 @@ namespace Meerkats_Win.Class
             }
         }
 
+        //public void KillEmptyDirectory(String storagepath)
+        //{
+        //    DirectoryInfo dir = new DirectoryInfo(storagepath);
+        //    DirectoryInfo[] subdirs = dir.GetDirectories("*.*", SearchOption.AllDirectories);
+        //    foreach (DirectoryInfo subdir in subdirs)
+        //    {
+        //        FileSystemInfo[] subFiles = subdir.GetFileSystemInfos();
+        //        if (subFiles.Count() == 0)
+        //        {
+        //            subdir.Delete();
+        //        }
+        //    }
+        //}
         // stringhex(md5) => byte[]
 
 
