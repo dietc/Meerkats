@@ -110,6 +110,9 @@ INPUT ./images/collage1.png
 INPUT ./images/flowchart.png
 INPUT ./images/flowchart.png
 INPUT ./images/flowchart.png
+INPUT ./images/decider.png
+INPUT ./images/decider.png
+INPUT ./images/decider.png
 INPUT ./images/packet.png
 INPUT ./images/packet.png
 INPUT ./images/packet.png
@@ -122,6 +125,8 @@ INPUT ./images/payload-structure.png
 INPUT ./images/reassembling-stage.png
 INPUT ./images/reassembling-stage.png
 INPUT ./images/reassembling-stage.png
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/base/omlcmr.fd
+INPUT /usr/local/texlive/2016/texmf-dist/tex/latex/base/omlcmr.fd
 INPUT final-report.bbl
 INPUT final-report.bbl
 INPUT final-report.aux

@@ -17,12 +17,13 @@
 \contentsline {subsection}{\numberline {3.9}Security Design}{11}
 \contentsline {section}{\numberline {4}Implementation}{13}
 \contentsline {subsection}{\numberline {4.1}Programming Languages}{13}
-\contentsline {subsection}{\numberline {4.2}Protocol}{15}
-\contentsline {section}{\numberline {5}Team Work}{22}
-\contentsline {subsection}{\numberline {5.1}Effective Communication}{22}
-\contentsline {subsection}{\numberline {5.2}Conflict Management}{23}
-\contentsline {section}{\numberline {6}Evaluation}{24}
-\contentsline {subsection}{\numberline {6.1}Client App Assessment}{24}
-\contentsline {section}{\numberline {7}Peer Assessment}{26}
-\contentsline {section}{\numberline {8}Challenges}{26}
-\contentsline {section}{\numberline {9}Future Work}{27}
+\contentsline {subsection}{\numberline {4.2}Server Architecture}{15}
+\contentsline {subsection}{\numberline {4.3}Protocol}{17}
+\contentsline {section}{\numberline {5}Team Work}{24}
+\contentsline {subsection}{\numberline {5.1}Effective Communication}{24}
+\contentsline {subsection}{\numberline {5.2}Conflict Management}{25}
+\contentsline {section}{\numberline {6}Evaluation}{26}
+\contentsline {subsection}{\numberline {6.1}Client App Assessment}{26}
+\contentsline {section}{\numberline {7}Peer Assessment}{29}
+\contentsline {section}{\numberline {8}Challenges}{29}
+\contentsline {section}{\numberline {9}Future Work}{30}

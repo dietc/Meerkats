@@ -285,6 +285,70 @@ Below steps were copied from \underline{jenkov.com} as they well describe how rs
 \textbf{External Tools and libraries}
 We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is that we are keeping the master branch free from broken code. Our features include server, docs, android and desktop.
 
+\subsection{Server Architecture}
+\textbf{Decider process:} By comparing both the current directory structure and the latest updated structure (by all clients) with this client's last version of directory, we can know what changes have been made by the user and other users since last time the client has been updated. After deciding we can give a series of commands to guide local directory being updated. There are in total seven types of commands as below.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{decider}
+    \caption{Decider flowchart}
+    \label{fig:decider1}
+\end{figure}
+
+\begin{center}
+\begin{tabular}{ | m{1.5cm}| m{2cm} | m{7cm}|}
+\hline
+\textbf{cmd number} & \textbf{cmd name} & \textbf{functionality}  \\
+\hline
+1 & upload & User created a file; should upload it to server  \\
+\hline
+2 & download & Others creatd a file;user should download it \\
+\hline
+3 & rename & Others renamed a file;user should update the its local file with the new name \\
+\hline
+4 & rsync upload & User modified a file;should transfer the different part to server \\
+\hline
+5 & rsync download & Others modified a file;user should download the different part \\
+\hline
+6 & delete & Others deleted a file;user should delete it locally \\
+\hline
+7 & backup & Both user and others made changes to a same file;user should backup his modified file into the specific backup dir \\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+\textbf{Conflict Resolving:}
+\newline
+\hfill \break
+There are several cases where conflicts happen .We will resolve them with putting other’s modification in a higher prioritization.
+
+\begin{center}
+\begin{tabular}{ | m{5cm}| m{6cm} | }
+\hline
+\textbf{Cases} & \textbf{solutions}  \\
+\hline
+Others created a file named A;Then user created a file named A accidentally;The two files have different content. & User backup file A locally;Then download the remote file A.  \\
+\hline
+Others renamed a file;Then user renamed a file to a different name. & Forcibly rename the local file to the name that other’s changed.  \\
+\hline
+Others renamed a file;Then user modify the content of the file. & User rename the local file to the name that other’s changed;then upload the file by rsync. \\
+\hline
+Others renamed a file;Then user delete it locally. & Although the file has been renamed by others;user will delete this file on server. \\
+\hline
+Others modified a file;Then user renamed this file locally. & User updates the new name to server;then user download this file by rsync. \\
+\hline
+Others modified a file;Then user modified it as well. & User backup his file locally;then user download this file by rsync. \\
+\hline
+Others modified a file;Then user delete it locally. & User download this file after pulling. \\
+\hline
+Others deleted a file remotely;Then user rename it locally.  & User delete this renamed file locally. \\
+\hline
+Others deleted a file remotely;Then user modified it locally.  & User backup this file locally.Then remove it from current directory. \\
+\hline
+\end{tabular}
+\end{center}
+
 \subsection{Protocol}
 
 We design a communication protocol over TCP, through port 4356. On both the server and client side, packets of a similar format are constructed and sent as TCP payload. By sending packets between the server and clients, we can communicate in an efficient and flexible way.
@@ -471,7 +535,7 @@ We convert the old version to the new version according to the below json list. 
  \begin{figure}[H]
      \centering
      \includegraphics[width=1.1\textwidth]{reassembling-stage}
-     \caption{}
+     \caption{RSync Mechanism}
      \label{fig:reassembling-stage}
  \end{figure}
 
@@ -545,7 +609,45 @@ The software is secured in general, the confidentiality, integrity and availabil
 \hfill \break
 \textbf{Software Testing}
 The most challenging part of our teamwork is the integration testing phase of our whole project. Compared to HTTP, it is more difficult to build, test and debug a TCP socket network software. For example, we found an interesting thing during our testing work that there was always a white line located in the middle of our synchronized pics. After checking, there was nothing going wrong before the client receiving it, we can finally located bugs on client side. Eventually, we realized that the reason was that client received 1 byte less for some reason.
-\newline
+\newpage
+\textbf{Software Testing Scenarios}
+\begin{center}
+\begin{tabular}{ | m{1cm}| m{2cm} | m{3cm} | m{3cm} | m{2cm} | }
+\hline
+\textbf{\#} & \textbf{Test Scenario} & \textbf{Expected Result} & \textbf{Actual Result(pass/fail)} & \textbf{Completion Date} \\
+\hline
+1 & Test file upload functionality & All types of files should be uploaded to cloud smoothly & All Files failed* & March 25  \\
+\hline
+2 & Test file upload functionality & All changed files should be downloaded to local smoothly & Some files failed** & March 25    \\
+\hline
+3 & Test file upload functionality & All types of files should be uploaded to cloud smoothly & Passed & March 26  \\
+\hline
+4 & Test file download functionality & All changed files should be downloaded to local smoothly & Passed &  March 26   \\
+\hline
+5 & Test file rename functionality & All files which need to be renamed should be renamed successfully & Failed*** & March 27 \\
+\hline
+6 & Test file delete functionality & Files should be deleted successfully & Passed &  March 27  \\
+\hline
+7 & Test file rename functionality & All files which need to be renamed should be renamed successfully & Passed &  March 28  \\
+\hline
+8 & Test file backup functionality & All file would be move to the Specified folder with a new name which is filename Timestamp & Passed &  March 29  \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{lstlisting}
+*The packet checksum was not matched with the checksum the
+server computed <to fix it, rewrite getchecksum function>
+**If len(file) > 655233, some bytes would be missing <find
+mistake that system decapsulates every packet twice>
+***Because our file_name = Path + filename, when renaming a
+file, if that PATH didn't exist,the system will fail <check
+whether the new Path exist or not,if not, first create that
+Path,then do rename function>
+\end{lstlisting}
+
+
+
 \hfill \break
 Although we achieved basic functions in our synchronizer, there are still many limitations that we cannot address now due to a lack of time. There are several areas that we can improve in the future . We have not optimized the file transfering function for extra large files, so there might be some problems there because we are using IO buffers, which have a limited space. We are also supposed to perform rigorous unit testing over all the functions in order to make our system robust, but we ran out of time. Therefore we only tested the core functions, such as resolving network packets and file synchronization. Moreover, we can replace some of our methods with a more advanced method in the future, such as adopting protobuf as our serialization approach.
 
