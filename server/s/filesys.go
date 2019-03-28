@@ -121,3 +121,9 @@ func (st StatusTable)String() (str string){
 }
 
 type NewTable map[string][16]byte
+
+type Block struct {
+    Typ uint8
+    Idx  int
+    Len  int
+}

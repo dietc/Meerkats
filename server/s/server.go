@@ -75,33 +75,32 @@ func ProcessLocalListPacket(data []byte, device byte) []byte{
     Decide(fStatus, sStatus, fNew, sNew, fileList, space, pre, &task, device)
     bytes,_ := json.Marshal(task) 
     log.Printf("%s", bytes)
-   return nil
     return bytes
 }
 
 func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space Space, pre *Pre, task *Task, device byte) {
-    //log.Println("fStatus", f)
-    //log.Println("fNew", fn)
-    //log.Println("sStatus", s)
-    //log.Println("sNew", sn) 
-    //return  
-    
+      log.Println("f", f)
+      //log.Println("fNew", fn)
+      log.Println("s", s)
+      //log.Println("sNew", sn)
+      //return
     /** check conflict situation in user created files **/
     for name, digest := range fn {
         //others created as well
         if odigest,ok := sn[name];ok {
             if !util.Compare(digest[:], odigest[:]) {
                 log.Println("others created(conflict): ", name) 
-                cmdDownloadConflict()
+                internalAddPreInfo(device, name, space[name].Idx)
+                cmdBackup(task, name)
+                cmdDownload(task, name, space[name].Idx)
             } else {
-                AddPreInfo(device, name, space[name].Idx)
+                internalAddPreInfo(device, name, space[name].Idx)
             }    
         } else {
             if _,ok := space[name];ok {
             //others have renamed to a same name
                 log.Println("user back up: ", name)
                 cmdBackup(task, name)
-                cmdDelete(task, name)
             } else {
             //user can upload
                 log.Println("user created: ", name)
@@ -113,12 +112,10 @@ func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space 
     /** check conflict situation in others created files **/
     for name, _ := range sn {
         if _,ok := fn[name];!ok{
-            if _,flag := f[name];flag {
-                //space removes name
-            } else {
+            if _,flag := f[name];!flag {
                 log.Println("others created: ", name)
                 cmdDownload(task, name, space[name].Idx)
-                AddPreInfo(device, name, space[name].Idx)
+                internalAddPreInfo(device, name, space[name].Idx)
             }        
         }    
     }
@@ -137,6 +134,8 @@ func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space 
                 internalUpdatePreName(space[s[name].ToName].Idx, s[name].ToName, s[name].FromName, device)
                 case 0x02:
                 log.Println("others modified: ", s[name].FromName)
+                cmdDownloadModified(task, name, space[s[name].FromName].Idx)
+                internalUpdatePreName(space[s[name].FromName].Idx, s[name].FromName, s[name].FromName, device)
                 case 0x04:
                 log.Println("others deleted: ", s[name].FromName)
                 cmdDelete(task, s[name].FromName)
@@ -203,8 +202,10 @@ func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space 
             }
             //others modified && user modified
             if !util.Compare(status.ToDigest[:], tmp) {
-                //cmdDownloadModifiedConflict()
-                log.Println("others modifed(user modified conflict): ")
+                 cmdBackup(task, f[name].FromName)
+                 cmdDownloadModified(task, f[name].FromName, space[f[name].FromName].Idx)
+                 internalUpdatePreName(space[f[name].FromName].Idx, f[name].FromName, f[name].FromName, device)
+                 log.Println("others modifed(user modified conflict): ")
              } else {
                  internalUpdatePreName(space[f[name].FromName].Idx, f[name].FromName, f[name].FromName, device)
              }
@@ -224,7 +225,6 @@ func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space 
         if status.Typ == 0x04 && f[name].Typ == 0x02 {
             //others deleted && user modified
             cmdBackup(task, f[name].FromName)
-            cmdDelete(task, f[name].FromName)
             internalDeletePreName(f[name].FromName, device)
             log.Println("others  deleted(user modifed conflict): ")
         }
@@ -304,7 +304,28 @@ func CheckSpaceStatus(pre *Pre, space Space) (StatusTable, NewTable) {
 func CheckCurrentStatus(pre *Pre, fileList map[string]FileObj) (StatusTable, NewTable) {
     var pretable StatusTable = make(StatusTable)
     var newtable NewTable = make(NewTable)
-    var uncheckedFileSet *set.Set = set.New()   
+    var uncheckedFileSet *set.Set = set.New() 
+    
+    log.Println("fileList")
+    for _,v := range fileList{
+        log.Println(v.Name, v.Digest)
+    }
+    
+    log.Println("pre.P")
+    for n,v := range pre.P{
+        log.Println(n, v.Digest, v.Idx)
+    }
+    
+    log.Println("pre.Cmp")
+    for n,v := range pre.Cmp{
+        log.Println(n, v.List())
+    }
+    
+    log.Println("pre.Checked")
+    for n,v := range pre.Checked{
+        log.Println(n, v)
+    }
+    
     //initialize checkedFileList and single out none-changed file
     for name,obj := range fileList {
         //no change file
@@ -409,6 +430,7 @@ func ProcessFileAssembly(data []byte, device byte) bool {
         } 
     }
     json.Unmarshal(data[:lastIdx+1], &part)
+    part.Name = util.Safe(part.Name)
     //log.Println("l", len(data))
     if part.Num <= 1 {
         var serverdir string
@@ -432,14 +454,25 @@ func ProcessFileAssembly(data []byte, device byte) bool {
     return response
 }
 
-func ProcessFileDownload(device byte) [][]byte {
+func ProcessFileDownload(index []byte, device byte) [][]byte {
     var res [][]byte
-    data1,_ := ioutil.ReadFile("clientA/large.jpeg")
-    resdata1 := divideFile(data1, "large.jpeg")
-    res = append(res, resdata1...)
-    data2,_ := ioutil.ReadFile("clientA/small")
-    resdata2 := divideFile(data2, "small")
-    res = append(res, resdata2...)
+    var info []byte
+    var fi *FileInfo = new(FileInfo)
+    var idx int64 
+    idx,err := strconv.ParseInt(string(index), 10, 64)
+    if err == nil {
+        info = GetFileInfo(idx)
+        json.Unmarshal(info, fi)      
+        data,_ := ioutil.ReadFile(fi.Dir)
+        resdata := divideFile(data, fi.Name)
+        res = append(res, resdata...)
+        var num int = 0
+        for _,i := range res{
+            log.Println(len(i))
+            num += len(i)
+        }
+        log.Println(num)
+    }
     return res
 }
 
@@ -506,6 +539,16 @@ func internalDelete(name string, device byte)  {
     DeleteFile(name, device)
 }
 
+func internalAddPreInfo(device byte, name string, idx int64) {
+    var tmp map[string]int64 = make(map[string]int64)
+    var bytes []byte
+    bytes = GetPre(device)
+    json.Unmarshal(bytes, &tmp)
+    tmp[name] = idx
+    ret,_ := json.Marshal(tmp)
+    SavePre(device, ret)
+} 
+
 func cmdUpload(task *Task, name string, digest [16]byte) {
     var co *CmdObj = new(CmdObj)
     co.Name = name
@@ -540,8 +583,12 @@ func cmdUploadModified(task *Task, name string, digest [16]byte) {
 }
 
 
-func cmdDownloadModified() {
-    //Cmd = 5
+func cmdDownloadModified(task *Task, name string, idx int64) {
+    var co *CmdObj = new(CmdObj)
+    co.Name = name
+    co.Cmd = 5
+    co.Ext = strconv.FormatInt(idx, 10)
+    *task = append(*task, co)
 }
 
 func cmdDelete(task *Task, name string) {
@@ -558,28 +605,11 @@ func cmdBackup(task *Task, name string) {
     *task = append(*task, co)
 }
 
-
-
-func cmdDownloadModifiedConflict() {
-}
-
-
-
-func cmdDeleteConflict() {
-}
-
-
-
-func cmdDownloadConflict() {
-
-}
-
-
 func FetchFileList(fileList map[string]FileObj, data []byte) {
     var objList []FileObj
     json.Unmarshal(data, &objList)
     for _,obj := range objList{
-        fileList[obj.Name] = obj
+        fileList[util.Safe(obj.Name)] = obj
     }
 } 
 
@@ -599,16 +629,6 @@ func fetchSpaceInfo() Space{
     }
     return s
 }
-
-func AddPreInfo(device byte, name string, idx int64) {
-    var tmp map[string]int64 = make(map[string]int64)
-    var bytes []byte
-    bytes = GetPre(device)
-    json.Unmarshal(bytes, &tmp)
-    tmp[name] = idx
-    ret,_ := json.Marshal(tmp)
-    SavePre(device, ret)
-} 
 
 func FetchPreInfo(device byte) *Pre{
     var p *Pre = new(Pre)
