@@ -2,7 +2,7 @@
 Meerkats File Synchroniser enables effective teamwork.
 
 
-![meerkats logo](docs/design/logo_v1.3/logo.jpg)
+![meerkats logo](https://github.com/dietc/Meerkats/blob/master/docs/design/logo_v1.4/logo.jpg)
 
 |  part         |    branch      |      type        |      dir        |     author                        |
 | ------------- | -------------  | ---------------- | ----------------| ----------------------------------|
@@ -11,3 +11,6 @@ Meerkats File Synchroniser enables effective teamwork.
 | android       | feature/android|     java         |     android/    |@k1800566 @ZeyferZheng             |                 
 | docs          | feature/docs   |     report       |     docs/       |@Bellapierre@samahghamdi           | 
 | UI design     | feature/docs   |     desgin       |    docs/design  |     @ZeyferZheng                  |
+
+
+android client
