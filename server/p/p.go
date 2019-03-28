@@ -81,6 +81,7 @@ func Handle(c net.Conn){
                     state, length, rbuffer = restoreState() 
                     continue
                 }
+                //log.Printf("%x", cbuffer)
                 flag = util.CheckMd5(cbuffer, rbuffer, []byte("aaaaa"))
                 if flag {
                     discarded, err := reader.Discard(16)
@@ -115,16 +116,28 @@ func handlePacket(c net.Conn, packet []byte) {
         case 0x20:
         //client upload file
         var flag bool 
-        flag = s.ProcessFileAssembly(packet[2:], packet[1])
+        flag = s.ProcessFileAssembly(packet[2:], packet[1]) 
         if flag {
             send(c, enPacket([]byte("ok"), 0x20))
         }
         case 0x21:        
         //client download
-        var files [][]byte = s.ProcessFileDownload(packet[1])
+        var files [][]byte = s.ProcessFileDownload(packet[2:], packet[1])
         for _,part := range files{
            //log.Println(len(part))
            send(c, enPacket(part, 0x21))
+        }
+        case 0x22:
+        //client upload modified file
+        flag := s.ProcessFileAssembly(packet[2:], packet[1])
+        if flag {
+            send(c, enPacket([]byte("ok"), 0x22))
+        }
+        case 0x23:
+        var files [][]byte = s.ProcessFileDownload(packet[2:], packet[1])
+        for _,part := range files{
+           //log.Println(len(part))
+           send(c, enPacket(part, 0x23))
         }
     }
 }

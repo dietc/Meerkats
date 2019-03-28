@@ -7,10 +7,14 @@ import (
     "regexp"
     "os"
     //"log"
+    "log"
 )
 
 func Md5(data []byte, key []byte) [16]byte{
-    return md5.Sum(append(data, key...))
+    var tmp []byte
+    tmp = append(tmp, data...)
+    tmp = append(tmp, key...)
+    return md5.Sum(tmp)
 }
 
 func Digest(data []byte) [16]byte{
@@ -19,8 +23,16 @@ func Digest(data []byte) [16]byte{
 
 func CheckMd5(rmd5 []byte, data []byte, key []byte) (ret bool) {
 	var cmd5 [16]byte
-	cmd5 = md5.Sum(append(data, key...))
+    var tmp []byte
+    tmp = append(tmp, data...)
+    tmp = append(tmp, key...)
+	cmd5 = md5.Sum(tmp)
+    //log.Printf("%x %x", rmd5, cmd5)
     ret = Compare(rmd5, cmd5[:])
+    //log.Printf("content: %x", data)
+    log.Printf("%x", rmd5)
+    log.Printf("%x", cmd5)
+    log.Println("checking md5:", ret)
 	return
 }
 
@@ -30,8 +42,8 @@ func Compare(d1 []byte, d2 []byte) (ret bool) {
         ret = false
         return 
     }
-    for k,v := range d1 {
-        if d2[k]^v == 1 {
+    for k,v := range d1 {   
+        if d2[k]^v != 0 {
             ret = false
             break
         }
