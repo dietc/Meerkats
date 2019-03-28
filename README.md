@@ -8,5 +8,6 @@ Meerkats File Synchroniser enables effective teamwork.
 | ------------- | -------------  | ---------------- | ----------------| ----------------------------------|
 | server        | feature/server |     golang       |     server/     |     @dietc                        |
 | desktop       | feature/desktop|       c#         |     desktop/    |     @YenanHHH                     |
-| android       | feature/android|     jave         |     android/    |@k1800566 @ZeyzerZeng              |                 |
-| docs          | feature/docs   |  design、report   |     docs/       |@Bellapierre@samahghamdi@ZeyzerZeng| 
+| android       | feature/android|     java         |     android/    |@k1800566 @ZeyferZheng             |                 
+| docs          | feature/docs   |     report       |     docs/       |@Bellapierre@samahghamdi           | 
+| UI design     | feature/docs   |     desgin       |    docs/design  |     @ZeyferZheng                  |
