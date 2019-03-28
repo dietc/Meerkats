@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Meerkats_Win.Class
 {
-    class func
+    class Func
     {
         // stringhex(md5) => byte[]
         public byte[] HexStrTobyte(string hexString)
