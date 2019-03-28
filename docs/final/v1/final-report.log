@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  27 MAR 2019 17:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  28 MAR 2019 16:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -398,21 +398,43 @@ File: babel.def 2016/04/23 3.9r Babel common definitions
 LaTeX Info: Redefining \cite on input line 302.
 LaTeX Info: Redefining \nocite on input line 332.
 Package: cite 2015/02/27  v 5.5
-) (./final-report.aux)
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count91
+\lst@gtempboxa=\box29
+\lst@token=\toks20
+\lst@length=\count92
+\lst@currlwidth=\dimen112
+\lst@column=\count93
+\lst@pos=\count94
+\lst@lostspace=\dimen113
+\lst@width=\dimen114
+\lst@newlines=\count95
+\lst@lineno=\count96
+\lst@maxwidth=\dimen115
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count97
+\lst@skipnumbers=\count98
+\lst@framebox=\box30
+) (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+ (./final-report.aux)
 \openout1 = `final-report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/ms/ragged2e.sty
 Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
  (/usr/local/texlive/2016/texmf-dist/tex/latex/ms/everysel.sty
@@ -436,17 +458,17 @@ LaTeX Info: Redefining \selectfont on input line 126.
 \JustifyingParindent=\skip58
 ) (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count91
-\scratchdimen=\dimen112
-\scratchbox=\box29
-\nofMPsegments=\count92
-\nofMParguments=\count93
-\everyMPshowfont=\toks20
-\MPscratchCnt=\count94
-\MPscratchDim=\dimen113
-\MPnumerator=\count95
-\makeMPintoPDFobject=\count96
-\everyMPtoPDFconversion=\toks21
+\scratchcounter=\count99
+\scratchdimen=\dimen116
+\scratchbox=\box31
+\nofMPsegments=\count100
+\nofMParguments=\count101
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count102
+\MPscratchDim=\dimen117
+\MPnumerator=\count103
+\makeMPintoPDFobject=\count104
+\everyMPtoPDFconversion=\toks22
 ) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO)
  (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/ifluatex.sty
@@ -481,7 +503,9 @@ Package grfext Info: Graphics extension search list:
 (grfext)             \AppendGraphicsExtensions on input line 456.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
-)) [1
+))
+\c@lstlisting=\count105
+ [1
 
 {/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./final-report.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -495,255 +519,613 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [2] <./images/logo.png, id=12, 501.875pt x 195.73125pt>
 File: ./images/logo.png Graphic file (type png)
  <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png used on input line 55.
+Package pdftex.def Info: ./images/logo.png used on input line 56.
 (pdftex.def)             Requested size: 327.74895pt x 127.82709pt.
  [3 <./images/logo.png>]
-Overfull \hbox (9.42201pt too wide) in paragraph at lines 80--83
+Overfull \hbox (9.42201pt too wide) in paragraph at lines 81--84
 \OT1/cmr/m/n/10 An-droid, iOS, Win-dows Phone, Black-Berry and Kin-dle Fire. As with GoogleDrive,
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 101--105
+Underfull \hbox (badness 10000) in paragraph at lines 102--106
 
  []
 
 [5] <./images/timeline.png, id=22, 1350.04375pt x 368.37625pt>
 File: ./images/timeline.png Graphic file (type png)
  <use ./images/timeline.png>
-Package pdftex.def Info: ./images/timeline.png used on input line 137.
+Package pdftex.def Info: ./images/timeline.png used on input line 138.
 (pdftex.def)             Requested size: 345.0pt x 94.13423pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
+Underfull \hbox (badness 10000) in paragraph at lines 149--149
 []|\OT1/cmr/bx/n/10 Start
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--150
+Underfull \hbox (badness 10000) in paragraph at lines 149--149
 []|\OT1/cmr/bx/n/10 End
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--152
+Underfull \hbox (badness 10000) in paragraph at lines 151--151
 []|\OT1/cmr/m/n/10 Kick-off
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--152
+Underfull \hbox (badness 10000) in paragraph at lines 151--151
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--152
+Underfull \hbox (badness 10000) in paragraph at lines 151--151
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--152
+Underfull \hbox (badness 10000) in paragraph at lines 151--151
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 152--152
+Underfull \hbox (badness 10000) in paragraph at lines 151--151
 \OT1/cmr/m/n/10 27,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 153--153
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--154
+Underfull \hbox (badness 10000) in paragraph at lines 153--153
 \OT1/cmr/m/n/10 28,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--156
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--156
+Underfull \hbox (badness 10000) in paragraph at lines 155--155
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 157--157
 []|\OT1/cmr/m/n/10 Initial Re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 157--157
 []|\OT1/cmr/m/n/10 Jan
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 158--158
+Underfull \hbox (badness 10000) in paragraph at lines 157--157
 \OT1/cmr/m/n/10 29,
  []
 
 
-Underfull \hbox (badness 8038) in paragraph at lines 160--160
+Underfull \hbox (badness 8038) in paragraph at lines 159--159
 []|\OT1/cmr/m/n/10 Group Pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--160
+Underfull \hbox (badness 10000) in paragraph at lines 159--159
 []|\OT1/cmr/m/n/10 To demon-strate
  []
 
 
-Underfull \hbox (badness 7740) in paragraph at lines 160--160
+Underfull \hbox (badness 7740) in paragraph at lines 159--159
 \OT1/cmr/m/n/10 the group ini-tial
  []
 
 
-Underfull \hbox (badness 3668) in paragraph at lines 160--160
+Underfull \hbox (badness 3668) in paragraph at lines 159--159
 \OT1/cmr/m/n/10 share the project
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
 []|\OT1/cmr/m/n/10 Software
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
 \OT1/cmr/m/n/10 15,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--162
+Underfull \hbox (badness 10000) in paragraph at lines 161--161
 \OT1/cmr/m/n/10 21,
  []
 
 
-Underfull \hbox (badness 1102) in paragraph at lines 164--164
+Underfull \hbox (badness 1102) in paragraph at lines 163--163
 []|\OT1/cmr/m/n/10 To sub-mit the fi-
  []
 
 
-Underfull \hbox (badness 1946) in paragraph at lines 164--164
+Underfull \hbox (badness 1946) in paragraph at lines 163--163
 \OT1/cmr/m/n/10 ma-tion about the
  []
 
 
-Underfull \hbox (badness 5622) in paragraph at lines 164--164
+Underfull \hbox (badness 5622) in paragraph at lines 163--163
 \OT1/cmr/m/n/10 soft-ware and the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 164--164
+Underfull \hbox (badness 10000) in paragraph at lines 163--163
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 164--164
+Underfull \hbox (badness 10000) in paragraph at lines 163--163
 \OT1/cmr/m/n/10 28,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--166
+Underfull \hbox (badness 10000) in paragraph at lines 165--165
 []|\OT1/cmr/m/n/10 Final Pre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--166
+Underfull \hbox (badness 10000) in paragraph at lines 165--165
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--166
+Underfull \hbox (badness 10000) in paragraph at lines 165--165
 \OT1/cmr/m/n/10 22,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--166
+Underfull \hbox (badness 10000) in paragraph at lines 165--165
 []|\OT1/cmr/m/n/10 March
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--166
+Underfull \hbox (badness 10000) in paragraph at lines 165--165
 \OT1/cmr/m/n/10 29,
  []
 
 
-Overfull \hbox (15.87476pt too wide) in paragraph at lines 148--169
+Overfull \hbox (15.87476pt too wide) in paragraph at lines 147--168
  [] 
  []
 
-[6] [7 <./images/timeline.png>] [8] [9]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 192.
+[6] [7 <./images/timeline.png>] [8]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 191.
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 192.
- <./images/collage1.png, id=36, 1204.5pt x 1192.455pt>
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 191.
+ <./images/collage1.png, id=33, 1204.5pt x 1192.455pt>
 File: ./images/collage1.png Graphic file (type png)
  <use ./images/collage1.png>
-Package pdftex.def Info: ./images/collage1.png used on input line 198.
+Package pdftex.def Info: ./images/collage1.png used on input line 197.
 (pdftex.def)             Requested size: 327.74895pt x 324.47812pt.
- [10 <./images/collage1.png>] <./images/flowchart.png, id=41, 1101.11375pt x 1415.2875pt>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[9] <./images/flowchart.png, id=38, 1098.1025pt x 1088.065pt>
 File: ./images/flowchart.png Graphic file (type png)
  <use ./images/flowchart.png>
-Package pdftex.def Info: ./images/flowchart.png used on input line 219.
-(pdftex.def)             Requested size: 327.74895pt x 421.26382pt.
- [11]
-Underfull \hbox (badness 10000) in paragraph at lines 224--225
+Package pdftex.def Info: ./images/flowchart.png used on input line 217.
+(pdftex.def)             Requested size: 327.74895pt x 324.74516pt.
+ [10 <./images/collage1.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 222--223
 
  []
 
-[12 <./images/flowchart.png>]
-Overfull \hbox (3.98012pt too wide) in paragraph at lines 236--238
-[]\OT1/cmr/bx/n/10 The prin-ci-ple of least priv-i-lege \OT1/cmr/m/n/10 The Prin-ci-ple of Least Priv-i-lege (POLP)
- []
-
-
-Overfull \hbox (2.47098pt too wide) in paragraph at lines 243--244
+[11 <./images/flowchart.png>]
+Overfull \hbox (2.47098pt too wide) in paragraph at lines 234--235
 []\OT1/cmr/bx/n/10 Security Con-trol Ti-tle: \OT1/cmr/m/n/10 Rivest-Shamir-Adleman (RSA) Al-go-rithm.
  []
 
-[13]
-Overfull \hbox (2.70142pt too wide) in paragraph at lines 251--252
+
+Overfull \hbox (2.70142pt too wide) in paragraph at lines 242--243
 []\OT1/cmr/bx/n/10 Security Con-trol: \OT1/cmr/m/n/10 Data Stream Cipher- Ad-vanced En-cryp-tion Stan-
  []
 
-[14] [15]
-Overfull \hbox (1.10275pt too wide) in paragraph at lines 297--300
-\OT1/cmr/bx/n/10 Communication Pro-to-col \OT1/cmr/m/n/10 The soft-ware is run-ning over TCP pro-to-col through
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 301--311
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 263--273
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--311
+Underfull \hbox (badness 10000) in paragraph at lines 263--273
 
  []
 
-[16] [17] [18] [19] [20] [21]
-Overfull \hbox (9.29704pt too wide) in paragraph at lines 453--457
-\OT1/cmr/m/n/10 ple-men-ta-tion is in the part of \Pseu-docode For De-pack-ing". (http://t.cn/EIi6Kxs) 
+[13] [14] <./images/decider.png, id=57, 589.20125pt x 453.695pt>
+File: ./images/decider.png Graphic file (type png)
+ <use ./images/decider.png>
+Package pdftex.def Info: ./images/decider.png used on input line 293.
+(pdftex.def)             Requested size: 327.74895pt x 252.37137pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 301--301
+[]|\OT1/cmr/bx/n/10 cmd
  []
 
-(./final-report.bbl
+
+Underfull \hbox (badness 1424) in paragraph at lines 311--311
+[]|\OT1/cmr/m/n/10 rsync down-
+ []
+
+[15 <./images/decider.png>] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 321--325
+
+ []
+
+
+Underfull \hbox (badness 3138) in paragraph at lines 331--331
+[]|\OT1/cmr/m/n/10 Others cre-ated a file named
+ []
+
+
+Underfull \hbox (badness 1496) in paragraph at lines 333--333
+\OT1/cmr/m/n/10 re-named a file to a dif-fer-ent
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+[]|\OT1/cmr/m/n/10 User up-dates the new name to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 345--345
+[]|\OT1/cmr/m/n/10 Others deleted a file re-
+ []
+
+
+Underfull \hbox (badness 7151) in paragraph at lines 345--345
+\OT1/cmr/m/n/10 motely;Then user re-name it
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 347--347
+[]|\OT1/cmr/m/n/10 Others deleted a file re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 347--347
+\OT1/cmr/m/n/10 motely;Then user mod-i-fied
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--358
+
+ []
+
+<./images/packet.png, id=65, 624.3325pt x 350.30875pt>
+File: ./images/packet.png Graphic file (type png)
+ <use ./images/packet.png>
+Package pdftex.def Info: ./images/packet.png used on input line 361.
+(pdftex.def)             Requested size: 327.74895pt x 183.8988pt.
+ [17]
+Underfull \hbox (badness 10000) in paragraph at lines 373--377
+
+ []
+
+<./images/protocolflowchart.png, id=69, 639.38875pt x 1210.5225pt>
+File: ./images/protocolflowchart.png Graphic file (type png)
+ <use ./images/protocolflowchart.png>
+Package pdftex.def Info: ./images/protocolflowchart.png used on input line 380.
+(pdftex.def)             Requested size: 327.74895pt x 620.51686pt.
+ [18 <./images/packet.png>]
+Overfull \vbox (94.4613pt too high) has occurred while \output is active []
+
+ [19 <./images/protocolflowchart.png>]
+Overfull \hbox (5.58026pt too wide) in paragraph at lines 388--404
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 406--409
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 406--409
+
+ []
+
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 428--432
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 449--452
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 449--452
+
+ []
+
+
+Overfull \hbox (4.56122pt too wide) in paragraph at lines 455--474
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 476--483
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 476--483
+
+ []
+
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 492--496
+
+ []
+
+<./images/payload-structure.png, id=85, 584.1825pt x 194.7275pt>
+File: ./images/payload-structure.png Graphic file (type png)
+ <use ./images/payload-structure.png>
+Package pdftex.def Info: ./images/payload-structure.png used on input line 499.
+(pdftex.def)             Requested size: 379.5021pt x 126.50598pt.
+
+Overfull \hbox (34.5021pt too wide) in paragraph at lines 499--500
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 504--513
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 504--513
+
+ []
+
+[22 <./images/payload-structure.png>] <./images/reassembling-stage.png, id=90, 737.75626pt x 505.89pt>
+File: ./images/reassembling-stage.png Graphic file (type png)
+ <use ./images/reassembling-stage.png>
+Package pdftex.def Info: ./images/reassembling-stage.png used on input line 537.
+(pdftex.def)             Requested size: 379.5021pt x 260.23134pt.
+
+Overfull \hbox (34.5021pt too wide) in paragraph at lines 537--538
+ [][] 
+ []
+
+[23] [24 <./images/reassembling-stage.png>] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 589--591
+
+ []
+
+[26]
+Underfull \hbox (badness 10000) in paragraph at lines 603--612
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--612
+
+ []
+
+[27]
+Underfull \hbox (badness 10000) in paragraph at lines 617--617
+[]|\OT1/cmr/bx/n/10 Test Sce-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 617--617
+[]|\OT1/cmr/bx/n/10 Actual Re-
+ []
+
+
+Overfull \hbox (1.3928pt too wide) in paragraph at lines 617--618
+[]|\OT1/cmr/bx/n/10 Completion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 619--619
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 619--619
+\OT1/cmr/m/n/10 up-load
+ []
+
+
+Underfull \hbox (badness 2393) in paragraph at lines 619--619
+[]|\OT1/cmr/m/n/10 All types of files
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 621--621
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 621--621
+\OT1/cmr/m/n/10 up-load
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 621--621
+[]|\OT1/cmr/m/n/10 All changed files
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 621--621
+\OT1/cmr/m/n/10 should be down-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 621--621
+\OT1/cmr/m/n/10 loaded to lo-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 623--623
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 623--623
+\OT1/cmr/m/n/10 up-load
+ []
+
+
+Underfull \hbox (badness 2393) in paragraph at lines 623--623
+[]|\OT1/cmr/m/n/10 All types of files
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 625--625
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 625--625
+\OT1/cmr/m/n/10 down-load
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 625--625
+[]|\OT1/cmr/m/n/10 All changed files
+ []
+
+
+Underfull \hbox (badness 6825) in paragraph at lines 625--625
+\OT1/cmr/m/n/10 should be down-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 625--625
+\OT1/cmr/m/n/10 loaded to lo-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 627--627
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 627--627
+\OT1/cmr/m/n/10 re-name
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 627--627
+\OT1/cmr/m/n/10 to be re-named
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 629--629
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 4832) in paragraph at lines 629--629
+\OT1/cmr/m/n/10 delete func-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 629--629
+[]|\OT1/cmr/m/n/10 Files should be
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 631--631
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 631--631
+\OT1/cmr/m/n/10 re-name
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 631--631
+\OT1/cmr/m/n/10 to be re-named
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 633--633
+[]|\OT1/cmr/m/n/10 Test file
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 633--633
+\OT1/cmr/m/n/10 backup
+ []
+
+
+Underfull \hbox (badness 1924) in paragraph at lines 633--633
+[]|\OT1/cmr/m/n/10 All file would be
+ []
+
+
+Underfull \hbox (badness 5726) in paragraph at lines 633--633
+\OT1/cmr/m/n/10 new name which
+ []
+
+
+Overfull \hbox (30.38023pt too wide) in paragraph at lines 615--636
+ [] 
+ []
+
+
+Overfull \hbox (3.00354pt too wide) in paragraph at lines 639--640
+[][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 640.
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 640.
+
+Overfull \hbox (3.00354pt too wide) in paragraph at lines 641--642
+[][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (9.0036pt too wide) in paragraph at lines 643--644
+[][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (9.0036pt too wide) in paragraph at lines 644--645
+[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (9.0036pt too wide) in paragraph at lines 645--646
+[][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[28] [29] [30] [31] (./final-report.bbl
 ./final-report.bbl:6: Undefined control sequence.
 l.6 \newblock URL: \url
                        {https://www.cloudwards.net/review/onedrive/}.
@@ -949,8 +1331,17 @@ Overfull \hbox (20.79451pt too wide) in paragraph at lines 38--42
 \OT1/cmr/m/n/10 http://0xdabbad00.com/2015/04/12/looking$[]\OML/cmm/m/it/10 or[]ecurity[]rouble[]pots[]n[]o[]ode=:[]$ 
  []
 
-./final-report.bbl:47: Undefined control sequence.
-l.47   \url
+./final-report.bbl:46: Undefined control sequence.
+l.46 \newblock URL: \url
+                        {http://tutorials.jenkov.com/rsync/overview.html}.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./final-report.bbl:52: Undefined control sequence.
+l.52   \url
            {https://www.codementor.io/design/tutorial/mobile-app-ui-design-p...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -959,17 +1350,17 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 44--48
+Underfull \hbox (badness 1215) in paragraph at lines 49--53
 []\OT1/cmr/m/n/10 A. Sharma.  Prin-ci-ples to ad-here to while de-sign-ing mo-bile app's
  []
 
 
-Underfull \hbox (badness 3815) in paragraph at lines 44--48
+Underfull \hbox (badness 3815) in paragraph at lines 49--53
 \OT1/cmr/m/n/10 ui.  URL: https://www.codementor.io/design/tutorial/mobile-app-ui-
  []
 
-./final-report.bbl:53: Undefined control sequence.
-l.53   \url
+./final-report.bbl:58: Undefined control sequence.
+l.58   \url
            {https://www.creativebloq.com/mobile/10-principles-mobile-interfa...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -978,13 +1369,13 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 2961) in paragraph at lines 50--54
+Underfull \hbox (badness 2961) in paragraph at lines 55--59
 []\OT1/cmr/m/n/10 Creative Bloq Staff.  The 10 prin-ci-ples of mo-bile in-ter-face de-
  []
 
-./final-report.bbl:58: Undefined control sequence.
-l.58 \newblock URL: \url
-                        {https://dzone.com/articles/is-protobuf-5x-faster
+./final-report.bbl:64: Undefined control sequence.
+l.64   \url
+           {https://dzone.com/articles/is-protobuf-5x-faster-than-json}.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -992,24 +1383,24 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--60
+Underfull \hbox (badness 10000) in paragraph at lines 61--65
 []\OT1/cmr/m/n/10 T. Wen.  Is pro-to-buf 5x faster than json?  URL:
  []
 
-) [22] [23] (./final-report.aux) ) 
+[32]) [33] (./final-report.aux) ) 
 Here is how much of TeX's memory you used:
- 2636 strings out of 493014
- 35716 string characters out of 6133351
- 109916 words of memory out of 5000000
- 6132 multiletter control sequences out of 15000+600000
+ 4282 strings out of 493014
+ 57801 string characters out of 6133351
+ 135477 words of memory out of 5000000
+ 7758 multiletter control sequences out of 15000+600000
  5158 words of font info for 19 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,9n,23p,781b,242s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,9n,32p,1259b,1514s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on final-report.pdf (23 pages, 658655 bytes).
+Output written on final-report.pdf (33 pages, 894253 bytes).
 PDF statistics:
- 112 PDF objects out of 1000 (max. 8388607)
- 74 compressed objects within 1 object stream
+ 154 PDF objects out of 1000 (max. 8388607)
+ 96 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

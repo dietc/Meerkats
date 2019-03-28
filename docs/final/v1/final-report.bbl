@@ -40,6 +40,11 @@ S.~Piper.
 \newblock URL:
   \url{http://0xdabbad00.com/2015/04/12/looking_for_security_trouble_spots_in_go_code/}.
 
+\bibitem{RSync}
+RSync.
+\newblock Overview.
+\newblock URL: \url{http://tutorials.jenkov.com/rsync/overview.html}.
+
 \bibitem{Sharma}
 A.~Sharma.
 \newblock Principles to adhere to while designing mobile app’s ui.
@@ -55,7 +60,7 @@ Creative~Bloq Staff.
 \bibitem{Protobuf}
 T.~Wen.
 \newblock Is protobuf 5x faster than json?
-\newblock URL: \url{https://dzone.com/articles/is-protobuf-5x-faster
-  than-json}.
+\newblock URL:
+  \url{https://dzone.com/articles/is-protobuf-5x-faster-than-json}.
 
 \end{thebibliography}
