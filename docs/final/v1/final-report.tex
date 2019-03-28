@@ -7,6 +7,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{cite}
+\usepackage{listings}
 
 
 \graphicspath{ {./images/} }
@@ -294,6 +295,194 @@ Below steps were copied from \underline{jenkov.com} as they well describe how rs
 
 \textbf{External Tools and libraries}
 We are using the Git Feature Branch Workflow, meaning that all our development takes place in a dedicaded branch, and not in the master branch. This enables us to work on a specific feature without disturbing the main codebase. The biggest advangage is that we are keeping the master branch free from broken code. Our features include server, docs, android and desktop.
+
+\subsection{Protocol}
+
+We design a communication protocol over TCP. On both the server and client side, packets of a similar format are constructed and sent as TCP payload. By sending packets between the server and clients, we can communicate in an efficient and flexible way.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{packet}
+    \caption{Packet structure}
+    \label{fig:packet1}
+\end{figure}
+
+\begin{lstlisting}
+blue area:initiator or terminator 8bytes
+red area: payload length 2bytes
+grey area:payload 0bytes-65535bytes
+green area:checksum 16bytes
+\end{lstlisting}
+
+On server, we utilize a FSM to capture structured packets within the TCP stream and resolve them to extract data payload inside. The flowchart below demonstrates the working mechanism of the FSM that we implemented.
+\newline
+\hfill \break
+For simplicit, we assume the initiator to be a two-byte value 0x110xff.
+
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=0.95\textwidth]{protocolflowchart}
+     \caption{FSM}
+     \label{fig:protocolflowchart}
+ \end{figure}
+
+ With different type id, we can construct different types of packets.
+
+ \begin{center}
+ \begin{tabular}{ | m{2cm}  | m{2cm} | m{7cm} | }
+ \hline
+ \textbf{Type id} & \textbf{Name} & \textbf{Functionality} \\
+ \hline
+ 0x02 & pull & Client scans the binded local dir and generates json formatted data that describes its structure. By sending the json to server, client acquires commands. Then it can manipulate local files according to these commands. \\
+ \hline
+ 0x20 & download & Client sends a file index (index is sent over here with the above download command) to server, server responds with the file content (could be separated into multiple packets) \\
+ \hline
+ 0x21 & upload & Client separates a file into pieces (if necessary) and sends them to server through a single packet or multiple packets. \\
+ \hline
+ 0x22 & rdownload & Rsync download: Client separates a file into equal-sized blocks and calculate checksum for each block. Then it sends all these checksums to server. After receiving parts of the new file and some information indicating which blocks of the old file can be reused, client assembles a new file.
+ \\
+ \hline
+ 0x23 & rupload & Rysnc upload: Client receives sequence of checksums generated from the old versioned file as mentioned above. By comparing them to the latest versioned file, client can decide uploading which parts of the new file and will tell the server which blocks in the old versioned file can be reused. \\
+ \hline
+ \end{tabular}
+ \end{center}
+
+ From the perspective of a client, we will explain in detail how different types of packets are formed.
+ \newline
+ \hfill \break
+
+\textbf{Pull packet:} After scanning locally, we know that there are two files in current directory, ”dir/doc1” and “pic1.jpg”, so the json below is formed.
+ \begin{lstlisting}
+ [{
+ 	"Name": "dir/doc1",
+ 	"Typ": 1,
+ 	"Digest": [62, 238, 247, 95, 134, 12,
+             98, 97, 1, 23, 50, 153, 132,
+             75, 115, 133]
+ }, {
+ 	"Name": "pic1.jpg",
+ 	"Typ": 1,
+ 	"Digest": [141, 221, 57, 244, 109, 128,
+            93, 240, 169, 147, 223, 23, 244,
+            177, 183, 2]
+ }]
+
+ \end{lstlisting}
+
+ Client encapsulates the json in a pull packet and sends it to server. Sever will then respond with a series of commands in the format of json (we will explain later how the server gives these commands).
+ \newline
+ \hfill \break
+A possible reponse:
+
+ \begin{lstlisting}
+ [{
+ 	"Name": "pic1.jpg",
+ 	"Digest": [141, 221, 57, 244, 109, 128, 93, 240,
+  169, 147, 223, 23, 244, 177, 183, 2],
+ 	"Cmd": 1,
+ 	"Ext": ""
+ }, {
+ 	"Name": "dir/doc1",
+ 	"Digest": [62, 238, 247, 95, 134, 12, 98, 97,
+   1, 23, 50, 153, 132, 75, 115, 133],
+ 	"Cmd": 1,
+ 	"Ext": ""
+ }]
+ \end{lstlisting}
+
+Because the client has received two “command 1”, it should upload the two files immediately.
+\newline
+\hfill \break
+
+All possible values in Cmd field:
+ \begin{center}
+ \begin{tabular}{ | m{1.4cm}| m{10cm} | }
+ \hline
+ \textbf{Cmd} & \textbf{Action}  \\
+ \hline
+  1 & Client should upload the related file.  \\
+ \hline
+ 2 & Client should download the related file.  \\
+ \hline
+ 3 & Client should rename the related file with the new name in “Ext” field. \\
+ \hline
+ 4 & Client should upload the related file by using rsync algorithm. \\
+ \hline
+ 5 & Client should download the related file by using rsync algorithm. \\
+ \hline
+ 6 & Client should delete the related file. \\
+ \hline
+ 7 & Client should backup the related file (move to a specific directory). \\
+ \hline
+ \end{tabular}
+ \end{center}
+
+ \textbf{Download packet and Upload packet:} No matter if it is a download packet or an upload packet, we transfer the files in a similar way. We will introduce the way we separate files and encapsulate packets in the following part.
+ \newline
+ \hfill \break
+Because we use a two-byte value to record the payload length, its theoretical maximum length is 65535 (Except for the field of device id and the field of packet type). We also need to attach file information on each packet, so we pre-allocate another 300 bytes at the beginning of each packet. Therefore, we can transfer 65233 bytes at most in one packet. In other words, if the size of file is more than 65233 bytes, we have to send it in multiple packets.
+\newline
+\hfill \break
+An example of file information json:
+
+\begin{lstlisting}
+{
+	    "Name": "pic1.jpg",
+	    "Num": 2,
+	    "Index": 0
+ }
+\end{lstlisting}
+
+This json means we send “pic1.jpg” in two separate packets (Num), and it is the first one (Index). Apparently, this json is no more than 300 bytes so we will have to pad the rest part with 0x00.
+\newline
+\hfill \break
+The payload structure of a download or upload packet:
+
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=1.1\textwidth]{payload-structure}
+     \caption{The payload structure of a download or upload packet}
+     \label{fig:payload-structure}
+ \end{figure}
+
+ \textbf{RSync packet:} When the client is told that its local file has been modified, it will use the rsync algorithm to download the file, rather than downloading a full file. On the contrary, if the user modified a file locally, client will use rsync to partly upload new file to server. By using rsync, we can reduce network data that is transmitted.
+ \newline
+ \hfill \break
+Comparing stage:
+Based on the previous version of the file, we can calculate hashes of every 1024-bit block. If the last block is less than 1024 bits in length, we should just ignore it. After sending these values of hash to the opposite side, we can compare to determine in the newest version of file how many blocks which contained unmodified value can be matched. Once these blocks are identified, we only need to transmit these unrepeated bits to the old-versioned side.
+\newline
+\hfill \break
+Reassembling stage:
+We convert the old version to the new version according to the below json list. When the “Typ” field evaluates to 1, it means this part of file is a modified part in the new version and we have to transmit it. The part  starts from offset “Idx” and has a length of “Len” bits.However, when the “Typ” field evaluates to 2, it means this part is a previous part that can be reused. It is the first block in the old version of file because the “Idx” equals to 0 in the example. In other words, Idx has two different meanings in the two different types of cases.
+
+\begin{lstlisting}
+[
+   {
+      "Typ":1,
+      "Idx":0,
+      "Len":1
+   },
+   {
+      "Typ":2,
+      "Idx":0,
+      "Len":1024
+   },
+   {
+       "Typ":1,
+       "Idx":1025,
+       "Len":10
+   }
+]
+
+\end{lstlisting}
+
+ \begin{figure}[H]
+     \centering
+     \includegraphics[width=1.1\textwidth]{reassembling-stage}
+     \caption{}
+     \label{fig:reassembling-stage}
+ \end{figure}
+
 
 \section{Team work}
 Our team strongly believes on the principle "The whole is greater than the sum of its parts". The team consists of six students, and throughout the project lifecycle, we tried to tap into each individuals strength, and challenge each other to gain new knowledge. We aimed to make this expedience as enjoyable, yet beneficial, as possible.
