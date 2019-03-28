@@ -1,0 +1,73 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: final-report.aux
+The style file: plainurl.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: final-report.bib
+Warning--entry type for "OWASP10" isn't style-file defined
+--line 2 of file final-report.bib
+Warning--entry type for "OWASPSCP" isn't style-file defined
+--line 10 of file final-report.bib
+Warning--entry type for "creativeblog" isn't style-file defined
+--line 18 of file final-report.bib
+Warning--entry type for "Gildred" isn't style-file defined
+--line 26 of file final-report.bib
+Warning--entry type for "Branko" isn't style-file defined
+--line 34 of file final-report.bib
+Warning--entry type for "Piper" isn't style-file defined
+--line 42 of file final-report.bib
+Warning--entry type for "Darius" isn't style-file defined
+--line 50 of file final-report.bib
+Warning--entry type for "Sharma" isn't style-file defined
+--line 58 of file final-report.bib
+Warning--entry type for "Kennedy" isn't style-file defined
+--line 66 of file final-report.bib
+Warning--entry type for "Protobuf" isn't style-file defined
+--line 74 of file final-report.bib
+Warning--entry type for "RSync" isn't style-file defined
+--line 82 of file final-report.bib
+You've used 11 entries,
+            2849 wiz_defined-function locations,
+            666 strings with 6462 characters,
+and the built_in function-call counts, 3427 in all, are:
+= -- 319
+> -- 88
+< -- 0
++ -- 36
+- -- 22
+* -- 90
+:= -- 473
+add.period$ -- 33
+call.type$ -- 11
+change.case$ -- 44
+chr.to.int$ -- 0
+cite$ -- 11
+duplicate$ -- 99
+empty$ -- 419
+format.name$ -- 22
+if$ -- 947
+int.to.chr$ -- 0
+int.to.str$ -- 11
+missing$ -- 0
+newline$ -- 58
+num.names$ -- 22
+pop$ -- 132
+preamble$ -- 1
+purify$ -- 33
+quote$ -- 0
+skip$ -- 307
+stack$ -- 0
+substring$ -- 58
+swap$ -- 11
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 44
+warning$ -- 0
+while$ -- 22
+width$ -- 13
+write$ -- 101
+(There were 11 warnings)
