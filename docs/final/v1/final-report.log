@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  27 MAR 2019 17:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.3.20)  28 MAR 2019 13:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -709,37 +709,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 224--225
  []
 
 [12 <./images/flowchart.png>]
-Overfull \hbox (3.98012pt too wide) in paragraph at lines 236--238
-[]\OT1/cmr/bx/n/10 The prin-ci-ple of least priv-i-lege \OT1/cmr/m/n/10 The Prin-ci-ple of Least Priv-i-lege (POLP)
- []
-
-
-Overfull \hbox (2.47098pt too wide) in paragraph at lines 243--244
+Overfull \hbox (2.47098pt too wide) in paragraph at lines 236--237
 []\OT1/cmr/bx/n/10 Security Con-trol Ti-tle: \OT1/cmr/m/n/10 Rivest-Shamir-Adleman (RSA) Al-go-rithm.
  []
 
-[13]
-Overfull \hbox (2.70142pt too wide) in paragraph at lines 251--252
+
+Overfull \hbox (2.70142pt too wide) in paragraph at lines 244--245
 []\OT1/cmr/bx/n/10 Security Con-trol: \OT1/cmr/m/n/10 Data Stream Cipher- Ad-vanced En-cryp-tion Stan-
  []
 
-[14] [15]
-Overfull \hbox (1.10275pt too wide) in paragraph at lines 297--300
+[13] [14]
+Overfull \hbox (1.10275pt too wide) in paragraph at lines 269--272
 \OT1/cmr/bx/n/10 Communication Pro-to-col \OT1/cmr/m/n/10 The soft-ware is run-ning over TCP pro-to-col through
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--311
+Underfull \hbox (badness 10000) in paragraph at lines 273--283
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--311
+Underfull \hbox (badness 10000) in paragraph at lines 273--283
 
  []
 
-[16] [17] [18] [19] [20] [21]
-Overfull \hbox (9.29704pt too wide) in paragraph at lines 453--457
+[15] [16] [17] [18] [19] [20] [21]
+Overfull \hbox (9.29704pt too wide) in paragraph at lines 440--444
 \OT1/cmr/m/n/10 ple-men-ta-tion is in the part of \Pseu-docode For De-pack-ing". (http://t.cn/EIi6Kxs) 
  []
 
@@ -827,6 +822,7 @@ Overfull \hbox (26.12592pt too wide) in paragraph at lines 15--19
 \OT1/cmr/m/n/10 https://www.owasp.org/images/0/08/OWASP$[]\OML/cmm/m/it/10 CP[]uick[]eference[]uide[]\OT1/cmr/m/n/10 2\OML/cmm/m/it/10 :pdf:[]$ 
  []
 
+[22]
 ./final-report.bbl:24: Undefined control sequence.
 l.24   \url
            {https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf...
@@ -949,8 +945,17 @@ Overfull \hbox (20.79451pt too wide) in paragraph at lines 38--42
 \OT1/cmr/m/n/10 http://0xdabbad00.com/2015/04/12/looking$[]\OML/cmm/m/it/10 or[]ecurity[]rouble[]pots[]n[]o[]ode=:[]$ 
  []
 
-./final-report.bbl:47: Undefined control sequence.
-l.47   \url
+./final-report.bbl:46: Undefined control sequence.
+l.46 \newblock URL: \url
+                        {http://tutorials.jenkov.com/rsync/overview.html}.
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./final-report.bbl:52: Undefined control sequence.
+l.52   \url
            {https://www.codementor.io/design/tutorial/mobile-app-ui-design-p...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -959,17 +964,17 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 44--48
+Underfull \hbox (badness 1215) in paragraph at lines 49--53
 []\OT1/cmr/m/n/10 A. Sharma.  Prin-ci-ples to ad-here to while de-sign-ing mo-bile app's
  []
 
 
-Underfull \hbox (badness 3815) in paragraph at lines 44--48
+Underfull \hbox (badness 3815) in paragraph at lines 49--53
 \OT1/cmr/m/n/10 ui.  URL: https://www.codementor.io/design/tutorial/mobile-app-ui-
  []
 
-./final-report.bbl:53: Undefined control sequence.
-l.53   \url
+./final-report.bbl:58: Undefined control sequence.
+l.58   \url
            {https://www.creativebloq.com/mobile/10-principles-mobile-interfa...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -978,13 +983,13 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 2961) in paragraph at lines 50--54
+Underfull \hbox (badness 2961) in paragraph at lines 55--59
 []\OT1/cmr/m/n/10 Creative Bloq Staff.  The 10 prin-ci-ples of mo-bile in-ter-face de-
  []
 
-./final-report.bbl:58: Undefined control sequence.
-l.58 \newblock URL: \url
-                        {https://dzone.com/articles/is-protobuf-5x-faster
+./final-report.bbl:64: Undefined control sequence.
+l.64   \url
+           {https://dzone.com/articles/is-protobuf-5x-faster-than-json}.
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -992,21 +997,21 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--60
+Underfull \hbox (badness 10000) in paragraph at lines 61--65
 []\OT1/cmr/m/n/10 T. Wen.  Is pro-to-buf 5x faster than json?  URL:
  []
 
-) [22] [23] (./final-report.aux) ) 
+) [23] (./final-report.aux) ) 
 Here is how much of TeX's memory you used:
- 2636 strings out of 493014
- 35716 string characters out of 6133351
- 109916 words of memory out of 5000000
- 6132 multiletter control sequences out of 15000+600000
+ 2637 strings out of 493014
+ 35723 string characters out of 6133351
+ 109920 words of memory out of 5000000
+ 6133 multiletter control sequences out of 15000+600000
  5158 words of font info for 19 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,9n,23p,781b,242s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,9n,23p,1259b,241s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on final-report.pdf (23 pages, 658655 bytes).
+Output written on final-report.pdf (23 pages, 660173 bytes).
 PDF statistics:
  112 PDF objects out of 1000 (max. 8388607)
  74 compressed objects within 1 object stream
