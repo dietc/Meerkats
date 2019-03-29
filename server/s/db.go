@@ -252,6 +252,23 @@ func SupplementDigest(index int64, dir string) {
     }
 }
 
+func GetFileLength(idx int64) int{
+    var length int
+    if err := db.Update(func(tx *bolt.Tx) error{
+        b := bucket([]byte("files"), tx)
+        var fi FileInfo= FileInfo{}
+        if tmp := b.Get([]byte(strconv.FormatInt(idx,10))); len(tmp) != 0 {
+            json.Unmarshal(tmp, &fi)            
+        }
+        data,_ := ioutil.ReadFile(fi.Dir)
+        length = len(data)
+        return nil
+    }); err != nil {
+		log.Fatal(err)
+    }
+    return length
+}
+
 //for testing:display data
 func Show(key []byte) {
     if err := db.Update(func(tx *bolt.Tx) error{

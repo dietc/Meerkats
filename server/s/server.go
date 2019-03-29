@@ -12,11 +12,13 @@ import(
     "time"
     "util"
     "strings"
+    "crypto/md5"
 )
 
 
 var ServerDir string
 var Index     int64
+var tmpbuffer []byte
 
 
 func ProcessTestingPacket(c net.Conn, data []byte, device byte) []byte{
@@ -157,7 +159,13 @@ func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space 
                 internalRename(f[name].ToName, f[name].FromName, pre.P[f[name].FromName].Idx, device)
                 case 0x02:
                 log.Println("user modified: ", f[name].FromName)
-                cmdUploadModified(task, name, fileList[name].Digest)
+                if GetFileLength(space[name].Idx) > 1024 {
+                   //rsync
+                   cmdUploadModified(task, name, fileList[name].Digest, space[name].Idx)
+                } else {
+                   //without rsync
+                   cmdUpload(task, name, fileList[name].Digest)
+                }
                 //internal function
                 case 0x04:
                 log.Println("user deleted: ", f[name].FromName)
@@ -180,7 +188,8 @@ func Decide(f,s StatusTable, fn,sn NewTable, fileList map[string]FileObj, space 
             //others renamed && user modifed
             cmdRename(task, f[name].FromName, status.ToName)
             internalUpdatePreName(space[status.ToName].Idx, status.ToName, f[name].FromName, device)
-            cmdUploadModified(task, status.ToName, fileList[name].Digest)
+            cmdUpload(task, status.ToName, fileList[f[name].FromName].Digest)
+           // cmdUploadModified(task, status.ToName, fileList[name].Digest)
             log.Println("others renamed(user modifed conflict): ")
         }
         if status.Typ == 0x03 && f[name].Typ == 0x04 {
@@ -476,6 +485,62 @@ func ProcessFileDownload(index []byte, device byte) [][]byte {
     return res
 }
 
+func ProcessModifiedFileUpload(data []byte, device byte) [][]byte {
+    var length int = len(data)
+    var fi *FileInfo = new(FileInfo)
+    if length < 300 {
+        var res []byte
+        idx,_ := strconv.ParseInt(string(data), 10, 64)
+        info := GetFileInfo(idx)
+        json.Unmarshal(info, fi)
+        data,_ := ioutil.ReadFile(fi.Dir)
+        var length int = len(data)
+        var parts_num int = length/1024
+        for i:=0;i<parts_num;i++ {
+            hash := md5.Sum(data[1024*i:1024*i+1024])
+            res = append(res, hash[:]...)
+        }
+        return divideFile(res, fi.Name)   
+    } else {
+        log.Printf("hihi%x", data)
+        var list BlockList = BlockList{List:[]Block{}}
+        var tmp []byte = data[0:1000]  
+        var lastIdx int
+        for i:=1; i <= 1000; i++{
+            if tmp[1000-i] != 0x00 {
+                lastIdx = 1000-i
+                break
+            } 
+        }
+        json.Unmarshal(data[0:lastIdx+1], &list)
+        tmpbuffer = append(tmpbuffer, data[1000:]...)
+        if list.Idx == list.Num - 1 {
+            var tmpfile []byte
+            var current int = 0
+            var fi *FileInfo = new(FileInfo)
+            space := fetchSpaceInfo()
+            info := GetFileInfo(space[list.Name].Idx)
+            json.Unmarshal(info, fi)
+            data,_ := ioutil.ReadFile(fi.Dir)
+            for _,item := range list.List {
+                if item.Typ == 1 {
+                    tmpfile = append(tmpfile, tmpbuffer[current:current + item.Len]...)
+                    current += item.Len
+                } else {
+                    tmpfile = append(tmpfile, data[item.Idx*1024:item.Idx*1024+1024]...)
+                }
+            }
+            log.Printf("new file hash:%x", md5.Sum(tmpfile))
+            dir, _ := indexFile(list.Name,  md5.Sum(tmpfile), device)
+            log.Printf("new file:%s", tmpfile)
+            saveFile(dir, tmpfile)
+            tmpbuffer = []byte{}
+        }
+        return nil
+    }
+   
+}
+
 func divideFile(data []byte, name string) [][]byte{
     //65234   //65234 + 65534 + ..
     var res [][]byte
@@ -574,11 +639,12 @@ func cmdRename(task *Task, name string, new_name string) {
     *task = append(*task, co)
 }
 
-func cmdUploadModified(task *Task, name string, digest [16]byte) {
+func cmdUploadModified(task *Task, name string, digest [16]byte, idx int64) {
     var co *CmdObj = new(CmdObj)
     co.Name = name
     co.Digest = digest
     co.Cmd = 4
+    co.Ext = strconv.FormatInt(idx, 10)
     *task = append(*task, co)
 }
 
@@ -659,6 +725,7 @@ func FetchPreInfo(device byte) *Pre{
     }
     return p    
 }
+
 
 func indexFile(name string,  digest [16]byte, device byte) (string, int64){
     var index int64 = time.Now().UnixNano()
