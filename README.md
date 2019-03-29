@@ -1,8 +1,9 @@
 # Meerkats
+![meerkats logo](https://github.com/dietc/Meerkats/blob/master/docs/design/logo_v1.4/logo.jpg)
+
 Meerkats File Synchroniser enables effective teamwork.
 
-
-![meerkats logo](https://github.com/dietc/Meerkats/blob/master/docs/design/logo_v1.4/logo.jpg)
+## work distribution
 
 |  part         |    branch      |      type        |      dir        |     author                        |
 | ------------- | -------------  | ---------------- | ----------------| ----------------------------------|
@@ -12,5 +13,4 @@ Meerkats File Synchroniser enables effective teamwork.
 | docs          | feature/docs   |     report       |     docs/       |@Bellapierre@samahghamdi           | 
 | UI design     | feature/docs   |     desgin       |    docs/design  |     @ZeyferZheng                  |
 
-
-android client
+## android client
