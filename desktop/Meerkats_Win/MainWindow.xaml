@@ -5,53 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Meerkats_Win"
         mc:Ignorable="d"
-        Title="Meerkats File Synchronizer V1.10" Height="614.4" Width="1000">
-    <Grid Margin="0,0,-6.4,-0.2" HorizontalAlignment="Left" Width="800">
-        <Grid x:Name="header" HorizontalAlignment="Left" Height="98" VerticalAlignment="Top" Width="998" Margin="0,0,-198,0">
-            <Button x:Name="conect_btn" Content="Sync" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="104" Height="31" Click="Conect_btn_Click"/>
-            <Label Content="Notes: We will synchronize your files automatically every 20 mins " HorizontalAlignment="Left" Margin="604,12,0,0" VerticalAlignment="Top" Width="384" Height="32"/>
-            <TextBox x:Name="fortest" HorizontalAlignment="Left" Height="31" Margin="10,57,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="259"/>
-            <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="29" Margin="135,10,0,0" VerticalAlignment="Top" Width="331"/>
+        Title="Meerkats File Synchronizer V1.10" Height="614.4" Width="1078.2">
+    <Grid Margin="0,0,-6,-0.2" HorizontalAlignment="Left" Width="1078">
+        <Grid x:Name="header" HorizontalAlignment="Left" Height="98" VerticalAlignment="Top" Width="1078">
+            <Button x:Name="conect_btn" Content="Sync" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Width="150" Height="55" Click="Conect_btn_Click"/>
+            <Label Content="Notes: We will synchronize your files automatically every 20 mins " HorizontalAlignment="Left" Margin="684,56,0,0" VerticalAlignment="Top" Width="384" Height="32"/>
         </Grid>
-        <Grid x:Name="File" Margin="400,98,-198,0">
-
-            <ListView x:Name="file_info" HorizontalAlignment="Right" Width="598" Height="487" VerticalAlignment="Bottom" Margin="0,0,0,-0.2">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding strFileName}"/>
-                        <GridViewColumn Header="Type" Width="80" DisplayMemberBinding="{Binding strFileType}"/>
-                        <GridViewColumn Header="Size" Width="120" DisplayMemberBinding="{Binding strFileSize}"/>
-                        <GridViewColumn Header="LastModifyTime" Width="220" DisplayMemberBinding="{Binding strlastModifyTime}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+        <Grid x:Name="File" Margin="400,98,0,0">
+            <DataGrid x:Name="fileInfo" Height="487" VerticalAlignment="Top" RenderTransformOrigin="-0.048,-0.096" ItemsSource="{Binding SelectedItem.Files, ElementName=directoryTreeView}" Margin="0,0,0.4,-0.2"/>
         </Grid>
         <Grid x:Name="file_tree_grid" HorizontalAlignment="Left" Height="487" Margin="0,98,0,0" VerticalAlignment="Top" Width="400">
-            <TreeView x:Name="file_tree">
-
-                <TreeView.ItemTemplate>
-
-                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-
+            <TreeView x:Name="directoryTreeView">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type local:DirectoryRecord}"
+                        ItemsSource="{Binding Directories}" >
                         <StackPanel Orientation="Horizontal">
-
-                            <!-- 显示Header属性 -->
-
-                            <TextBlock Text="{Binding Header}"/>
-
-                            <!-- 显示JToken的Type属性 -->
-
-                            <TextBlock Text="{Binding Token.Type}" Margin="10 0 0 0" Foreground="Gray"/>
-
+                            <TextBlock Text="{Binding Info.Name}"/>
                         </StackPanel>
-
                     </HierarchicalDataTemplate>
-
-                </TreeView.ItemTemplate>
-
+                </TreeView.Resources>
             </TreeView>
-
-
         </Grid>
     </Grid>
 </Window>

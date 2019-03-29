@@ -22,7 +22,9 @@ namespace Meerkats_Win
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<FileInfo_cs> List = new ObservableCollection<FileInfo_cs>();
+        
+        private static string PATH = System.AppDomain.CurrentDomain.BaseDirectory + "sync_disk\\";
+        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "back_history_file\\";
 
         // delegate
         public delegate string FuncHandle();
@@ -36,112 +38,113 @@ namespace Meerkats_Win
         public MainWindow()
         {
             InitializeComponent();
-            init_status();
+
+            if (Directory.Exists(PATH) == false)
+            {
+                Directory.CreateDirectory(PATH);
+            }
+
+            if (Directory.Exists(Backup_PATH) == false)
+            {
+                Directory.CreateDirectory(Backup_PATH);
+            }
+            Directory_load();
+            fileInfo.AutoGeneratingColumn += fileInfoColumn_Load;
+        }
+
+        private void Directory_load()
+        {
+            var directory = new ObservableCollection<DirectoryRecord>();
+
+            directory.Add(
+                new DirectoryRecord
+                {
+                    Info = new DirectoryInfo(PATH),
+                }
+            );
+            directoryTreeView.ItemsSource = directory;
+
+        }
+
+
+        private void fileInfoColumn_Load(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            List<string> requiredProperties = new List<string>
+            {
+                "Name", "Length", "FullName", "LastWriteTime"
+            };
+
+            if (!requiredProperties.Contains(e.PropertyName))
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Column.Header = e.Column.Header.ToString();
+            }
         }
 
         public void init_status()
         {
-            fortest.IsReadOnly = true;
-            fortest.Text = string.Empty;
 
+            //file_tree.Items.Clear();
+            //file_tree.ItemsSource = List;
 
-            file_tree.Items.Clear();
-            file_tree.ItemsSource = List;
+            //DirectoryTreeView mainTree = new DirectoryTreeView();
+            //mainTree.SelectedItemChanged += MainTree_SelectedItemChanged;
+            //file_tree_grid.Children.Add(mainTree);
 
-            //// Json Filedata
-            //string File_json = "{\"1\":\"2\",\"3\":{\"4\":\"5\",\"6\":\"7\"}}";
+            //// Right-click menu
+            //ContextMenu myContext = new ContextMenu();
 
-            //var js_obj = JObject.Parse(File_json);
-            ////创建TreeView的数据源
-            //file_tree.ItemsSource = js_obj.Children().Select(c => JsonHeaderLogic.FromJToken(c));
-
-            DirectoryTreeView mainTree = new DirectoryTreeView();
-            mainTree.SelectedItemChanged += MainTree_SelectedItemChanged;
-            file_tree_grid.Children.Add(mainTree);
-
-            //右键菜单
-            ContextMenu myContext = new ContextMenu();
-
-            MenuItem myMUItem = new MenuItem();
-            myMUItem.Header = "Open";
-            myMUItem.Name = "Menu01";
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "View";
-            myMUItem.Name = "Menu02";
-            //myMUItem.Click += FileLook_Click;
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "Refresh";
-            myMUItem.Name = "Menu03";
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "Rename";
-            myMUItem.Name = "Menu04";
-            myContext.Items.Add(myMUItem);
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "Delete";
-            myMUItem.Name = "Menu05";
-            myContext.Items.Add(myMUItem);
-
-
-            myMUItem = new MenuItem();
-            myMUItem.Header = "New directory";
-            myMUItem.Name = "Menu06";
-            myContext.Items.Add(myMUItem);
-
-            //myMUItem = new MenuItem();
-            //myMUItem.Header = "Upload file";
-            //myMUItem.Click += upload_file;
-            //myMUItem.Name = "Menu07";
+            //MenuItem myMUItem = new MenuItem();
+            //myMUItem.Header = "Open";
+            //myMUItem.Name = "Menu01";
+            //myMUItem.Click += FileOpen_Click;
             //myContext.Items.Add(myMUItem);
 
-            file_info.ContextMenu = myContext;
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "View";
+            //myMUItem.Name = "Menu02";
+            ////myMUItem.Click += FileLook_Click;
+            //myContext.Items.Add(myMUItem);
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "Refresh";
+            //myMUItem.Name = "Menu03";
+            //myContext.Items.Add(myMUItem);
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "Rename";
+            //myMUItem.Name = "Menu04";
+            //myContext.Items.Add(myMUItem);
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "Delete";
+            //myMUItem.Name = "Menu05";
+            //myContext.Items.Add(myMUItem);
+
+
+            //myMUItem = new MenuItem();
+            //myMUItem.Header = "New directory";
+            //myMUItem.Name = "Menu06";
+            //myContext.Items.Add(myMUItem);
+
+            ////myMUItem = new MenuItem();
+            ////myMUItem.Header = "Upload file";
+            ////myMUItem.Click += upload_file;
+            ////myMUItem.Name = "Menu07";
+            ////myContext.Items.Add(myMUItem);
+
+            //file_info.ContextMenu = myContext;
 
         }
 
-        private void upload_file(object sender, RoutedEventArgs e)
+        private void FileOpen_Click(object sender, RoutedEventArgs e)
         {
-            //
+
         }
 
-        /// <summary>
-        /// 文件夹树改变时，查找文件夹下是否存在文件，如果存在，则显示
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            DirectoryTreeViewItem item = e.NewValue as DirectoryTreeViewItem;
-
-            //stack.Children.Clear();
-            file_info.Items.Clear();
-
-            FileInfo[] fileInfos;
-
-            try
-            {
-                fileInfos = item.DirInfo.GetFiles();
-            }
-            catch
-            {
-                return;
-            }
-
-            foreach (FileInfo info in fileInfos)
-            {
-                FileInfo_cs myFile = new FileInfo_cs();
-                myFile.strFileName = info.Name;
-                myFile.strFileType = info.Extension;
-                myFile.strFileSize = info.Length.ToString();
-                myFile.strlastModifyTime = info.LastAccessTime.ToString();
-                file_info.Items.Add(myFile);
-            }
-        }
 
 
         // connect to the server or refresh
@@ -151,14 +154,62 @@ namespace Meerkats_Win
             fh = new FuncHandle(this.send_data_rev_data);
             AsyncCallback callback = new AsyncCallback(this.AsyncCallbackImpl);
             fh.BeginInvoke(callback, null);
+            //send_data_rev_data();
         }
 
         private string send_data_rev_data()
         {
 
             SocketTCPClient t1 = new SocketTCPClient();
+            //t1.KillEmptyDirectory(PATH);
+            //t1.KillEmptyDirectory("F:\\Group_Project\\Meerkats\\desktop\\Meerkats_Win\bin\\Debug\\sync_disk\\dir2\\1\\2\\");
+            t1.CreateInstance();
+            
+            // 
+            t1.SendMessage(Get_local_File_info(PATH));
 
-            string testdata = null;
+            byte[] result = t1.ReceiveMessage();
+
+            // get file cmd_flag < 6 operation >
+            t1.Check_cmd_flag(result);
+
+
+            // string result_str = System.Text.Encoding.Default.GetString(result);
+            // fortest.Text = result_str;
+
+
+            //// test for download
+            //byte[] test_for_download = null;
+            //byte[] MessageBodyByte_for_download = new byte[30];
+            //MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
+            //t1.SendMessage(MessageBodyByte_for_download);
+
+            //string str_status_1 = t1.ReceiveMessage_For_download(0);
+            //string str_status_2 = t1.ReceiveMessage_For_download(0);
+
+            t1.DisconnectServer();
+            return "success";
+
+        }
+
+        public void AsyncCallbackImpl(IAsyncResult ar)
+        {
+            string re = fh.EndInvoke(ar);
+            MessageBox.Show(re + ar.AsyncState);
+        }
+
+        public byte[] Get_local_File_info(string PATH)
+        {
+            DirectoryInfo dir = new DirectoryInfo(PATH);
+
+            FileSystemInfo[] fsinfos = dir.GetFileSystemInfos();
+            SocketTCPClient t1 = new SocketTCPClient();
+
+            List<file_info_json_pull> file_json = new List<file_info_json_pull>();
+
+            //  traverse files and dirs
+            int level = 0;
+            listDirectory(PATH, PATH, level, file_json);
             /**
              * json file_info demo
              *
@@ -176,92 +227,47 @@ namespace Meerkats_Win
              *  ]
              *  
             **/
-            // for text md5 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            
-
-            // convert to json list
-            // Typ = 0x1 => file
-            // Typ = 0x2 => Directory
-
-            byte[] md11 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\1.txt"));
-            byte[] md22 = t1.HexStrTobyte(t1.GetMD5HashFromFile("F:\\fortest\\2.txt"));
-
-            List<byte> file_1_md5 = new List<byte>();
-            for (int i = 0; i < 16; i++)
-                file_1_md5.Add(md11[i]);
-
-            List<byte> file_2_md5 = new List<byte>();
-            for (int i = 0; i < 16; i++)
-                file_1_md5.Add(md22[i]);
-
-
-            List <file_info_json> testdemo = new List<file_info_json>()
-            {
-                new file_info_json()
-                {
-                    Name = "1.txt",
-                    Typ = 0x1,
-                    Digest = file_1_md5
-                },
-
-                new file_info_json()
-                {
-                    Name = "2.txt",
-                    Typ = 0x1,
-                    Digest = file_2_md5
-                }
-
-            };
 
             // Json serialize
-            testdata = JsonConvert.SerializeObject(testdemo);
+            string MsgBody_str = JsonConvert.SerializeObject(file_json);
 
-            t1.CreateInstance();
+            byte[] MsgBody = System.Text.Encoding.Default.GetBytes(MsgBody_str);
+            // encapsulate packets
+            byte[] MessageBodyByte = new byte[MsgBody.Length + 30];
+            MessageBodyByte = t1.BuildDataPackage_For_Pull(MsgBody, 0x2, Device_id);
 
-            //byte[] test = t1.HexStrTobyte(testdata);
+            return MessageBodyByte;
+        }
 
-            byte[] test = System.Text.Encoding.Default.GetBytes(testdata);
-            byte[] MessageBodyByte = new byte[test.Length + 30];
+        private static void listDirectory(String PATH,string path, int leval, List<file_info_json_pull> file_json)
+        {
+            DirectoryInfo theFolder = new DirectoryInfo(@path);
 
-            MessageBodyByte = t1.BuildDataPackage_For_Pull(test, 0x2, Device_id);
+            leval++;
 
-            
-            t1.SendMessage(MessageBodyByte);
-            byte[] result = t1.ReceiveMessage();
-
-            List<string> file_name = t1.Check_If_Upload(result);
-
-            string status_file = null;
-
-            if (file_name.Count != 0)
+            // traverse files
+            foreach (FileInfo NextFile in theFolder.GetFiles())
             {
-                status_file = t1.Upload_File(file_name);
+                Func lib = new Func();
+                byte[] file_md5 = lib.HexStrTobyte(lib.GetMD5HashFromFile(NextFile.FullName));
+                List<byte> file__md5_list = new List<byte>();
+                for (int i = 0; i < 16; i++)
+                    file__md5_list.Add(file_md5[i]);
+
+                file_json.Add(new file_info_json_pull()
+                {
+                    Name = NextFile.FullName.Replace(PATH, String.Empty),
+                    Typ = 0x1,
+                    Digest = file__md5_list
+                });
             }
 
-            // string result_str = System.Text.Encoding.Default.GetString(result);
-            // fortest.Text = result_str;
-
-
-            // test for download
-            byte[] test_for_download = null;
-            byte[] MessageBodyByte_for_download = new byte[30];
-            MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
-            t1.SendMessage(MessageBodyByte_for_download);
-
-            string str_status_1 = t1.ReceiveMessage_For_download();
-            string str_status_2 = t1.ReceiveMessage_For_download();
-
-            return status_file + " + " + str_status_1 + " + " + str_status_2;
-
+            // traverse directories
+            foreach (DirectoryInfo NextFolder in theFolder.GetDirectories())
+            {
+                listDirectory(PATH,NextFolder.FullName, leval, file_json);
+            }
         }
-
-        public void AsyncCallbackImpl(IAsyncResult ar)
-        {
-            string re = fh.EndInvoke(ar);
-            MessageBox.Show(re + ar.AsyncState);
-        }
-
-
 
 
         /**
