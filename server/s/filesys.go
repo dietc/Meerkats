@@ -127,3 +127,10 @@ type Block struct {
     Idx  int
     Len  int
 }
+
+type BlockList struct {
+    Name string
+    Num  int
+    Idx  int
+    List []Block
+}

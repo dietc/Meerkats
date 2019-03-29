@@ -62,14 +62,18 @@ func Handle(c net.Conn){
                 rbuffer = make([]byte, length)
                 state++
             case 0x0a:
+                log.Println(int(length))
                 rbuffer, err = reader.Peek(int(length))
                 //buffer full?
                 if err != nil {
+                    log.Println(1, err)
                     state, length, rbuffer = restoreState()
                     continue
                 }
+                log.Println(len(rbuffer))
                 _, err := reader.Discard(int(length))
                 if err != nil {
+                    log.Println(2, err)
                     state, length, rbuffer = restoreState()
                     continue
                 }
@@ -78,10 +82,11 @@ func Handle(c net.Conn){
                 cbuffer, err = reader.Peek(16)
                 //fmt.Println("received checksum:", cbuffer)
                 if err != nil {
+                    log.Println(3, err)
                     state, length, rbuffer = restoreState() 
                     continue
                 }
-                //log.Printf("%x", cbuffer)
+                log.Printf("%x", cbuffer)
                 flag = util.CheckMd5(cbuffer, rbuffer, []byte("aaaaa"))
                 if flag {
                     discarded, err := reader.Discard(16)
@@ -128,12 +133,17 @@ func handlePacket(c net.Conn, packet []byte) {
            send(c, enPacket(part, 0x21))
         }
         case 0x22:
-        //client upload modified file
-        flag := s.ProcessFileAssembly(packet[2:], packet[1])
-        if flag {
-            send(c, enPacket([]byte("ok"), 0x22))
+        //client upload modified file(rsync)
+        //flag := s.ProcessFileAssembly(packet[2:], packet[1])
+        //if flag {
+        //    send(c, enPacket([]byte("ok"), 0x22))
+        //}
+        var files [][]byte = s.ProcessModifiedFileUpload(packet[2:], packet[1])
+        for _,part := range files{
+           send(c, enPacket(part, 0x22))
         }
         case 0x23:
+        //client download modified file(rsync)
         var files [][]byte = s.ProcessFileDownload(packet[2:], packet[1])
         for _,part := range files{
            //log.Println(len(part))

@@ -72,5 +72,17 @@ func CreateDirIfNotExisted(path string) error {
     return err
 }
 
+func GetBlocksHashList(data []byte) []byte{
+    var res []byte
+    var length int = len(data)
+    var parts_num int = length/1024
+    var hash [16]byte
+    //we can ensure length > 1024 so parts_num > 1
+    for i:=0;i<parts_num;i++ {
+       hash = md5.Sum(data[1024*i:1024*i+1024])
+       res = append(res, hash[:]...)
+    }    
+    return res
+}
 
 
