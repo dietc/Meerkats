@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("meerkat.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("meerkats.ico")]
 
 
