@@ -37,7 +37,7 @@ namespace Meerkats_Win.Class
 
         // the path for stored data 
         private static string PATH = System.AppDomain.CurrentDomain.BaseDirectory + "sync_disk\\";
-        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "back_history_file\\";
+        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "backup_history_file\\";
 
         public static List<string> listMessage = new List<string>();
 
@@ -152,7 +152,7 @@ namespace Meerkats_Win.Class
 
         }
 
-        public string ReceiveMessage_For_download(string Path, int file_type)
+        public double ReceiveMessage_For_download(string Path, int file_type)
         {
 
             try
@@ -275,7 +275,7 @@ namespace Meerkats_Win.Class
 
                         fs.Close();
 
-                        return File_Name + ": download successfully";
+                        return speed;
                     }
 
                     else
@@ -312,7 +312,7 @@ namespace Meerkats_Win.Class
 
                         fs.Close();
 
-                        return File_Name + ": download successfully";
+                        return speed;
 
                     }
 
@@ -322,7 +322,7 @@ namespace Meerkats_Win.Class
                 {
                     stopwatch.Stop(); //  stop watch
                     // socketClient.Close();
-                    return null;
+                    return 0;
                 }
             }
             catch (Exception ex)
@@ -333,6 +333,7 @@ namespace Meerkats_Win.Class
             }
 
         }
+
 
         ///<summary>
         ///Send Msg
@@ -348,6 +349,7 @@ namespace Meerkats_Win.Class
                     IPEndPoint ipe = (IPEndPoint)socketClient.RemoteEndPoint;
                     socketClient.Send(sendBytes, sendBytes.Length, 0);
                 }
+                
             }
             catch (Exception ex)
             {
@@ -357,23 +359,23 @@ namespace Meerkats_Win.Class
 
         }
 
-        public bool Download_File(string Path, string file_name, int download_type)
+        public double Download_File(string Path, string file_name, int download_type)
         {
             try
             {
-
+                double speed = 0;
                 byte[] Msgbody = System.Text.Encoding.Default.GetBytes(file_name);
                 byte[] MessageBodyByte_for_download = new byte[30 + Msgbody.Length];
                 MessageBodyByte_for_download = BuildDataPackage_For_Pull(Msgbody, 0x21, Device_id);
                 SendMessage(MessageBodyByte_for_download);
 
-                ReceiveMessage_For_download(Path, download_type);
-                return true;
+                speed = ReceiveMessage_For_download(Path, download_type);
+                return speed;
             }
             catch (Exception ex)
             {
                 listMessage.Add(ex.ToString());
-                return false;
+                return 0;
             }
 
         }
@@ -406,7 +408,7 @@ namespace Meerkats_Win.Class
             // overwrite = true
             {
                 string newPath;
-                int index = (Backup_PATH + file_name).IndexOf('.');F:\Group_Project\Meerkats\desktop\Meerkats_Win\App.xaml
+                int index = (Backup_PATH + file_name).IndexOf('.');
 
                 if (index >= 0)
                 {
@@ -449,11 +451,11 @@ namespace Meerkats_Win.Class
                 return false;
             }
         }
-        public bool Upload_File(string file_name, int upload_type)
+        public double Upload_File(string file_name, int upload_type)
         {
             try
             {
-
+                
                 // upload the whole file -> 20
                 // differ upload -> 22
                 byte Packet_type;
@@ -559,19 +561,33 @@ namespace Meerkats_Win.Class
                     MessageBodyByte[MessageBody_Length + 28 + 300] = 0xff;
                     MessageBodyByte[MessageBody_Length + 29 + 300] = 0xee;
 
+                    // timer
+                    System.Diagnostics.Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start(); //  start
+
                     SendMessage(MessageBodyByte);
 
                     byte[] res_flag = ReceiveMessage();
                     // result == "ok"
                     if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
                     {
+                        stopwatch.Stop(); // stop watch
+                        TimeSpan timespan = stopwatch.Elapsed; // Get the elapsed time as a TimeSpan value.
+                                                               // double hours = timespan.TotalHours; // hours
+                                                               // double minutes = timespan.TotalMinutes;  // Minutes
+                                                               // double seconds = timespan.TotalSeconds;  //  Seconds
+                        double milliseconds = timespan.TotalMilliseconds;  //  Milliseconds
+                        double fs_size = file_length;
+
+                        double speed = fs_size / milliseconds * 1000 / 1024; // kb/s 
                         file.Close();
+                        return speed;
                     }
 
                     else
                     {
                         file.Close();
-                        return true;
+                        return 0;
                     }
 
                 }
@@ -588,6 +604,11 @@ namespace Meerkats_Win.Class
                     file_data = null;
 
                     byte[] MessageBodyByte;
+
+                    // timer
+                    System.Diagnostics.Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start(); //  start
+
                     while (Packet_num > 0)
                     {
                         if (Packet_num != 1)
@@ -656,25 +677,30 @@ namespace Meerkats_Win.Class
                     byte[] res_flag = ReceiveMessage();
                     if (res_flag[0] == 0x6f && res_flag[1] == 0x6b)
                     {
+                        TimeSpan timespan = stopwatch.Elapsed; // Get the elapsed time as a TimeSpan value.
+                                                               // double hours = timespan.TotalHours; // hours
+                                                               // double minutes = timespan.TotalMinutes;  // Minutes
+                                                               // double seconds = timespan.TotalSeconds;  //  Seconds
+                        double milliseconds = timespan.TotalMilliseconds;  //  Milliseconds
+                        double fs_size = file_length;
+                        double speed = fs_size / milliseconds * 1000 / 1024; // kb/s 
                         file.Close();
+                        return speed;
                     }
 
                     else
                     {
                         file.Close();
-                        return false;
+                        return 0;
                     }
 
                 }
 
-
-                // socketClient.Close();
-                return true;
             }
             catch (Exception ex)
             {
                 listMessage.Add(ex.ToString());
-                return false;
+                return 0;
             }
         }
 
@@ -763,12 +789,99 @@ namespace Meerkats_Win.Class
                 throw new Exception(ex.Message);
             }
         }
+
+        public void Upload_File_differ(byte[] file_id,string file_name)
+        {
+            SendMessage(BuildDataPackage_For_Pull(file_id, 0x22, Device_id));
+            byte[] result = ReceiveMessage();
+            byte[] hash_json = new byte[300];
+            Buffer.BlockCopy(result, 0, hash_json, 0, hash_json.Length);
+            int index = hash_json.ToList().IndexOf(0);
+            byte[] hash_json_new = new byte[index];
+            Buffer.BlockCopy(hash_json, 0, hash_json_new, 0, hash_json_new.Length);
+
+
+            string str = System.Text.Encoding.Default.GetString(hash_json_new);
+            file_index_json File_index_json = JsonConvert.DeserializeObject<file_index_json>(str);
+
+            string Path = PATH + File_index_json.Name;
+
+            int hash_list_num = (result.Length - 300) / 16;
+            List<string> md5_list = new List<string>();
+            //
+            bool flag = true;
+            while (flag)
+            {
+                index = 0;
+                if (hash_list_num != 0)
+                {
+                    byte[] md5 = new byte[16];
+                    Buffer.BlockCopy(result, 300 + index * 16, md5, 0, md5.Length);
+
+
+                    md5_list.Add(BitConverter.ToString(md5, 0).Replace("-", string.Empty).ToLower());
+                    hash_list_num--;
+
+                }
+                else
+                    flag = false;
+            }
+            differ_info_json_list diff_json = new differ_info_json_list();
+            byte[] filedata = null;
+            lib.Search_block_index(Path, md5_list, out diff_json, out filedata, file_name);
+
+            byte[] Diff_json = new byte[1000];
+
+            
+          
+            int filedata_lenth = filedata.Length;
+
+            double num = Math.Ceiling((double)filedata_lenth / (double)(0xffff - 2 - 1000));
+            if (filedata_lenth > (0xffff - 2 - 1000))
+            {
+                int idx = 0;
+                while (true)
+                {
+                    if (filedata_lenth > 0 )
+                    {
+                        diff_json.Idx = idx;
+                        diff_json.Num = (int)num;
+                        byte[] Diff_json_new = System.Text.Encoding.Default.GetBytes(JsonConvert.SerializeObject(diff_json));
+
+                        Buffer.BlockCopy(Diff_json_new, 0, Diff_json, 0, Diff_json_new.Length);
+                        byte[] Msg = new byte[1000 + filedata_lenth];
+                        Buffer.BlockCopy(Diff_json, 0, Msg, 0, 1000);
+                        Buffer.BlockCopy(filedata, (0xffff - 2 - 1000)* idx, Msg, 0, filedata_lenth);
+                        SendMessage(BuildDataPackage_For_Pull(Msg, 0x22, Device_id));
+
+                    }
+                    else { break; }
+                        filedata_lenth -= (0xffff - 1000 - 2);
+                    idx++;
+                }
+
+            }
+            else
+            {
+
+                byte[] Diff_json_new = System.Text.Encoding.Default.GetBytes(JsonConvert.SerializeObject(diff_json));
+
+                Buffer.BlockCopy(Diff_json_new, 0, Diff_json, 0, Diff_json_new.Length);
+                byte[] Msg = new byte[1000 + filedata.Length];
+                Buffer.BlockCopy(Diff_json, 0, Msg, 0, 1000);
+                Buffer.BlockCopy(filedata, 0, Msg, 1000 , filedata.Length);
+                SendMessage(BuildDataPackage_For_Pull(Msg, 0x22, Device_id));
+            }
+
+           
+
+        }
         /// <summary>
         /// Check the cmd_flag in file_info_json
         /// </summary>
         /// <param name="recvMsg">Msg body</param>
         /// <param name="F_check">return json data including file operation</param>
-        public void Check_cmd_flag(byte[] recvMsg)
+        public string Check_cmd_flag(byte[] recvMsg)
         {
             try
             {
@@ -795,21 +908,26 @@ namespace Meerkats_Win.Class
                             }
                          ]
                  */
+                List<double> spend_list_download = new List<double>();
+                List<double> spend_list_upload = new List<double>();
                 foreach (JObject ja in jArray)
                 {
                     cmd_flag = int.Parse(ja["Cmd"].ToString());
+                    double speed = 0;
                     // the whole upload
                     switch (cmd_flag)
                     {
                         case 1:
                             // upload the whole file 
                             // 20
-                            Upload_File(ja["Name"].ToString(), 0);
+                            speed = Upload_File(ja["Name"].ToString(), 0);
+                            spend_list_upload.Add(speed);
                             break;
                         case 2:
                             // download the whole file
                             // 21
-                            Download_File(ja["Name"].ToString(), ja["Ext"].ToString(), 0);
+                            speed = Download_File(ja["Name"].ToString(), ja["Ext"].ToString(), 0);
+                            spend_list_download.Add(speed);
                             break;
                         case 3:
                             // rename
@@ -818,12 +936,19 @@ namespace Meerkats_Win.Class
                         case 4:
                             // differ upload
                             // 22
-                            Upload_File(ja["Name"].ToString(), 1);
+                            Upload_File_differ(System.Text.Encoding.Default.GetBytes(ja["Ext"].ToString()),ja["Name"].ToString());
+                            
+                            //SendMessage(BuildDataPackage_For_Pull((System.Text.Encoding.Default.GetBytes(ja["Ext"].ToString())), 0x22, Device_id));
+                            //byte[] result = ReceiveMessage();
+
+                            //speed = Upload_File(ja["Name"].ToString(), 1);
+                            //spend_list_upload.Add(speed);
                             break;
                         case 5:
                             // differ download
                             // 23
-                            Download_File(ja["Name"].ToString(), ja["Ext"].ToString(), 1);
+                            speed = Download_File(ja["Name"].ToString(), ja["Ext"].ToString(), 1);
+                            spend_list_download.Add(speed);
                             break;
                         case 6:
                             // delete
@@ -838,6 +963,24 @@ namespace Meerkats_Win.Class
 
 
                 }
+                double avg_download_speed = 0;
+                if (spend_list_download.Count != 0)
+                    avg_download_speed = spend_list_download.Average();
+
+                double avg_upload_speed = 0;
+                if (spend_list_upload.Count != 0)
+                    avg_upload_speed = spend_list_upload.Average();
+
+                if (avg_download_speed != 0 && avg_upload_speed != 0)
+                    return "Average download speed is " + avg_download_speed.ToString() + " kb/s " + "Average upload speed is " + avg_upload_speed.ToString() + " kb/s";
+                else if (avg_download_speed != 0 && avg_upload_speed == 0)
+                    return "Average download speed is " + avg_download_speed.ToString() + " kb/s";
+                else if (avg_download_speed == 0 && avg_upload_speed != 0)
+                    return "Average upload speed is " + avg_upload_speed.ToString() + " kb/s";
+                else
+                    return "Success";
+
+
 
             }
 
@@ -887,7 +1030,7 @@ namespace Meerkats_Win.Class
                 Buffer.BlockCopy(private_key, 0, Check_sum, Msg_length + index, private_key.Length);
 
                 byte[] md5 = new byte[16];
-                md5 = lib.HexStrTobyte(GetMD5Hash(Check_sum));
+                md5 = lib.HexStrTobyte(lib.GetMD5Hash(Check_sum));
 
                 return (md5);
             }
@@ -897,25 +1040,7 @@ namespace Meerkats_Win.Class
             }
         }
 
-        private static string GetMD5Hash(byte[] bytedata)
-        {
-            try
-            {
-                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-                byte[] retVal = md5.ComputeHash(bytedata);
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < retVal.Length; i++)
-                {
-                    sb.Append(retVal[i].ToString("x2"));
-                }
-                return sb.ToString();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("GetMD5Hash() fail,error:" + ex.Message);
-            }
-        }
+        
 
         //public void KillEmptyDirectory(String storagepath)
         //{

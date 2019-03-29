@@ -22,9 +22,9 @@ namespace Meerkats_Win
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        Func lib = new Func();
         private static string PATH = System.AppDomain.CurrentDomain.BaseDirectory + "sync_disk\\";
-        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "back_history_file\\";
+        private static string Backup_PATH = System.AppDomain.CurrentDomain.BaseDirectory + "backup_history_file\\";
 
         // delegate
         public delegate string FuncHandle();
@@ -38,6 +38,7 @@ namespace Meerkats_Win
         public MainWindow()
         {
             InitializeComponent();
+            
 
             if (Directory.Exists(PATH) == false)
             {
@@ -50,6 +51,9 @@ namespace Meerkats_Win
             }
             Directory_load();
             fileInfo.AutoGeneratingColumn += fileInfoColumn_Load;
+            init_status();
+
+            
         }
 
         private void Directory_load()
@@ -60,18 +64,25 @@ namespace Meerkats_Win
                 new DirectoryRecord
                 {
                     Info = new DirectoryInfo(PATH),
+                    
                 }
             );
+            directory.Add(
+                new DirectoryRecord
+                {
+                    Info = new DirectoryInfo(Backup_PATH),
+                }
+                );
             directoryTreeView.ItemsSource = directory;
 
         }
-
+        
 
         private void fileInfoColumn_Load(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             List<string> requiredProperties = new List<string>
             {
-                "Name", "Length", "FullName", "LastWriteTime"
+                "Name", "Length", "Extension", "LastWriteTimeUtc","LastAccessTimeUtc"
             };
 
             if (!requiredProperties.Contains(e.PropertyName))
@@ -86,7 +97,8 @@ namespace Meerkats_Win
 
         public void init_status()
         {
-
+            fileInfo.IsReadOnly = true;
+            
             //file_tree.Items.Clear();
             //file_tree.ItemsSource = List;
 
@@ -150,15 +162,28 @@ namespace Meerkats_Win
         // connect to the server or refresh
         private void Conect_btn_Click(object sender, RoutedEventArgs e)
         {
-
             fh = new FuncHandle(this.send_data_rev_data);
             AsyncCallback callback = new AsyncCallback(this.AsyncCallbackImpl);
             fh.BeginInvoke(callback, null);
-            //send_data_rev_data();
+
         }
+
+
+
 
         private string send_data_rev_data()
         {
+            //string re = null;
+            ////old file -> hashlist
+            //List<string> md5_list = lib.Get_file_block_md5("F:\\Group_Project\\Meerkats\\desktop\\Meerkats_Win\\bin\\Debug\\sync_disk\\4",out re);
+            
+            ////new -> search
+            //byte[] filedata= null;
+            //differ_info_json_list diff_json = new differ_info_json_list();
+            //lib.Search_block_index("F:\\Group_Project\\Meerkats\\desktop\\Meerkats_Win\\bin\\Debug\\sync_disk\\3", md5_list, diff_json, out filedata);
+
+            ////old ->modifer
+            //lib.Differ_modifer_file("F:\\Group_Project\\Meerkats\\desktop\\Meerkats_Win\\bin\\Debug\\sync_disk\\4", diff_json, filedata);
 
             SocketTCPClient t1 = new SocketTCPClient();
             //t1.KillEmptyDirectory(PATH);
@@ -171,24 +196,10 @@ namespace Meerkats_Win
             byte[] result = t1.ReceiveMessage();
 
             // get file cmd_flag < 6 operation >
-            t1.Check_cmd_flag(result);
-
-
-            // string result_str = System.Text.Encoding.Default.GetString(result);
-            // fortest.Text = result_str;
-
-
-            //// test for download
-            //byte[] test_for_download = null;
-            //byte[] MessageBodyByte_for_download = new byte[30];
-            //MessageBodyByte_for_download = t1.BuildDataPackage_For_Pull(test_for_download, 0x21, Device_id);
-            //t1.SendMessage(MessageBodyByte_for_download);
-
-            //string str_status_1 = t1.ReceiveMessage_For_download(0);
-            //string str_status_2 = t1.ReceiveMessage_For_download(0);
+            string avg_speed = t1.Check_cmd_flag(result);
 
             t1.DisconnectServer();
-            return "success";
+            return avg_speed;
 
         }
 
@@ -268,7 +279,6 @@ namespace Meerkats_Win
                 listDirectory(PATH,NextFolder.FullName, leval, file_json);
             }
         }
-
 
         /**
          * // string => byte[]：
