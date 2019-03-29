@@ -1,68 +1,83 @@
 package com.example.meerkats;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.util.Arrays;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import com.example.meerkats.TCPMeerkats;
+
 import com.google.gson.Gson;
+
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private static Gson gson = new Gson();
     private ExecutorService threadPool;
 
     ///private Handler handler;
 
-    private static Context context;
     private TCPMeerkats tcpMeerkats = new TCPMeerkats();
 
-    private Button connect, send, receive;
+    public static byte[] func(File file, TCPMeerkats tcpMeerkats) {
+        String PATH = "/storage/emulated/0/Android/data/com.example.meerkats/files/Meerkats/";
+        byte[] md5;
+        byte[] fileData = new byte[10000];
+        ArrayList<FileInfoJson> fileInfoJsons = new ArrayList<>(100);
+        File[] fs = file.listFiles();
+        for (File f : fs) {
+            if (f.isDirectory()) {
+                func(f, tcpMeerkats);
+            }
+            if (f.isFile()) {
+                try {
+                    FileInputStream fis = new FileInputStream(f);
+                    fis.read(fileData, 0, fileData.length);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                md5 = tcpMeerkats.getMd5Hash(fileData);
+                ArrayList<Byte> md5List = new ArrayList<>(16);
+                for (int i = 0; i < 16; i++) {
+                    md5List.add(md5[i]);
+                }
+                FileInfoJson fileInfoJson = new FileInfoJson(f.getPath().replace(PATH, ""), (byte) 0x01, md5List);
+                fileInfoJsons.add(fileInfoJson);
+            }
+        }
 
-    private TextView result;
-
-    private byte[] messageBody = {};
-
-    private byte deviceID = (byte) 0x03;
-
-    private byte packetType = (byte) 0x21;
-
-    private static Socket socketClient;
-
+        String messageBodyString = gson.toJson(fileInfoJsons);
+        byte[] messageBody = messageBodyString.getBytes();
+        byte[] messageBodyByte = tcpMeerkats.buildDataPackageForPull(messageBody, (byte) 0x02, (byte) 0x03);
+        return messageBodyByte;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         threadPool = Executors.newCachedThreadPool();
         threadPool.execute(new Runnable() {
             @Override
             public void run() {
+                File file = new File(getExternalFilesDir("Meerkats").getPath());
+                file.mkdir();
+                String rootPath = file.getPath();
+                byte[] messageBodyByte = func(file,tcpMeerkats);
 
                 tcpMeerkats.createInstance();
                 tcpMeerkats.connectSocket();
 
-                tcpMeerkats.buildDataPackageForPull(messageBody, packetType, deviceID);
+                tcpMeerkats.sendMessage(messageBodyByte);
 
-                String message = tcpMeerkats.receiveMessageForDownload(0);
 
-                System.out.println(message);
+                tcpMeerkats.checkCMDFlag(tcpMeerkats.receiveMessage());
+
             }
         });
     }

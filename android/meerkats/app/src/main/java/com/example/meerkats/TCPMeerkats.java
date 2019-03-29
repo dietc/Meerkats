@@ -3,14 +3,9 @@ package com.example.meerkats;
 
 
 import android.content.Context;
-import android.icu.text.SymbolTable;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.Switch;
+import android.telephony.mbms.FileInfo;
 
-import com.example.meerkats.bean.FileType;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,26 +19,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.math.BigInteger;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.jar.Attributes;
-
-import static java.lang.System.in;
 
 
 public class TCPMeerkats extends Thread {
 
-    static String ip = "178.128.45.7";
+    static String ip = "10.40.157.245";
 
     private static int port = 4356;
 
@@ -51,8 +37,8 @@ public class TCPMeerkats extends Thread {
     private static byte deviceID = 0x03;
 
 
-    private static String PATH = "/data/data/com.example.meerkats/files";
-    private static String NEWPATH = "/data/data/com.example.meerkats/files/backup";
+    private static String PATH = "/storage/emulated/0/Android/data/com.example.meerkats/files/Meerkats/";
+    private static String NEWPATH = "/storage/emulated/0/Android/data/com.example.meerkats/files/Meerkats/backup/";
 
 
     //Create a socket client instance
@@ -153,8 +139,9 @@ public class TCPMeerkats extends Thread {
         }
     }
 
-    public String receiveMessageForDownload(int fileType) {
+    public String receiveMessageForDownload(String Path,int fileType) {
 
+        Path = PATH + Path;
         byte[] recvBytes;
 
         byte packetNum;
@@ -231,6 +218,14 @@ public class TCPMeerkats extends Thread {
         String fileName = fJson.getName();
         packetNum = fJson.getNum();
 
+        File f = new File(Path);
+        File f2 = new File(f.getParent());
+        f2.mkdirs();
+
+
+
+
+
 
         try {
             DataInputStream dis = new DataInputStream(socketClient.getInputStream());
@@ -295,7 +290,7 @@ public class TCPMeerkats extends Thread {
                     FileOutputStream fos1 = new FileOutputStream(file, true);
                     while (packetNum > 1) {
 
-                        byte[] fileData = unpackData(receiveMessage());
+                        byte[] fileData = receiveMessage();
                         switch (fileType) {
                             case 0:
                                 fos1.write(fileData);
@@ -327,12 +322,15 @@ public class TCPMeerkats extends Thread {
     public void sendMessage(byte[] sendBytes) {
 
         ///Check if connected
+        boolean a=  socketClient.isConnected();
         if (socketClient.isConnected()) {
             try {
                 OutputStream os = socketClient.getOutputStream();
                 os.write(sendBytes);
                 os.flush();
-            } catch (IOException e) {
+                int b =1;
+
+            } catch (Exception e) {
                 System.out.println("ERROR! TRY AGAIN!");
 
             }
@@ -340,14 +338,13 @@ public class TCPMeerkats extends Thread {
 
     }
 
-    public String downloadFile(String fileName, int downloadType) {
+    public String downloadFile(String Path,String fileName, int downloadType) {
 
         byte[] messageBody = fileName.getBytes();
-        byte[] messageBodyForDownload = new byte[30 + messageBody.length];
-        messageBodyForDownload = buildDataPackageForPull(messageBody, (byte) 0x21, deviceID);
+        byte[] messageBodyForDownload = buildDataPackageForPull(messageBody, (byte) 0x21, (byte)0x03);
         sendMessage(messageBodyForDownload);
-        receiveMessageForDownload(downloadType);
-        return "DOWNLOAD SUCCESSED!";
+        receiveMessageForDownload(Path,downloadType);
+        return "DOWNLOAD SUCCEED!";
     }
 
     public String renameFile(String fileName, String newFileName) {
@@ -394,7 +391,7 @@ public class TCPMeerkats extends Thread {
         int messageBodyLengthMax = 65233;
 
 
-        File f = new File(PATH + "/" + fileName);
+        File f = new File(PATH + fileName);
 
         long fileLength = f.length();
 
@@ -435,7 +432,7 @@ public class TCPMeerkats extends Thread {
             switch (uploadType) {
                 case 0:
                     try {
-                        //这里可能有问题 fileData的值不确定能不能传过去
+
                         FileInputStream fis = new FileInputStream(f);
                         fis.read(fileData, 0, messageBodyLength);
                     } catch (IOException e) {
@@ -454,8 +451,12 @@ public class TCPMeerkats extends Thread {
                     break;
             }
 
-            byte[] md5 = getCheckSum(packetType, deviceID, fileData, true);
 
+            byte[] forUpload = new byte[fileJson.length + fileData.length];
+            System.arraycopy(fileJson,0,forUpload,0,fileJson.length);
+            System.arraycopy(fileData,0,forUpload,fileJson.length,fileData.length);
+
+            byte[] md5 = getCheckSum(packetType, deviceID, forUpload, true);
             System.arraycopy(md5, 0, messageBodyByte, 12 + 300 + messageBodyLength, md5.length);
 
             messageBodyByte[messageBodyLength + 28 + 300] = (byte) 0xff;
@@ -507,7 +508,7 @@ public class TCPMeerkats extends Thread {
 
                 try {
                     FileInputStream fis = new FileInputStream(f);
-                    fis.read(fileData, 0, (int) messageBodyLength);
+                    fis.read(fileData, 0, messageBodyLength);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -515,7 +516,11 @@ public class TCPMeerkats extends Thread {
 
                 System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
 
-                byte[] md5 = getCheckSum(packetType, deviceID, fileData, true);
+                byte[] forUpload = new byte[fileJson.length + fileData.length];
+                System.arraycopy(fileJson,0,forUpload,0,fileJson.length);
+                System.arraycopy(fileData,0,forUpload,fileJson.length,fileData.length);
+
+                byte[] md5 = getCheckSum(packetType, deviceID, forUpload, true);
 
                 System.arraycopy(md5, 0, messageBodyByte, 12 + 300 + messageBodyLength, md5.length);
 
@@ -555,7 +560,7 @@ public class TCPMeerkats extends Thread {
         System.arraycopy(Initiator, 0, messageBodyByte, 0, Initiator.length);
 
 
-        byte contextLength = (byte)(messageBodyLength + 2);
+        int contextLength = (messageBodyLength + 2);
 
         byte[] length = { (byte)( contextLength >> 8), (byte)(contextLength & 0xff) };
 
@@ -618,7 +623,7 @@ public class TCPMeerkats extends Thread {
                         uploadFile(jObject.getString("Name"),0);
                         break;
                     case 2:
-                        downloadFile(jObject.getString("Name"),0);
+                        downloadFile(jObject.getString("Name"),jObject.getString("Ext"),0);
                         break;
                     case 3:
                         renameFile(jObject.getString("Name"),jObject.getString("Ext"));
@@ -629,7 +634,7 @@ public class TCPMeerkats extends Thread {
                         break;
                     case 5:
                         //differ download
-                        downloadFile(jObject.getString("Name"),1);
+                        downloadFile(jObject.getString("Name"),jObject.getString("Ext"),1);
                         break;
                     case 6:
                         deleteFile(jObject.getString("Name"));
@@ -677,7 +682,7 @@ public class TCPMeerkats extends Thread {
 
 
 
-    private static byte[] getMd5Hash(byte[] byteData){
+    public static byte[] getMd5Hash(byte[] byteData){
 
         byte[] md5 = new byte[16];
 

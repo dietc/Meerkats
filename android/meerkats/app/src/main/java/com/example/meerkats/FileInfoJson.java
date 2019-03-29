@@ -9,6 +9,12 @@ public class FileInfoJson{
     byte Type;
     List<Byte> Digest;
 
+    public FileInfoJson(String name, byte type, List<Byte> digest) {
+        Name = name;
+        Type = type;
+        Digest = digest;
+    }
+
     public String getName() {
         return Name;
     }
@@ -26,11 +32,6 @@ public class FileInfoJson{
     }
 
 
-    public FileInfoJson(String name, byte type, List<Byte> digest) {
-        Name = name;
-        Type = type;
-        Digest = digest;
-    }
 
     public List<Byte> getDigest() {
         return Digest;
