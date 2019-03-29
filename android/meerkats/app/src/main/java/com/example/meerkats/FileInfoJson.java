@@ -1,13 +1,19 @@
 package com.example.meerkats;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-
-public class FileInfoJson{
+public class FileInfoJson {
     String Name;
-    Byte Type;
+    byte Type;
+    List<Byte> Digest;
 
+    public FileInfoJson(String name, byte type, List<Byte> digest) {
+        Name = name;
+        Type = type;
+        Digest = digest;
+    }
 
     public String getName() {
         return Name;
@@ -17,24 +23,20 @@ public class FileInfoJson{
         Name = name;
     }
 
-    public Byte getType() {
+    public byte getType() {
         return Type;
     }
 
-    public void setType(Byte type) {
+    public void setType(byte type) {
         Type = type;
     }
 
-    public ArrayList<Byte> getDigest() {
+
+    public List<Byte> getDigest() {
         return Digest;
     }
 
-    public void setDigest(ArrayList<Byte> digest) {
+    public void setDigest(List<Byte> digest) {
         Digest = digest;
     }
-
-    public ArrayList<Byte> Digest;
-
-
-
 }
