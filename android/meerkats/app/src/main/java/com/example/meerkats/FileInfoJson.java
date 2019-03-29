@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FileInfoJson{
+public class FileInfoJson {
     String Name;
     byte Type;
     List<Byte> Digest;
@@ -30,7 +30,6 @@ public class FileInfoJson{
     public void setType(byte type) {
         Type = type;
     }
-
 
 
     public List<Byte> getDigest() {

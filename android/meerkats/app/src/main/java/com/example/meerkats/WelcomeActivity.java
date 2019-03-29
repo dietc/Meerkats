@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
 
+
 public class WelcomeActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

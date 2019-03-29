@@ -1,7 +1,6 @@
 package com.example.meerkats;
 
 
-
 import android.content.Context;
 import android.telephony.mbms.FileInfo;
 
@@ -10,7 +9,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 
 import java.io.FileInputStream;
@@ -139,7 +137,7 @@ public class TCPMeerkats extends Thread {
         }
     }
 
-    public String receiveMessageForDownload(String Path,int fileType) {
+    public String receiveMessageForDownload(String Path, int fileType) {
 
         Path = PATH + Path;
         byte[] recvBytes;
@@ -221,10 +219,6 @@ public class TCPMeerkats extends Thread {
         File f = new File(Path);
         File f2 = new File(f.getParent());
         f2.mkdirs();
-
-
-
-
 
 
         try {
@@ -322,13 +316,13 @@ public class TCPMeerkats extends Thread {
     public void sendMessage(byte[] sendBytes) {
 
         ///Check if connected
-        boolean a=  socketClient.isConnected();
+        boolean a = socketClient.isConnected();
         if (socketClient.isConnected()) {
             try {
                 OutputStream os = socketClient.getOutputStream();
                 os.write(sendBytes);
                 os.flush();
-                int b =1;
+                int b = 1;
 
             } catch (Exception e) {
                 System.out.println("ERROR! TRY AGAIN!");
@@ -338,12 +332,12 @@ public class TCPMeerkats extends Thread {
 
     }
 
-    public String downloadFile(String Path,String fileName, int downloadType) {
+    public String downloadFile(String Path, String fileName, int downloadType) {
 
         byte[] messageBody = fileName.getBytes();
-        byte[] messageBodyForDownload = buildDataPackageForPull(messageBody, (byte) 0x21, (byte)0x03);
+        byte[] messageBodyForDownload = buildDataPackageForPull(messageBody, (byte) 0x21, (byte) 0x03);
         sendMessage(messageBodyForDownload);
-        receiveMessageForDownload(Path,downloadType);
+        receiveMessageForDownload(Path, downloadType);
         return "DOWNLOAD SUCCEED!";
     }
 
@@ -453,8 +447,8 @@ public class TCPMeerkats extends Thread {
 
 
             byte[] forUpload = new byte[fileJson.length + fileData.length];
-            System.arraycopy(fileJson,0,forUpload,0,fileJson.length);
-            System.arraycopy(fileData,0,forUpload,fileJson.length,fileData.length);
+            System.arraycopy(fileJson, 0, forUpload, 0, fileJson.length);
+            System.arraycopy(fileData, 0, forUpload, fileJson.length, fileData.length);
 
             byte[] md5 = getCheckSum(packetType, deviceID, forUpload, true);
             System.arraycopy(md5, 0, messageBodyByte, 12 + 300 + messageBodyLength, md5.length);
@@ -517,8 +511,8 @@ public class TCPMeerkats extends Thread {
                 System.arraycopy(fileData, 0, messageBodyByte, 12 + 300, messageBodyLength);
 
                 byte[] forUpload = new byte[fileJson.length + fileData.length];
-                System.arraycopy(fileJson,0,forUpload,0,fileJson.length);
-                System.arraycopy(fileData,0,forUpload,fileJson.length,fileData.length);
+                System.arraycopy(fileJson, 0, forUpload, 0, fileJson.length);
+                System.arraycopy(fileData, 0, forUpload, fileJson.length, fileData.length);
 
                 byte[] md5 = getCheckSum(packetType, deviceID, forUpload, true);
 
@@ -542,27 +536,21 @@ public class TCPMeerkats extends Thread {
     }
 
 
-
-
-
-
-
-
     ///Build data package
-    public byte[] buildDataPackageForPull(byte[] messageBody, byte packetType, byte deviceID ) {
+    public byte[] buildDataPackageForPull(byte[] messageBody, byte packetType, byte deviceID) {
 
         int messageBodyLength = 0;
         messageBodyLength = messageBody.length;
 
         byte[] messageBodyByte = new byte[messageBodyLength + 30];
 
-        byte[] Initiator = {0x11, (byte)0xff, 0x6c,0x6f, 0x6e, 0x64, 0x6f, 0x6e};
+        byte[] Initiator = {0x11, (byte) 0xff, 0x6c, 0x6f, 0x6e, 0x64, 0x6f, 0x6e};
         System.arraycopy(Initiator, 0, messageBodyByte, 0, Initiator.length);
 
 
         int contextLength = (messageBodyLength + 2);
 
-        byte[] length = { (byte)( contextLength >> 8), (byte)(contextLength & 0xff) };
+        byte[] length = {(byte) (contextLength >> 8), (byte) (contextLength & 0xff)};
 
         System.arraycopy(length, 0, messageBodyByte, 8, length.length);
 
@@ -577,9 +565,9 @@ public class TCPMeerkats extends Thread {
 
         System.arraycopy(md5, 0, messageBodyByte, 12 + messageBody.length, md5.length);
 
-        messageBodyByte[messageBodyLength + 28] = (byte)0xff;
+        messageBodyByte[messageBodyLength + 28] = (byte) 0xff;
 
-        messageBodyByte[messageBodyLength + 29] = (byte)0xee;
+        messageBodyByte[messageBodyLength + 29] = (byte) 0xee;
 
         return messageBodyByte;
 
@@ -587,9 +575,7 @@ public class TCPMeerkats extends Thread {
     }
 
 
-
-    public byte[] unpackData(byte[] recvMsg)
-    {
+    public byte[] unpackData(byte[] recvMsg) {
 
         if (recvMsg != null) {
 
@@ -615,26 +601,26 @@ public class TCPMeerkats extends Thread {
         int cmdFlag = 0;
         try {
             JSONArray jArray = new JSONArray(resultStr);
-            for (int i = 0; i < jArray.length(); i ++){
+            for (int i = 0; i < jArray.length(); i++) {
                 JSONObject jObject = jArray.getJSONObject(i);
                 cmdFlag = Integer.parseInt(jObject.getString("Cmd"));
-                switch (cmdFlag){
+                switch (cmdFlag) {
                     case 1:
-                        uploadFile(jObject.getString("Name"),0);
+                        uploadFile(jObject.getString("Name"), 0);
                         break;
                     case 2:
-                        downloadFile(jObject.getString("Name"),jObject.getString("Ext"),0);
+                        downloadFile(jObject.getString("Name"), jObject.getString("Ext"), 0);
                         break;
                     case 3:
-                        renameFile(jObject.getString("Name"),jObject.getString("Ext"));
+                        renameFile(jObject.getString("Name"), jObject.getString("Ext"));
                         break;
                     case 4:
                         //differ upload
-                        uploadFile(jObject.getString("Name"),1);
+                        uploadFile(jObject.getString("Name"), 1);
                         break;
                     case 5:
                         //differ download
-                        downloadFile(jObject.getString("Name"),jObject.getString("Ext"),1);
+                        downloadFile(jObject.getString("Name"), jObject.getString("Ext"), 1);
                         break;
                     case 6:
                         deleteFile(jObject.getString("Name"));
@@ -642,10 +628,10 @@ public class TCPMeerkats extends Thread {
                     case 7:
                         backupFile(jObject.getString("Name"));
                         break;
-                    }
                 }
+            }
 
-        }catch (JSONException e){
+        } catch (JSONException e) {
             System.out.println("JSON CONVERT FAILED!");
         }
 
@@ -653,7 +639,7 @@ public class TCPMeerkats extends Thread {
     }
 
 
-    private byte[] getCheckSum(byte packetType, byte deviceId, byte[] msg, boolean sendOrReceive ) {
+    private byte[] getCheckSum(byte packetType, byte deviceId, byte[] msg, boolean sendOrReceive) {
 
         int index = 1;
 
@@ -681,8 +667,7 @@ public class TCPMeerkats extends Thread {
     }
 
 
-
-    public static byte[] getMd5Hash(byte[] byteData){
+    public static byte[] getMd5Hash(byte[] byteData) {
 
         byte[] md5 = new byte[16];
 
@@ -693,14 +678,13 @@ public class TCPMeerkats extends Thread {
             md5 = messageDigest.digest(byteData);
 
 
-        } catch (NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             System.out.println("ERROR! TRY AGAIN!");
         }
 
         return md5;
 
     }
-
 
 
 }
